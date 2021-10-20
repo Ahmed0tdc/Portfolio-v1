@@ -1,0 +1,1 @@
+enum DeviceState{mobile, desktop}
