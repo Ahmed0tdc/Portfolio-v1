@@ -48,7 +48,7 @@ class SizeConfig{
 }
 
 extension ResponsivePixle on num {
-  get w => this * (SizeConfig.blocWidthMultiplier ?? 14.0);
-  get h => this * (SizeConfig.blocHeightMultiplier ?? 14.0);
-  get sp => this * (SizeConfig.blocTextMultiplier ?? 14.0);
+  double get w => this * (SizeConfig.blocWidthMultiplier ?? 14.0);
+  double get h => this * (SizeConfig.blocHeightMultiplier ?? 14.0);
+  double get sp => this * (SizeConfig.blocTextMultiplier ?? 14.0);
 }

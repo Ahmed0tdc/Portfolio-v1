@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -40,7 +40,7 @@ class _HeroSectionState extends State<HeroSection> {
             ]
           : <Widget>[Icon(Icons.menu)],
       pinned: true,
-      expandedHeight: 450.h,
+      expandedHeight: SizeConfig.isDesktop() ? (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top) : 480.h,
       flexibleSpace: FlexibleSpaceBar(
           background: Stack(
         fit: StackFit.expand,
@@ -61,7 +61,7 @@ class _HeroSectionState extends State<HeroSection> {
                     child: Image.asset(
                       kMeWithGlasses,
                       fit: BoxFit.fill,
-                      height: 350.h,
+                      height: 450.h,
                     ),
                   ),
                 )
@@ -71,14 +71,27 @@ class _HeroSectionState extends State<HeroSection> {
     );
   }
 
+  List<bool> interactionStates = [false, false, false, false];
   Widget _buildWebNavItem(int index) {
     final _globProvider = Provider.of<ProviderClass>(context);
     final bool _isSelected = (_selectedTabIndex != null) ? index == _selectedTabIndex : false;
-    return GestureDetector(
+    return InkWell(
+      // highlightColor: ktrans,
+      focusColor: ktrans,
+      // splashColor: ktrans,
+      hoverColor: ktrans,
+      splashFactory: NoSplash.splashFactory,
+      onHover: (isHovered){
+        setState(() {
+          if(isHovered) interactionStates[index] = true;
+          else interactionStates[index] = false;
+        });
+      },
       onTap: () {
         setState(() {
           _selectedTabIndex = index;
         });
+        _globProvider.getScrollController.animateTo((index + 1) * 450.h, duration: const Duration(milliseconds: 1000), curve: Curves.easeInOut);
       },
       child: Padding(
         padding: EdgeInsets.only(left: 40.w, right: (tabsLabels.length - 1 == index ? 60 : 40).w),
@@ -86,15 +99,16 @@ class _HeroSectionState extends State<HeroSection> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AnimatedContainer(
-              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.w),
-                child: Txt(txt: tabsLabels[index],
+              padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.w),
+                child: Txt(
+                txt: tabsLabels[index],
                 fontFam: 'regPoppins',
-                clr: _isSelected ? kwhite : kwhite.withOpacity(0.8),
+                clr: interactionStates[index] && !_isSelected ? kblack : _isSelected ? kwhite : kwhite.withOpacity(0.8),
                 size: 25.sp,
               ),
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
-                  color: !_isSelected
+                  color: interactionStates[index] && !_isSelected ? kwhite.withOpacity(0.4) : !_isSelected
                       ? ktrans
                       : _globProvider.getScrollController.offset >= 450.h
                           ? kblack.withOpacity(0.4)
@@ -144,7 +158,7 @@ class _HeroSectionState extends State<HeroSection> {
               )),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: const [kblack, ktrans],
+                colors: const [kblack, Color(0x88000000)],
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
                 stops: const [0.3, 1.0]),

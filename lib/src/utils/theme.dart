@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 
@@ -29,6 +31,13 @@ class AppTheme{
       fontFamily: 'regPoppins',
       scaffoldBackgroundColor: kblack,
       textTheme: getTextTheme(true),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kgreen))
+      ),
+      buttonTheme: ButtonThemeData(
+        buttonColor: kgreen,
+        hoverColor: kblack.withOpacity(0.8)
+      ),
       appBarTheme: AppBarTheme(
         centerTitle: false,
         backgroundColor: kgreen
