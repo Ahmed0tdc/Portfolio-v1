@@ -25,13 +25,14 @@ class AboutMeSection extends StatelessWidget {
                 Image.asset(myPersona.picture ?? '', fit: BoxFit.cover),
                 Positioned.fill(
                   child: Container(
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 60.w, top: 20.h),
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.only(top: 20.h),
                     child: Txt(
                       txt: myPersona.fullname?.toUpperCase() ?? '', //.split(' ').map((txt) => txt.substring(0,1).toUpperCase()+txt.substring(1).toLowerCase()).join(' ') ?? '',
                       clr: kblack,
                       alignment: TextAlign.left,
-                      size: 50.sp,
+                      size: 60.sp,
+                      fontFam: 'boldPoppins',
                     ),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -49,36 +50,40 @@ class AboutMeSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,                
               children: [
-                 Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 60.w, top: 20.h, right: 60.w),
-                          child: SectionHeader(
-                            upperText: 'ABOUT ME',
-                            lowerText: 'Who I am?',
-                            upperFontSize: 40.sp,
-                            lowerFontSize: 35.sp,
-                          ),
-                        ),
-                      ),
-                      const Spacer()
-                    ],
-                  ),
+                 Padding(
+                   padding: EdgeInsets.only(left: 60.w, top: 20.h, right: 60.w),
+                   child: SectionHeader(
+                     upperText: 'ABOUT ME',
+                     lowerText: 'Allow me to introduce myself', //'Who I am?',
+                     upperFontSize: 40.sp,
+                     lowerFontSize: 35.sp,
+                   ),
+                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 60.w, top: 20.h, right: 60.w),
+                  padding: EdgeInsets.only(left: 60.w, top: 25.h, right: 60.w),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Txt(
-                        txt: myPersona.biography?.substring(40) ?? '',
-                        clr: kblack,
-                        alignment: TextAlign.left,
-                        size: 20.sp,
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Txt(
+                              txt: myPersona.biography?.substring(40) ?? '',
+                              clr: kblack,
+                              alignment: TextAlign.left,
+                              size: 20.sp,
+                            ),
+                          ),
+                          const Spacer()
+                        ],
                       ),
+                     SizedBox(height: 30.h),
+                     SectionHeader.onePartOnly(upperText: 'Some more info about me:', upperFontSize: 35.sp),
                      SizedBox(height: 10.h),
                      _buildPersonalInfoTable(),
-                    //  const Spacer()
+                     SizedBox(height: 30.h),
                     ],
                   ),
                 )
@@ -91,25 +96,29 @@ class AboutMeSection extends StatelessWidget {
   }
 
   Widget _buildPersonalInfoTable(){
+    final _myPersonalInfo = {
+      "Age" : myPersona.age,
+      "Civil status" : myPersona.civilStatus,
+      "Hobies" : myPersona.hobies?.join(", "),
+      // "Years of experience" : myPersona.yearsOfExperience,
+      "Adress" : myPersona.adress,
+    };
     return Table(
-      children: <TableRow>[
-        TableRow(
+      columnWidths: {
+        0 : FlexColumnWidth(0.5),
+        1 : FlexColumnWidth(0.25)
+        },
+      children: _myPersonalInfo.keys.map((info) => TableRow(
           children: [
-            Txt(txt: "Age", clr: kgreen.withOpacity(0.6), size: 30.sp),
-            Txt(txt: ":", clr: kblack, size: 30.sp),
-            Txt(txt: myPersona.age.toString(), clr: kblack, size: 30.sp),
-            Container()
+            Txt(txt: info, clr: kgreen.withOpacity(0.6), size: 20.sp),
+            Txt(txt: ":", clr: kblack, size: 20.sp),
+            Txt(txt: _myPersonalInfo[info]?.toString()??'', clr: kblack, size: 20.sp),
+            info.toLowerCase() == 'adress'
+            ? ElevatedButton(onPressed: (){}, child: Txt(txt: 'Find me'))
+            : Container(),
           ]
         ),
-        TableRow(
-          children: [
-            Txt(txt: "Adress", clr: kgreen.withOpacity(0.6), size: 30.sp),
-            Txt(txt: ":", clr: kblack, size: 30.sp),
-            Txt(txt: myPersona.adress ?? '', clr: kblack, size: 30.sp),
-            ElevatedButton(onPressed: (){}, child: Txt(txt: 'Find me'))
-          ]
-        ),
-      ],      
+      ).toList()    
     );
   }
 }

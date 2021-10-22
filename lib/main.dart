@@ -5,6 +5,7 @@ import 'package:portfolio/src/utils/constants/constansts.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/utils/theme.dart';
+import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:portfolio/src/view/scrollable_body.dart';
 import 'package:provider/provider.dart';
 
@@ -40,3 +41,4 @@ class App extends StatelessWidget {
     );
   }
 }
+
