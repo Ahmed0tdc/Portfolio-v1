@@ -103,7 +103,7 @@ class _WorksSectionState extends State<WorksSection> {
               Expanded(
                 flex: 2,
                 child: Row(
-                  mainAxisSize: MainAxisSize.min
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(onPressed: (){_carouselController.previousPage();}, icon: Icon(Icons.arrow_back_ios_rounded)),
                     CarouselSlider(
