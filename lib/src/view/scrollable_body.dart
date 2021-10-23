@@ -10,6 +10,7 @@ import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/parts/about_me/about_me.dart';
 import 'package:portfolio/src/view/parts/hero_section/hero_section.dart';
 import 'package:portfolio/src/view/parts/my_skills/my_skills.dart';
+import 'package:portfolio/src/view/parts/my_work/my_work.dart';
 import 'package:provider/provider.dart';
 
 import 'global_widgets/custom_text.dart';
@@ -28,7 +29,7 @@ class _ScrollBodyState extends State<ScrollBody> {
   void initState() {
     super.initState();
     context.read<ProviderClass>().listenToScrollChanges();
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState.call(() => _startLoading = false);
     });
   }
@@ -69,6 +70,7 @@ class _ScrollBodyState extends State<ScrollBody> {
                           children: [
                             AboutMeSection(myPersona: _myPersona),
                             SkillsSection(),
+                            WorksSection(),
                             Container(
                                 alignment: Alignment.center,
                                 height: 100,
@@ -76,26 +78,34 @@ class _ScrollBodyState extends State<ScrollBody> {
                                 child: Text("Footer at the end"))
                           ],
                         )
-                      : SizedBox.shrink()
+                      : Column(children: [
+                        Container(
+                          height: 1000,
+                        )
+                      ],)
                 ]),
               ),
             ],
           ),
         ),
         _startLoading
-            ? Container(
-                alignment: Alignment.center,
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-                child: Swing(
-                  child: Txt(
-                    txt: 'Welcome',
-                    size: 60.sp,
-                    clr: kwhite,
-                  ),
-                ),
-              )
+            ? Builder(
+              builder: (context) {
+                return Container(
+                    alignment: Alignment.center,
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+                    child: Swing(
+                      child: Txt(
+                        txt: 'Welcome',
+                        size: 60.sp,
+                        clr: kwhite,
+                      ),
+                    ),
+                  );
+              }
+            )
             : SizedBox.shrink()
       ],
     );

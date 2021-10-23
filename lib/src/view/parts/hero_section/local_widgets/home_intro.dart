@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/reused_widgets.dart';
@@ -37,10 +38,10 @@ class HomeIntro extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 60.w),
+                    padding: EdgeInsets.only(top: 5.h, left: (kIsWeb && SizeConfig.isDesktop()) ? 60.w : 10.w),
                     child: Txt(
                       txt: 'Hi! my name is Ahmed',
-                      size: 80.sp,
+                      size: (kIsWeb && SizeConfig.isDesktop()) ? 80.sp : 24,
                     ),
                   ),
                 ],
@@ -66,7 +67,7 @@ class HomeIntro extends StatelessWidget {
                     getSpaceFiller(wOnly: true),
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.only(left: 60.w, top: 10.w),
+                        padding: EdgeInsets.only(left: (kIsWeb && SizeConfig.isDesktop()) ? 60.w : 10.w, top: 10.w),
                         height: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,13 +77,13 @@ class HomeIntro extends StatelessWidget {
                               children: [
                                 Txt(
                                   txt: 'I\'m a ',
-                                  size: 60.sp,
+                                  size: (kIsWeb && SizeConfig.isDesktop()) ? 60.sp : 20,
                                 ),
                                 //!TODO: create your own, the widget below is weak
                                 AnimatedTextKit(
-                                  animatedTexts: ["Flutter Developer", "UI Designer", "YouTuber"].map((txt) =>  TypewriterAnimatedText(
+                                  animatedTexts: ["Flutter Developer", "UI Designer", "YouTuber"].map((txt) => TypewriterAnimatedText(
                                     txt,
-                                    textStyle: TextStyle(fontSize: 60.sp, color: kblack),
+                                    textStyle: TextStyle(fontSize: (kIsWeb && SizeConfig.isDesktop()) ?  60.sp : 20, color: kblack),
                                     speed: const Duration(milliseconds: 200),
                                   ),).toList(),
                                   repeatForever: true,
@@ -93,7 +94,7 @@ class HomeIntro extends StatelessWidget {
                                 
                               ],
                             ),
-                            Txt(txt: 'and I create software experiences.', size: 60.sp),
+                            Txt(txt: 'and I create software experiences.', size: (kIsWeb && SizeConfig.isDesktop()) ?  60.sp : 20),
                           ],
                         ),
                         color: Theme.of(context).primaryColor,

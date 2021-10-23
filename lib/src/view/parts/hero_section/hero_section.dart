@@ -28,22 +28,20 @@ class _HeroSectionState extends State<HeroSection> {
   Widget build(BuildContext context) {
     final _globProvider = Provider.of<ProviderClass>(context);
     return SliverAppBar(
+      toolbarHeight: 40,
       automaticallyImplyLeading: false,
-      title: Text(
-        kProjectTitle + '.',
-        style: TextStyle(fontFamily: 'boldPoppins'),
-      ),
+      title: Text(kProjectTitle + '.', style: TextStyle(fontFamily: 'boldPoppins')),
       actions: (kIsWeb && SizeConfig.isDesktop() && !SizeConfig.isMobile())
           ? <Widget>[
               // WebNavigation()
               ...List.generate(4, (index) => _buildWebNavItem(index))
             ]
-          : <Widget>[Icon(Icons.menu)],
+          : <Widget>[Icon(Icons.menu), SizedBox(width: 10.w)],
       pinned: true,
       expandedHeight: SizeConfig.isDesktop()
           ? (MediaQuery.of(context).size.height -
               MediaQuery.of(context).viewPadding.top)
-          : 480.h,
+          : 400.h,
       flexibleSpace: FlexibleSpaceBar(
           background: Stack(
         fit: StackFit.expand,
@@ -127,7 +125,8 @@ class _HeroSectionState extends State<HeroSection> {
             ),
           ),
         ),
-        DecoratedBox(decoration:  BoxDecoration(
+        DecoratedBox(
+          decoration:  BoxDecoration(
             gradient: LinearGradient(
                 colors: const [kblack, Color(0x88000000)],
                 begin: Alignment.centerRight,
@@ -157,7 +156,7 @@ class _HeroSectionState extends State<HeroSection> {
         Container(
           child: SafeArea(
               bottom: false,
-              minimum: EdgeInsets.only(left: 60.w, top: 100.h, right: 60.w),
+              minimum: EdgeInsets.only(left: (kIsWeb && SizeConfig.isDesktop()) ?  60.w : 10.w, top: 100.h, right: (kIsWeb && SizeConfig.isDesktop()) ?  60.w : 10.w),
               child: Column(
                 children: [
                   Expanded(

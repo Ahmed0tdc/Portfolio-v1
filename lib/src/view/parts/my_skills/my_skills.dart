@@ -6,7 +6,7 @@ import 'package:portfolio/src/utils/reused_widgets.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:portfolio/src/view/global_widgets/section_header.dart';
-
+import 'dart:math' as math;
 class SkillsSection extends StatelessWidget {
   const SkillsSection({Key? key}) : super(key: key);
 
@@ -46,83 +46,128 @@ class SkillsSection extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 60.w, top: 20.h),
-          child: SectionHeader(
-            upperText: "MY SKILLS",
-            lowerText: "What do I have under my belt?",
-            upperFontSize: 40.sp,
-            lowerFontSize: 35.sp,
+          child: Row(
+            children: [
+              SectionHeader(
+                upperText: "MY SKILLS",
+                lowerText: "What do I have under my belt?",
+                upperFontSize: 40.sp,
+                lowerFontSize: 35.sp,
+              ),
+            ],
           ),
         ),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 300, minWidth: 200),
-          child: FittedBox(
-            fit: BoxFit.fill,
-            child: Container(
-              decoration: BoxDecoration(color: kwhite),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children:
-                List.generate(
-                  _skillData.length,
-                  (index) => _buildSkillSection(
-                    _skillData[index],
-                  ),
-                ),
-              ),
+        SizedBox(height: 30.h),
+        Container(
+          padding: EdgeInsets.only(top: 20.h, left: 60.w, right: 60.w, bottom: 20.h),
+          width: MediaQuery.of(context).size.width * 0.75,
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(
+              blurRadius: 0,
+              spreadRadius: 0,
+              color: const Color(0xAAFFFFFF),
+              offset: Offset(30.w, 30.w)
+            )],
+            color: kwhite),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              _skillData.length,
+              (index) => SkillBar(skillData: _skillData[index]),
             ),
           ),
         ),
+        SizedBox(height: 60.h),
       ],
     );
   }
+}
 
-  Widget _buildSkillSection(Map<String, dynamic> skillData) {
+class SkillBar extends StatefulWidget {
+  final Map<String, dynamic> skillData;
+  const SkillBar({ Key? key, required this.skillData }) : super(key: key);
+
+  @override
+  _SkillBarState createState() => _SkillBarState();
+}
+
+class _SkillBarState extends State<SkillBar> {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Txt(
-          txt: skillData['type'],
+          txt: widget.skillData['type'],
           clr: kblack,
           size: 40.sp,
           fontFam: 'semiBoldPoppins',
         ),
-        SizedBox(height: 30.h),
-        Container(
-          color: Colors.red,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: (skillData['skills'] as List<Skill>)
-                .map(
-                  (Skill skill) => Row(
+        SizedBox(height: 20.h),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[...(widget.skillData['skills'] as List<Skill>)
+              .map((Skill skill) => ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Stack(
+                    alignment: Alignment(-0.9, 0.9),
                     children: [
                       Image.asset(skill.icon),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Txt(
-                            txt: skill.name,
-                            fontFam: 'boldPoppins',
-                            clr: kblack,
-                          ),
-                          Container(
-                            height: 10.h,
-                            // width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: ktrans,
-                              border: Border.all(color: kblack, width: 8.w),
-                            ),
-                          )
-                        ],
+                      Container(
+                        transform: Matrix4.rotationZ(math.pi / 5),
+                        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 10.w),
+                        decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.check, color: kwhite, size: 18),
+                            SizedBox(width: 10.w),
+                            Txt(txt: skill.masteryLevel.round().toString()+'%', size: 19.sp),
+                          ],
+                        ),
                       )
                     ],
                   ),
-                )
-                .toList(),
-          ),
+                  title: Txt(
+                    txt: skill.name,
+                    fontFam: 'boldPoppins',
+                    size: 30.sp,
+                    clr: kblack,
+                  ),
+                  subtitle: Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      Container(
+                        height: 15.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: ktrans,
+                          border: Border.all(color: kblack, width: 8.w),
+                        ),
+                      ),
+                      Container(                        
+                        height: 15.h,
+                        width: ((skill.masteryLevel / 100) * (MediaQuery.of(context).size.width * 0.75 - 120.w)),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(color: kblack, width: 8.w),
+                            left: BorderSide(color: kblack, width: 8.w),
+                            bottom: BorderSide(color: kblack, width: 8.w),
+                          ),
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+              .toList(),
+              SizedBox(height: 40.h)
+          ]
         )
       ],
     );
   }
-}
+} 
