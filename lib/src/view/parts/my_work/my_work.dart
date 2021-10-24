@@ -106,25 +106,27 @@ class _WorksSectionState extends State<WorksSection> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(onPressed: (){_carouselController.previousPage();}, icon: Icon(Icons.arrow_back_ios_rounded)),
-                    CarouselSlider(
-                      carouselController: _carouselController,
-                      items: _myMobileProjects,
-                      options: CarouselOptions(
-                        height: 400.h,
-                        viewportFraction: 0.5,
-                        // enableInfiniteScroll: true,
-                        // reverse: false,
-                        // autoPlay: true,
-                        // autoPlayInterval: Duration(seconds: 3),
-                        // autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        // autoPlayCurve: Curves.fastOutSlowIn,
-                        enlargeCenterPage: true,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currentPageIndex = index;
-                          });
-                        },
-                        scrollDirection: Axis.horizontal,
+                    Expanded(
+                      child: CarouselSlider(
+                        carouselController: _carouselController,
+                        items: _myMobileProjects,
+                        options: CarouselOptions(
+                          height: 400.h,
+                          viewportFraction: 0.5,
+                          // enableInfiniteScroll: true,
+                          // reverse: false,
+                          // autoPlay: true,
+                          // autoPlayInterval: Duration(seconds: 3),
+                          // autoPlayAnimationDuration: Duration(milliseconds: 800),
+                          // autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currentPageIndex = index;
+                            });
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
                       ),
                     ),
                     IconButton(onPressed: (){_carouselController.nextPage();}, icon: Icon(Icons.arrow_forward_ios_rounded)),
