@@ -104,17 +104,18 @@ class _SkillBarState extends State<SkillBar> {
           size: 40.sp,
           fontFam: 'semiBoldPoppins',
         ),
-        SizedBox(height: 20.h),
+        SizedBox(height: 10.h),
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[...(widget.skillData['skills'] as List<Skill>)
               .map((Skill skill) => ListTile(
+                onTap: (){},
                   contentPadding: EdgeInsets.zero,
                   leading: Stack(
-                    alignment: Alignment(-0.9, 0.9),
+                    alignment: const Alignment(-0.9, 0.9),
                     children: [
-                      Image.asset(skill.icon),
+                      Image.asset(skill.icon, height: 100.w),
                       Container(
                         transform: Matrix4.rotationZ(math.pi / 5),
                         padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 10.w),
@@ -122,9 +123,9 @@ class _SkillBarState extends State<SkillBar> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.check, color: kwhite, size: 18),
-                            SizedBox(width: 10.w),
-                            Txt(txt: skill.masteryLevel.round().toString()+'%', size: 19.sp),
+                            const Icon(Icons.check, color: kwhite, size: 13),
+                            SizedBox(width: 5.w),
+                            Txt(txt: skill.masteryLevel.round().toString()+'%', size: 15.sp),
                           ],
                         ),
                       )
@@ -133,28 +134,28 @@ class _SkillBarState extends State<SkillBar> {
                   title: Txt(
                     txt: skill.name,
                     fontFam: 'boldPoppins',
-                    size: 30.sp,
+                    size: 20.sp,
                     clr: kblack,
                   ),
                   subtitle: Stack(
                     alignment: Alignment.centerLeft,
                     children: [
                       Container(
-                        height: 15.h,
+                        height: 6.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: ktrans,
-                          border: Border.all(color: kblack, width: 8.w),
+                          border: Border.all(color: kblack, width: 3.w),
                         ),
                       ),
                       Container(                        
-                        height: 15.h,
+                        height: 6.h,
                         width: ((skill.masteryLevel / 100) * (MediaQuery.of(context).size.width * 0.75 - 120.w)),
                         decoration: BoxDecoration(
                           border: Border(
-                            top: BorderSide(color: kblack, width: 8.w),
-                            left: BorderSide(color: kblack, width: 8.w),
-                            bottom: BorderSide(color: kblack, width: 8.w),
+                            top: BorderSide(color: kblack, width: 3.w),
+                            left: BorderSide(color: kblack, width: 3.w),
+                            bottom: BorderSide(color: kblack, width: 3.w),
                           ),
                           color: Theme.of(context).primaryColor,
                         ),
@@ -162,9 +163,8 @@ class _SkillBarState extends State<SkillBar> {
                     ],
                   ),
                 ),
-              )
-              .toList(),
-              SizedBox(height: 40.h)
+              ).toList(),
+              SizedBox(height: 10.h)
           ]
         )
       ],

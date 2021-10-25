@@ -14,84 +14,50 @@ class AboutMeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: kwhite,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                Image.asset(myPersona.picture ?? '', fit: BoxFit.cover),
-                Positioned.fill(
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.only(top: 20.h),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,                
+      children: [
+         Padding(
+           padding: EdgeInsets.only(left: 60.w, top: 20.h, right: 60.w),
+           child: SectionHeader(
+             upperText: 'ABOUT ME',
+             lowerText: 'Allow me to introduce myself', //'Who I am?',
+             upperFontSize: 40.sp,
+             lowerFontSize: 35.sp,
+           ),
+         ),
+        Container(
+          padding: EdgeInsets.only(left: 60.w, top: 25.h, right: 60.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
                     child: Txt(
-                      txt: myPersona.fullname?.toUpperCase() ?? '', //.split(' ').map((txt) => txt.substring(0,1).toUpperCase()+txt.substring(1).toLowerCase()).join(' ') ?? '',
-                      clr: kblack,
+                      txt: myPersona.biography?.substring(0, 200) ?? '',
+                      // clr: kblack,
                       alignment: TextAlign.left,
-                      size: 60.sp,
-                      fontFam: 'boldPoppins',
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: const [kwhite, ktrans],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter),
+                      size: 20,
                     ),
                   ),
-                )
-              ],
-            ),
+                  Spacer()
+                ],
+              ),
+             SizedBox(height: 30.h),
+             SectionHeader.onePartOnly(upperText: 'Some more info about me:', upperFontSize: 35.sp),
+             SizedBox(height: 60.h),
+            // Spacer(),
+             _buildPersonalInfoTable(),
+             SizedBox(height: 30.h),
+            ],
           ),
-          Expanded(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,                
-              children: [
-                 Padding(
-                   padding: EdgeInsets.only(left: 60.w, top: 20.h, right: 60.w),
-                   child: SectionHeader(
-                     upperText: 'ABOUT ME',
-                     lowerText: 'Allow me to introduce myself', //'Who I am?',
-                     upperFontSize: 40.sp,
-                     lowerFontSize: 35.sp,
-                   ),
-                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 60.w, top: 25.h, right: 60.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Txt(
-                              txt: myPersona.biography?.substring(40) ?? '',
-                              clr: kblack,
-                              alignment: TextAlign.left,
-                              size: 20.sp,
-                            ),
-                          ),
-                          const Spacer()
-                        ],
-                      ),
-                     SizedBox(height: 30.h),
-                     SectionHeader.onePartOnly(upperText: 'Some more info about me:', upperFontSize: 35.sp),
-                     SizedBox(height: 10.h),
-                     _buildPersonalInfoTable(),
-                     SizedBox(height: 30.h),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
+        )
+      ],
     );
   }
 
@@ -110,9 +76,9 @@ class AboutMeSection extends StatelessWidget {
         },
       children: _myPersonalInfo.keys.map((info) => TableRow(
           children: [
-            Txt(txt: info, clr: kgreen.withOpacity(0.6), size: 20.sp),
-            Txt(txt: ":", clr: kblack, size: 20.sp),
-            Txt(txt: _myPersonalInfo[info]?.toString()??'', clr: kblack, size: 20.sp),
+            Txt(txt: info, clr: kgreen.withOpacity(0.6), size: 15),
+            Txt(txt: ":", clr: kwhite, size: 15),
+            Txt(txt: _myPersonalInfo[info]?.toString() ?? '', clr: kwhite, size: 15),
             info.toLowerCase() == 'adress'
             ? ElevatedButton(onPressed: (){}, child: Txt(txt: 'Find me'))
             : Container(),

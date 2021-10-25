@@ -7,13 +7,24 @@ import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class HomeIntro extends StatelessWidget {
-  HomeIntro({Key? key}) : super(key: key);
+  const HomeIntro({Key? key}) : super(key: key);
   // double outerWidth =  (SizeConfig.screenWidth != null) ? SizeConfig.screenWidth! * 0.4 : 0;
   // double outerHeight =  (SizeConfig.screenHeight != null) ? SizeConfig.screenHeight! * 0.3 : 0;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return SafeArea(
+            bottom: false,
+            minimum: EdgeInsets.only(top: 100.h, left: 60.w, right: 60.w),
+            child: Column(
+              children: [
+                Expanded(
+                    flex: SizeConfig.isDesktop() ? 3 : 6,
+                    child: Row(
+                            children: [
+                              Expanded(
+                                  flex: SizeConfig.isDesktop() ? 8 : 1,
+                                  child: Stack(
       children: [
         Column(
           children: [
@@ -41,7 +52,8 @@ class HomeIntro extends StatelessWidget {
                     padding: EdgeInsets.only(top: 5.h, left: (kIsWeb && SizeConfig.isDesktop()) ? 60.w : 10.w),
                     child: Txt(
                       txt: 'Hi! my name is Ahmed',
-                      size: (kIsWeb && SizeConfig.isDesktop()) ? 80.sp : 24,
+                      // size: (kIsWeb && SizeConfig.isDesktop()) ? 80.sp : 24,
+                      size: 80.sp
                     ),
                   ),
                 ],
@@ -77,13 +89,16 @@ class HomeIntro extends StatelessWidget {
                               children: [
                                 Txt(
                                   txt: 'I\'m a ',
-                                  size: (kIsWeb && SizeConfig.isDesktop()) ? 60.sp : 20,
+                                  // size: (kIsWeb && SizeConfig.isDesktop()) ? 60.sp : 20,
+                                  size: 60.sp
                                 ),
                                 //!TODO: create your own, the widget below is weak
                                 AnimatedTextKit(
                                   animatedTexts: ["Flutter Developer", "UI Designer", "YouTuber"].map((txt) => TypewriterAnimatedText(
                                     txt,
-                                    textStyle: TextStyle(fontSize: (kIsWeb && SizeConfig.isDesktop()) ?  60.sp : 20, color: kblack),
+                                    textStyle: TextStyle(
+                                      fontSize: 60.sp, //: 20,
+                                    color: kblack),
                                     speed: const Duration(milliseconds: 200),
                                   ),).toList(),
                                   repeatForever: true,
@@ -94,7 +109,7 @@ class HomeIntro extends StatelessWidget {
                                 
                               ],
                             ),
-                            Txt(txt: 'and I create software experiences.', size: (kIsWeb && SizeConfig.isDesktop()) ?  60.sp : 20),
+                            Txt(txt: 'and I create software experiences.', size: 60.sp),//(kIsWeb && SizeConfig.isDesktop()) ?  60.sp : 20),
                           ],
                         ),
                         color: Theme.of(context).primaryColor,
@@ -114,7 +129,28 @@ class HomeIntro extends StatelessWidget {
           ),
         ),
       ],
-    );
+    )
+                                  
+                                  
+                                  
+                                  
+                                  )
+                                  
+                                  
+                                  ,
+                              SizeConfig.isDesktop()
+                                  ? Spacer(flex: 3)
+                                  : SizedBox.shrink()
+                            ],
+                          )
+                        ),
+                const Spacer(),
+              ],
+            ));
+    
+    
+    
+    
   }
 
   

@@ -1,5 +1,5 @@
 // screens width breakpoints
-const double kMobileBP =  850; //480;
+const double kMobileBP =  600; //480;
 const double kDesktopBP = 1024;
 
 

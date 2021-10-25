@@ -14,110 +14,65 @@ import 'local_widgets/home_intro.dart';
 import 'local_widgets/web_nav.dart';
 
 class HeroSection extends StatefulWidget {
-  const HeroSection({Key? key}) : super(key: key);
+  final Widget kiddo;
+  final bool isStacked;
+  const HeroSection({Key? key, required this.kiddo, this.isStacked = true})
+      : super(key: key);
 
   @override
   _HeroSectionState createState() => _HeroSectionState();
 }
 
-const List<String> tabsLabels = ['About me', 'My skills', 'My Work', 'Contact'];
-
 class _HeroSectionState extends State<HeroSection> {
-  int? _selectedTabIndex;
   @override
   Widget build(BuildContext context) {
-    final _globProvider = Provider.of<ProviderClass>(context);
-    return SliverAppBar(
-      toolbarHeight: 40,
-      automaticallyImplyLeading: false,
-      title: Text(kProjectTitle + '.', style: TextStyle(fontFamily: 'boldPoppins')),
-      actions: (kIsWeb && SizeConfig.isDesktop() && !SizeConfig.isMobile())
-          ? <Widget>[
-              // WebNavigation()
-              ...List.generate(4, (index) => _buildWebNavItem(index))
-            ]
-          : <Widget>[Icon(Icons.menu), SizedBox(width: 10.w)],
-      pinned: true,
-      expandedHeight: SizeConfig.isDesktop()
-          ? (MediaQuery.of(context).size.height -
-              MediaQuery.of(context).viewPadding.top)
-          : 400.h,
-      flexibleSpace: FlexibleSpaceBar(
-          background: Stack(
-        fit: StackFit.expand,
-        children: [
-          _getBgDecoration(),
-        ],
-      )),
-    );
-  }
-
-  List<bool> interactionStates = [false, false, false, false];
-  Widget _buildWebNavItem(int index) {
-    final _globProvider = Provider.of<ProviderClass>(context);
-    final bool _isSelected =
-        (_selectedTabIndex != null) ? index == _selectedTabIndex : false;
-    return InkWell(
-      // highlightColor: ktrans,
-      focusColor: ktrans,
-      // splashColor: ktrans,
-      hoverColor: ktrans,
-      splashFactory: NoSplash.splashFactory,
-      onHover: (isHovered) {
-        setState(() {
-          if (isHovered)
-            interactionStates[index] = true;
-          else
-            interactionStates[index] = false;
-        });
-      },
-      onTap: () {
-        setState(() {
-          _selectedTabIndex = index;
-        });
-        _globProvider.getScrollController.animateTo((index + 1) * 500.h,
-            duration: const Duration(milliseconds: 1000),
-            curve: Curves.easeInOut);
-      },
-      child: Padding(
-        padding: EdgeInsets.only(
-            left: 40.w, right: (tabsLabels.length - 1 == index ? 60 : 40).w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedContainer(
-              padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.w),
-              child: Txt(
-                txt: tabsLabels[index],
-                fontFam: 'regPoppins',
-                clr: interactionStates[index] && !_isSelected
-                    ? kblack
-                    : _isSelected
-                        ? kwhite
-                        : kwhite.withOpacity(0.8),
-                size: 25.sp,
+    // final _globProvider = Provider.of<ProviderClass>(context);
+    final double _desktopHeroSectionHeight =
+        (MediaQuery.of(context).size.height -
+            MediaQuery.of(context).viewPadding.top);
+    final double _mobileHeroSectionHeight = 400.h;
+    return widget.isStacked
+        ? _getBgDecoration()
+        : CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                toolbarHeight: 0,
+                automaticallyImplyLeading: false,
+                pinned: true,
+                expandedHeight: SizeConfig.isDesktop()
+                    ? (MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).viewPadding.top)
+                    : 400.h,
+                flexibleSpace: FlexibleSpaceBar(
+                    background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    _getBgDecoration(),
+                  ],
+                )),
               ),
-              duration: const Duration(milliseconds: 300),
-              decoration: BoxDecoration(
-                  color: interactionStates[index] && !_isSelected
-                      ? kwhite.withOpacity(0.4)
-                      : !_isSelected
-                          ? ktrans
-                          : _globProvider.getScrollController.offset >= 450.h
-                              ? kblack.withOpacity(0.4)
-                              : kgreen.withOpacity(0.4)),
-            ),
-          ],
-        ),
-      ),
-    );
+              SliverList(delegate: SliverChildListDelegate([
+                widget.kiddo
+              ]))
+            ],
+          );
   }
 
   Widget _getBgDecoration() {
     return Stack(
       fit: StackFit.expand,
       children: [
-        DecoratedBox(
+        Container(
+          foregroundDecoration: SizeConfig.isDesktop()
+              ? BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
+                    stops: const [0.1, 1.0],
+                    colors: const [kblack, ktrans],
+                  ),
+                )
+              : null,
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
@@ -126,15 +81,19 @@ class _HeroSectionState extends State<HeroSection> {
           ),
         ),
         DecoratedBox(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: const [kblack, Color(0x88000000)],
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
                 stops: const [0.3, 1.0]),
-          )),
-         SizeConfig.isDesktopMQ(context)
-              ? Align(
+          ),
+        ),
+        SizeConfig.isDesktopMQ(context)
+            ? SafeArea(
+                bottom: false,
+                minimum: EdgeInsets.only(top: 40),
+                child: Align(
                   alignment: Alignment.bottomRight,
                   child: Container(
                     foregroundDecoration: BoxDecoration(
@@ -147,36 +106,15 @@ class _HeroSectionState extends State<HeroSection> {
                     ),
                     child: Image.asset(
                       kMeWithGlasses,
-                      fit: BoxFit.fill,
-                      height: 450.h,
+                      fit: BoxFit.contain,
+                      height: 450,
                     ),
                   ),
-                )
-              : SizedBox.shrink(),
-        Container(
-          child: SafeArea(
-              bottom: false,
-              minimum: EdgeInsets.only(left: (kIsWeb && SizeConfig.isDesktop()) ?  60.w : 10.w, top: 100.h, right: (kIsWeb && SizeConfig.isDesktop()) ?  60.w : 10.w),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            flex: SizeConfig.isDesktop() ? 8 : 1,
-                            child: HomeIntro()),
-                        SizeConfig.isDesktop()
-                            ? Spacer(flex: 3)
-                            : SizedBox.shrink()
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                ],
-              )),
-         
-        ),
+                ),
+              )
+            : const SizedBox.shrink(),
+         widget.isStacked ?
+         widget.kiddo : SizedBox()
       ],
     );
   }
