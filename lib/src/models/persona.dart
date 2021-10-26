@@ -2,7 +2,7 @@ class Persona {
   final String? fullname;
   final String? picture;
   final int? age;
-  final String? adress;
+  final String? address;
   final String? country;
   final String? biography;
   final List<String>? hobies;
@@ -14,7 +14,7 @@ class Persona {
       {this.fullname,
       this.picture,
       this.age,
-      this.adress,
+      this.address,
       this.country,
       this.biography,
       this.hobies,

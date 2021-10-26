@@ -18,14 +18,14 @@ import 'package:provider/provider.dart';
 import 'dart:html' as html;
 import 'global_widgets/custom_text.dart';
 
-class HomeSection extends StatefulWidget {
-  const HomeSection({Key? key}) : super(key: key);
+class PortfolioWrapper extends StatefulWidget {
+  const PortfolioWrapper({Key? key}) : super(key: key);
 
   @override
   _ScrollBodyState createState() => _ScrollBodyState();
 }
 
-class _ScrollBodyState extends State<HomeSection> {
+class _ScrollBodyState extends State<PortfolioWrapper> {
   bool _startLoading = false; //true;
 
   @override
@@ -53,28 +53,30 @@ class _ScrollBodyState extends State<HomeSection> {
         hobies: ["Reading", "Playing chess", "Jogging"],
         yearsOfExperience: 2,
         civilStatus: 'Single',
-        adress: "Tangier, Morocco",
+        address: "Tangier, Morocco",
         country: "Morocco",
         picture: kMeUnderSky,
-        biography:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+        biography: "Passionate apps developer and a Pythonista with 2+ years of experience building and creating apps, Good at Coding; Quick at learning.");
     final List<Widget> _sections = <Widget>[
       HomeIntro(),
-      AboutMeSection(myPersona: _myPersona),
+      SingleChildScrollView(child: AboutMeSection(myPersona: _myPersona)),
       SkillsSection(),
       WorksSection(),
       ContactSection()
     ];
-    List<bool> stacked = [true, true, true, false, true];
+    List<bool> scrolled = [false, false, false, true, false];
     final _globProvider = Provider.of<ProviderClass>(context);
+    final isWidgetToBeScrolled = scrolled[_globProvider.getSelectedAppBarIndex];
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(kToolbarHeight),
             child: CustomAppBar()),
         body: 
           HeroSection(
-            isStacked: stacked[_globProvider.getSelectedAppBarIndex],
-            kiddo: _sections[_globProvider.getSelectedAppBarIndex]
+            isScrolled: isWidgetToBeScrolled,
+            kiddo: isWidgetToBeScrolled ? null : _sections[_globProvider.getSelectedAppBarIndex],
+            downKiddo: isWidgetToBeScrolled ? _sections[_globProvider.getSelectedAppBarIndex] : null,
+            upKiddo: isWidgetToBeScrolled ? Text("HELLO THERE FOO") : null,
           )
         );
   }

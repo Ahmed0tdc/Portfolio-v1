@@ -14,9 +14,11 @@ import 'local_widgets/home_intro.dart';
 import 'local_widgets/web_nav.dart';
 
 class HeroSection extends StatefulWidget {
-  final Widget kiddo;
-  final bool isStacked;
-  const HeroSection({Key? key, required this.kiddo, this.isStacked = true})
+  final Widget? kiddo;
+  final Widget? upKiddo;
+  final Widget? downKiddo;
+  final bool isScrolled;
+  const HeroSection({Key? key, this.kiddo, this.isScrolled = true, this.downKiddo, this.upKiddo})
       : super(key: key);
 
   @override
@@ -27,11 +29,9 @@ class _HeroSectionState extends State<HeroSection> {
   @override
   Widget build(BuildContext context) {
     // final _globProvider = Provider.of<ProviderClass>(context);
-    final double _desktopHeroSectionHeight =
-        (MediaQuery.of(context).size.height -
-            MediaQuery.of(context).viewPadding.top);
+    final double _desktopHeroSectionHeight = (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top);
     final double _mobileHeroSectionHeight = 400.h;
-    return widget.isStacked
+    return !widget.isScrolled
         ? _getBgDecoration()
         : CustomScrollView(
             slivers: [
@@ -40,9 +40,8 @@ class _HeroSectionState extends State<HeroSection> {
                 automaticallyImplyLeading: false,
                 pinned: true,
                 expandedHeight: SizeConfig.isDesktop()
-                    ? (MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).viewPadding.top)
-                    : 400.h,
+                    ? _desktopHeroSectionHeight
+                    : _mobileHeroSectionHeight,
                 flexibleSpace: FlexibleSpaceBar(
                     background: Stack(
                   fit: StackFit.expand,
@@ -52,7 +51,7 @@ class _HeroSectionState extends State<HeroSection> {
                 )),
               ),
               SliverList(delegate: SliverChildListDelegate([
-                widget.kiddo
+                widget.downKiddo!
               ]))
             ],
           );
@@ -113,8 +112,7 @@ class _HeroSectionState extends State<HeroSection> {
                 ),
               )
             : const SizedBox.shrink(),
-         widget.isStacked ?
-         widget.kiddo : SizedBox()
+         widget.isScrolled ? widget.upKiddo! : widget.kiddo!
       ],
     );
   }
