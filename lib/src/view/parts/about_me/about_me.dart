@@ -14,60 +14,62 @@ class AboutMeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 60.w, top: 20.h, right: 60.w),
-          child: SectionHeader(
-            upperText: 'ABOUT ME',
-            lowerText: 'Allow me to introduce myself', //'Who I am?',
-            upperFontSize: 40.sp,
-            lowerFontSize: 35.sp,
-          ),
-        ),
-        SizedBox(height: 40.h),
-        Padding(
-          padding: EdgeInsets.only(left: 60.w, right: 60.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Txt(
-                  txt: myPersona.fullname
-                          ?.split(' ')
-                          .map((String part) =>
-                              part.substring(0, 1).toUpperCase() +
-                              part.substring(1).toLowerCase())
-                          .join(' ') ??
-                      '',
-                  size: 30,
-                  fontFam: 'boldPoppins',
-                  isOverflow: true),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Txt(
-                      txt: myPersona.biography ?? '',
-                      fontFam: 'regPoppins',
-                      alignment: TextAlign.left,
-                      size: 18,
-                    ),
+    final SectionHeader _headerWidget = SectionHeader(
+      upperText: 'ABOUT ME',
+      lowerText: 'Allow me to introduce myself', //'Who I am?',
+      upperFontSize: 40.sp,
+      lowerFontSize: 35.sp,
+    );
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(left: 60.w, top: 20.h, right: 60.w),
+        child: Column(
+          // mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _headerWidget,
+            SizedBox(height: 40.h),
+            Txt(
+                txt: myPersona.fullname
+                        ?.split(' ')
+                        .map((String part) =>
+                            part.substring(0, 1).toUpperCase() +
+                            part.substring(1).toLowerCase())
+                        .join(' ') ??
+                    '',
+                size: 30,
+                fontFam: 'boldPoppins',
+                isOverflow: true),
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Txt(
+                    txt: myPersona.biography ?? '',
+                    fontFam: 'regPoppins',
+                    alignment: TextAlign.left,
+                    size: 18,
                   ),
-                  Spacer()
-                ],
-              ),
-              SizedBox(height: 40.h),
-              SectionHeader.onePartOnly(
-                  upperText: 'Some more info about me:', upperFontSize: 35.sp),
-              SizedBox(height: 30.h),
-              _buildPersonalInfoTable(),
-              SizedBox(height: 30.h),
-            ],
-          ),
-        )
-      ],
+                ),
+                Spacer()
+              ],
+            ),
+            SizedBox(height: 60.h),
+            SectionHeader.onePartOnly(upperText: 'Some more info about me:', upperFontSize: 35.sp),
+            SizedBox(height: 30.h),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                _buildPersonalInfoTable(),
+                Align(
+                  alignment: Alignment(0.8 ,1),
+                  child: LocationMapButton())
+              ],
+            ),
+            SizedBox(height: 30.h),
+          ],
+        ),
+      ),
     );
   }
 
@@ -85,26 +87,22 @@ class AboutMeSection extends StatelessWidget {
       "Address": myPersona.address,
     };
     return Table(
-        columnWidths: {0: FlexColumnWidth(0.5), 1: FlexColumnWidth(0.25)},
+
+        columnWidths: {0: FlexColumnWidth(0.2), 1: FlexColumnWidth(1),},
         children: _myPersonalInfo.keys
-            .map(
-              (info) => TableRow(children: [
+            .map((String info) => TableRow(children: [
                 Txt(
                     txt: info,
                     clr: kgreen.withOpacity(0.8),
                     size: 15,
                     fontFam: 'boldPoppins'),
-                Txt(txt: ":", clr: kwhite, size: 15),
+                // Txt(txt: ":", clr: kwhite, size: 15),
                 Txt(
                     txt: _myPersonalInfo[info]?.toString() ?? '',
                     clr: kwhite,
                     size: 15),
-                info.toLowerCase() == 'address'
-                    ? LocationMapButton()
-                    : Container(),
               ]),
-            )
-            .toList());
+            ).toList());
   }
 }
 
@@ -122,7 +120,6 @@ class _LocationMapButtonState extends State<LocationMapButton> {
 
   @override
   Widget build(BuildContext context) {
-    print(_isButtonHovered);
     return MouseRegion(
       onEnter: (event) {
         setState(
@@ -138,31 +135,48 @@ class _LocationMapButtonState extends State<LocationMapButton> {
           },
         );
       },
-      child: MaterialButton(
-        onPressed: () {},
-        color: Theme.of(context).primaryColor,
-        child: !_isButtonHovered
-            ? Row(
-                children: [
-                  Icon(
-                    Icons.location_pin,
-                    color: kwhite,
-                  ),
-                  SizedBox(width: 10.w),
-                  Txt(clr: kwhite, size: 16, txt: 'Find me')
-                ],
-              )
-            : Container(
-              width: 100,
-              height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/images/hero_bg.jpg')
-                    // NetworkImage('https://previews.123rf.com/images/songchaippsc/songchaippsc1509/songchaippsc150900028/46327046-grey-scaled-globe-focuses-to-asia-pacific-zone-.jpg'),
+      child: Transform.scale(
+        scale: _isButtonHovered ? 1.2 : 1,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          height: !_isButtonHovered ? 60 : 100,
+          width: !_isButtonHovered ? 200 : 250,
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(
+              blurRadius: 0,
+              spreadRadius: 0,
+              color: const Color(0xAA00FF00),
+              offset: Offset(30.w, 30.w)
+            )],
+          color: Theme.of(context).primaryColor,
+          ),
+          child: !_isButtonHovered
+              ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(width: 10.w),
+                    Icon(
+                      Icons.location_pin,
+                      color: kwhite,
+                    ),
+                    SizedBox(width: 30.w),
+                    Txt(clr: kwhite, size: 16, txt: 'Find me'),
+                    SizedBox(width: 30.w),
+                  ],
+                )
+              : Container(
+                  width: 100,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Theme.of(context).primaryColor),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/images/map.jpg')
+                        ),
                   ),
                 ),
-              ),
+        ),
       ),
     );
   }

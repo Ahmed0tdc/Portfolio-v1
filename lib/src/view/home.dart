@@ -59,7 +59,7 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
         biography: "Passionate apps developer and a Pythonista with 2+ years of experience building and creating apps, Good at Coding; Quick at learning.");
     final List<Widget> _sections = <Widget>[
       HomeIntro(),
-      SingleChildScrollView(child: AboutMeSection(myPersona: _myPersona)),
+      AboutMeSection(myPersona: _myPersona),
       SkillsSection(),
       WorksSection(),
       ContactSection()

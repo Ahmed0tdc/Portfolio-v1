@@ -106,7 +106,7 @@ class _HeroSectionState extends State<HeroSection> {
                     child: Image.asset(
                       kMeWithGlasses,
                       fit: BoxFit.contain,
-                      height: 450,
+                      height: 650,
                     ),
                   ),
                 ),
