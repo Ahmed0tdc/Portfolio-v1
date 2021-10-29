@@ -6,7 +6,7 @@ import 'package:portfolio/src/utils/constants/constansts.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/utils/theme.dart';
-import 'package:portfolio/src/view/home.dart';
+import 'package:portfolio/src/view/portfolio_wrapper.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(const App());

@@ -12,7 +12,7 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _skillData = [
+    final List<Map<String, dynamic>> _skillData = [
       {
         'type': 'Programming languages',
         'skills': [
@@ -42,43 +42,44 @@ class SkillsSection extends StatelessWidget {
         ]
       },
     ];
-    return Column(
+    final Widget _sectionHeader = Row(
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: 60.w, top: 20.h),
-          child: Row(
-            children: [
-              SectionHeader(
-                upperText: "MY SKILLS",
-                lowerText: "What do I have under my belt?",
-                upperFontSize: 40.sp,
-                lowerFontSize: 35.sp,
-              ),
-            ],
-          ),
+        SectionHeader(
+          upperText: "MY SKILLS",
+          lowerText: "What do I have under my belt?",
+          upperFontSize: 40.sp,
+          lowerFontSize: 35.sp,
         ),
-        SizedBox(height: 30.h),
-        Container(
-          padding: EdgeInsets.only(top: 20.h, left: 60.w, right: 60.w, bottom: 20.h),
-          width: MediaQuery.of(context).size.width * 0.75,
-          decoration: BoxDecoration(
-            boxShadow: [BoxShadow(
-              blurRadius: 0,
-              spreadRadius: 0,
-              color: const Color(0xAAFFFFFF),
-              offset: Offset(30.w, 30.w)
-            )],
-            color: kwhite),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(
-              _skillData.length,
-              (index) => SkillBar(skillData: _skillData[index]),
-            ),
-          ),
-        ),
-        SizedBox(height: 60.h),
       ],
+    );
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(left: 60.w, top: 20.h, bottom: 20.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _sectionHeader,
+            SizedBox(height: 40.h),
+            Container(
+              // margin: EdgeInsets.only(left: 60.w),
+              padding: EdgeInsets.only(top: 20.h, left: 60.w, right: 60.w, bottom: 20.h),
+              width: MediaQuery.of(context).size.width * 0.5,
+              decoration: BoxDecoration(
+                boxShadow: [BoxShadow(
+                  blurRadius: 0,
+                  spreadRadius: 0,
+                  color: const Color(0xAAFFFFFF),
+                  offset: Offset(30.w, 30.w)
+                )],
+                color: kwhite),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(_skillData.length, (index) => SkillBar(skillData: _skillData[index])),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -104,7 +105,7 @@ class _SkillBarState extends State<SkillBar> {
           size: 40.sp,
           fontFam: 'semiBoldPoppins',
         ),
-        SizedBox(height: 10.h),
+        SizedBox(height: 5.h),
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,31 +138,36 @@ class _SkillBarState extends State<SkillBar> {
                     size: 20.sp,
                     clr: kblack,
                   ),
-                  subtitle: Stack(
-                    alignment: Alignment.centerLeft,
-                    children: [
-                      Container(
-                        height: 6.h,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: ktrans,
-                          border: Border.all(color: kblack, width: 3.w),
-                        ),
-                      ),
-                      Container(                        
-                        height: 6.h,
-                        width: ((skill.masteryLevel / 100) * (MediaQuery.of(context).size.width * 0.75 - 120.w)),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(color: kblack, width: 3.w),
-                            left: BorderSide(color: kblack, width: 3.w),
-                            bottom: BorderSide(color: kblack, width: 3.w),
+                  subtitle: LayoutBuilder(
+                    builder: (context, constraints){
+                      final maxWidth = constraints.maxWidth;
+                      return Stack(
+                        alignment: Alignment.centerLeft,
+                        children: [
+                          Container(
+                            height: 6.h,
+                            width: maxWidth,
+                            decoration: BoxDecoration(
+                              color: ktrans,
+                              border: Border.all(color: kblack, width: 3.w),
+                            ),
                           ),
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
+                          Container(                        
+                            height: 6.h,
+                            width:  ((skill.masteryLevel / 100) * maxWidth),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(color: kblack, width: 3.w),
+                                left: BorderSide(color: kblack, width: 3.w),
+                                bottom: BorderSide(color: kblack, width: 3.w),
+                              ),
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  )
                 ),
               ).toList(),
               SizedBox(height: 10.h)

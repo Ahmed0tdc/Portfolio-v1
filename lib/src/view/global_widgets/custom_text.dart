@@ -9,8 +9,10 @@ class Txt extends StatelessWidget {
   final double? size;
   final bool isOverflow;
   final bool isBold;
+  final bool isAnimted;
   final FontWeight? boldness;
   final TextAlign? alignment;
+  final Duration? animationDur;
 
   const Txt(
       {Key? key,
@@ -20,23 +22,42 @@ class Txt extends StatelessWidget {
       this.fontFam,
       this.maxLines,
       this.boldness,
+      this.animationDur,
       this.isBold = false,
       this.isOverflow = false,
+      this.isAnimted = false,
       this.alignment})
       : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
-    return Text(
-      txt,
-      maxLines: maxLines,
-      style: TextStyle(
-        color: clr,
-        fontSize: size ?? 18.sp,
-        fontWeight: isBold ? FontWeight.bold : boldness,
-        fontFamily: fontFam,
-      ),
-      overflow: isOverflow ? TextOverflow.ellipsis : null,
-      textAlign: alignment,
+    return isAnimted 
+      ? AnimatedDefaultTextStyle(
+        duration: animationDur ?? const Duration(milliseconds: 200),
+          style: TextStyle(
+          color: clr,
+          fontSize: size ?? 18.sp,
+          fontWeight: isBold ? FontWeight.bold : boldness,
+          fontFamily: fontFam,
+        ),
+        child: Text(
+          txt,
+          maxLines: maxLines,
+          overflow: isOverflow ? TextOverflow.ellipsis : null,
+          textAlign: alignment,
+        )
+      )
+    : Text(
+        txt,
+        maxLines: maxLines,
+        style: TextStyle(
+          color: clr,
+          fontSize: size ?? 18.sp,
+          fontWeight: isBold ? FontWeight.bold : boldness,
+          fontFamily: fontFam,
+        ),
+        overflow: isOverflow ? TextOverflow.ellipsis : null,
+        textAlign: alignment,
     );
   }
 }

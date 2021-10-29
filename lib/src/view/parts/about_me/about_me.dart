@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:animate_do/animate_do.dart' as animatedo;
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/persona.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
@@ -62,8 +63,8 @@ class AboutMeSection extends StatelessWidget {
               children: [
                 _buildPersonalInfoTable(),
                 Align(
-                  alignment: Alignment(0.8 ,1),
-                  child: LocationMapButton())
+                  alignment: Alignment(0.6 ,1),
+                  child: Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [LocationMapButton()])))
               ],
             ),
             SizedBox(height: 30.h),
@@ -135,38 +136,38 @@ class _LocationMapButtonState extends State<LocationMapButton> {
           },
         );
       },
-      child: Transform.scale(
-        scale: _isButtonHovered ? 1.2 : 1,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          height: !_isButtonHovered ? 60 : 100,
-          width: !_isButtonHovered ? 200 : 250,
-          decoration: BoxDecoration(
-            boxShadow: [BoxShadow(
-              blurRadius: 0,
-              spreadRadius: 0,
-              color: const Color(0xAA00FF00),
-              offset: Offset(30.w, 30.w)
-            )],
-          color: Theme.of(context).primaryColor,
-          ),
-          child: !_isButtonHovered
-              ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(width: 10.w),
-                    Icon(
-                      Icons.location_pin,
-                      color: kwhite,
-                    ),
-                    SizedBox(width: 30.w),
-                    Txt(clr: kwhite, size: 16, txt: 'Find me'),
-                    SizedBox(width: 30.w),
-                  ],
-                )
-              : Container(
-                  width: 100,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        height: 55,//!_isButtonHovered ? 60 : 100,
+        width: 200,//!_isButtonHovered ? 200 : 250,
+        decoration: BoxDecoration(
+          boxShadow: [BoxShadow(
+            blurRadius: 0,
+            spreadRadius: 0,
+            color:  _isButtonHovered ? const Color(0x99FFFFFF) : const Color(0x9900FF00),
+            offset: Offset(30.w, 30.w)
+          )],
+        color: Theme.of(context).primaryColor,
+        ),
+        child: !_isButtonHovered
+            ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(width: 10.w),
+                  Icon(
+                    Icons.location_pin,
+                    color: kwhite,
+                  ),
+                  SizedBox(width: 30.w),
+                  Txt(clr: kwhite, size: 16, txt: 'Find me'),
+                  SizedBox(width: 30.w),
+                ],
+              )
+            : animatedo.FadeIn(
+              duration: const Duration(milliseconds: 200),
+              child: Container(
+                  width: 55,
                   height: 200,
                   decoration: BoxDecoration(
                     border: Border.all(color: Theme.of(context).primaryColor),
@@ -176,7 +177,7 @@ class _LocationMapButtonState extends State<LocationMapButton> {
                         ),
                   ),
                 ),
-        ),
+            ),
       ),
     );
   }
