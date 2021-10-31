@@ -9,6 +9,7 @@ class Txt extends StatelessWidget {
   final double? size;
   final bool isOverflow;
   final bool isBold;
+  final bool underlined;
   final bool isAnimted;
   final FontWeight? boldness;
   final TextAlign? alignment;
@@ -25,6 +26,7 @@ class Txt extends StatelessWidget {
       this.animationDur,
       this.isBold = false,
       this.isOverflow = false,
+      this.underlined = false,
       this.isAnimted = false,
       this.alignment})
       : super(key: key);
@@ -36,6 +38,7 @@ class Txt extends StatelessWidget {
         duration: animationDur ?? const Duration(milliseconds: 200),
           style: TextStyle(
           color: clr,
+          decoration: underlined ? TextDecoration.underline : null,
           fontSize: size ?? 18.sp,
           fontWeight: isBold ? FontWeight.bold : boldness,
           fontFamily: fontFam,
@@ -52,6 +55,7 @@ class Txt extends StatelessWidget {
         maxLines: maxLines,
         style: TextStyle(
           color: clr,
+          decoration: underlined ? TextDecoration.underline : null,
           fontSize: size ?? 18.sp,
           fontWeight: isBold ? FontWeight.bold : boldness,
           fontFamily: fontFam,

@@ -49,7 +49,7 @@ class HomeIntro extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 5.h, left: (kIsWeb && SizeConfig.isDesktop()) ? 60.w : 10.w),
+                    padding: EdgeInsets.only(top: 5.h, left: 60.w),//(kIsWeb && SizeConfig.isDesktop()) ? 60.w : 10.w),
                     child: Txt(
                       txt: 'Hi! my name is Ahmed',
                       // size: (kIsWeb && SizeConfig.isDesktop()) ? 80.sp : 24,
@@ -79,7 +79,8 @@ class HomeIntro extends StatelessWidget {
                     getSpaceFiller(wOnly: true),
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.only(left: (kIsWeb && SizeConfig.isDesktop()) ? 60.w : 10.w, top: 10.w),
+                        padding: EdgeInsets.only(left: 60.w, //(kIsWeb && SizeConfig.isDesktop()) ? 60.w : 10.w,
+                         top: 10.w),
                         height: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

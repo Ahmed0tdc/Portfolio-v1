@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/project.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
@@ -20,10 +19,12 @@ class WorksSection extends StatefulWidget {
 }
 
 class _WorksSectionState extends State<WorksSection> {
-  final _myProjects = [
+  final List<Project> _myProjects = [
     Project(
         projectType: ProjectType.mobileApp,
         projectName: 'Anas Cars',
+        projecGitHubUrl:  kAppOne,
+        brandColors: [Colors.purple, Colors.white],
         projectImages: [
           'spark/spark_01.png',
           'spark/spark_02.png',
@@ -36,6 +37,8 @@ class _WorksSectionState extends State<WorksSection> {
     Project(
         projectType: ProjectType.mobileApp,
         projectName: 'GooLoads',
+        projecGitHubUrl: kAppOne,
+        brandColors: [Colors.black, Colors.white],
         projectImages: [
           '/spark/spark_01.png',
           '/spark/spark_02.png',
@@ -47,6 +50,7 @@ class _WorksSectionState extends State<WorksSection> {
         projectIconImage: 'spark/logo.png'),
     Project(
         projectType: ProjectType.mobileApp,
+        brandColors: [Colors.white, Colors.brown],
         projectName: 'TOGYMDO',
         projectImages: [
           '/spark/spark_01.png',
@@ -71,33 +75,47 @@ class _WorksSectionState extends State<WorksSection> {
 
   @override
   Widget build(BuildContext context) {
-    final List<SlidableMobilePhone> _myMobileProjects = _myProjects.map((Project pro) => SlidableMobilePhone(project: pro)).toList();
-    final Widget _sectionHeader = Row(
-      children: [
-        SectionHeader(
-          upperText: "MY WORK",
-          lowerText: "What have I built?",
-          upperFontSize: 40.sp,
-          lowerFontSize: 35.sp,
-        ),
-      ],
+    final List<SlidableMobilePhone> _myMobileProjects = _myProjects
+        .map((Project pro) => SlidableMobilePhone(project: pro))
+        .toList();
+    final SectionHeader _sectionHeader = SectionHeader(
+      upperText: "MY WORK",
+      lowerText: "What have I built?",
+      upperFontSize: 40.sp,
+      lowerFontSize: 35.sp,
     );
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h),
           Padding(padding: EdgeInsets.only(left: 60.w), child: _sectionHeader),
           SizedBox(height: 30.h),
+          Padding(
+            padding: EdgeInsets.only(left: 60.w),
+            child: Txt(
+              txt: 'the work you see below is a combination of both personl and clinent products.\nfrom E-Commerce apps all the way to VR worlds.',
+              fontFam: 'semiBoldPoppins',
+              alignment: TextAlign.left,
+              size: 30.sp,
+            ),
+          ),
+          SizedBox(height: 50.h),
           ColoredBox(
-            color: Colors.white.withOpacity(0.4),
+            color: kblack.withOpacity(0.2),
             child: Column(
               children: List.generate(
                 _myMobileProjects.length,
-                (index) => ProjectDisplaySection(displayProject: _myMobileProjects[index], projectModel: _myProjects[index])))),
+                (index) => ProjectDisplaySection(
+                  displayProject: _myMobileProjects[index],
+                  projectModel: _myProjects[index],
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: 60.h),
         ],
       ),
     );
   }
 }
-
