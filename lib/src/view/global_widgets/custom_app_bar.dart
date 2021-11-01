@@ -20,20 +20,27 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: kToolbarHeight,
-      child: Row(
-        children: [
-          SizedBox(width: 60.w),
-          const Txt(txt: kProjectTitle + '.', fontFam: 'boldPoppins', size: 24),
-          const Spacer(),
-          (kIsWeb && SizeConfig.isDesktopMQ(context) && !SizeConfig.isMobile())
-          ? Row(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(5, (index) => _buildWebNavItem(index))
-          ) : const Icon(Icons.menu, color: kwhite),
-          SizedBox(width: 60.w),
-        ],
+    return SafeArea(
+      child: SizedBox(
+        height: kToolbarHeight,
+        child: Row(
+          children: [
+            SizedBox(width: 60.w),
+            const Txt(txt: kProjectTitle + '.', fontFam: 'boldPoppins', size: 24),
+            const Spacer(),
+            (kIsWeb && SizeConfig.isDesktopMQ(context) && !SizeConfig.isMobile())
+            ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(5, (index) => _buildWebNavItem(index))
+            ) : MaterialButton(
+              onPressed: (){},
+              child: Icon(Icons.menu, color: kwhite),
+              color: Theme.of(context).primaryColor,
+              padding: EdgeInsets.zero,            
+            ),
+            SizedBox(width: 60.w),
+          ],
+        ),
       ),
     );
   }

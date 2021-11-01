@@ -22,15 +22,15 @@ class App extends StatelessWidget {
           builder: (BuildContext context, Orientation orientation) {
             SizeConfig(designHeight: kIsWeb ? 1080 : 640, designWidth: kIsWeb ? 1913 : 360)
               .init(constraints, orientation);
-            return ChangeNotifierProvider(
+            return ChangeNotifierProvider<ProviderClass>(
                 create: (context) => ProviderClass(),
                 child: MaterialApp(
                   // showPerformanceOverlay: true,
                   debugShowCheckedModeBanner: false,
                   title: kProjectTitle,
                   theme: AppTheme().getAppTheme(),
-                  initialRoute: '/ahmed',
-                  routes: {'/ahmed': (context) => const PortfolioWrapper()},
+                  initialRoute: '/portfolio',
+                  routes: {'/portfolio': (context) => const PortfolioWrapper()},
                 ));
           },
         );

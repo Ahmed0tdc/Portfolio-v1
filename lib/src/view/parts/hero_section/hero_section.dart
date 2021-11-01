@@ -18,7 +18,12 @@ class HeroSection extends StatefulWidget {
   final Widget? upKiddo;
   final Widget? downKiddo;
   final bool isScrolled;
-  const HeroSection({Key? key, this.kiddo, this.isScrolled = true, this.downKiddo, this.upKiddo})
+  const HeroSection(
+      {Key? key,
+      this.kiddo,
+      this.isScrolled = true,
+      this.downKiddo,
+      this.upKiddo})
       : super(key: key);
 
   @override
@@ -26,35 +31,33 @@ class HeroSection extends StatefulWidget {
 }
 
 class _HeroSectionState extends State<HeroSection> {
+
   @override
   Widget build(BuildContext context) {
     // final _globProvider = Provider.of<ProviderClass>(context);
     final double _desktopHeroSectionHeight = (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top);
     final double _mobileHeroSectionHeight = 400.h;
     return !widget.isScrolled
-        ? _getBgDecoration()
-        : CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                toolbarHeight: 0,
-                automaticallyImplyLeading: false,
-                pinned: true,
-                expandedHeight: SizeConfig.isDesktop()
-                    ? _desktopHeroSectionHeight
-                    : _mobileHeroSectionHeight,
-                flexibleSpace: FlexibleSpaceBar(
-                    background: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    _getBgDecoration(),
-                  ],
-                )),
-              ),
-              SliverList(delegate: SliverChildListDelegate([
-                widget.downKiddo!
-              ]))
-            ],
-          );
+    ? _getBgDecoration()
+    : CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            toolbarHeight: 0,
+            automaticallyImplyLeading: false,
+            pinned: true,
+            expandedHeight: SizeConfig.isDesktop()
+                ? _desktopHeroSectionHeight
+                : _mobileHeroSectionHeight,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+              fit: StackFit.expand,
+              children: [_getBgDecoration()],
+            ),
+          ),
+        ),
+        SliverList(delegate: SliverChildListDelegate([widget.downKiddo!]))
+      ],
+    );
   }
 
   Widget _getBgDecoration() {
@@ -112,7 +115,7 @@ class _HeroSectionState extends State<HeroSection> {
                 ),
               )
             : const SizedBox.shrink(),
-         widget.isScrolled ? widget.upKiddo! : widget.kiddo!
+        widget.isScrolled ? widget.upKiddo! : widget.kiddo!,
       ],
     );
   }

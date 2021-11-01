@@ -44,8 +44,7 @@ class ProjectDisplaySection extends StatelessWidget {
 
   Widget _buildProjectInfoSection(BuildContext context) {
     return Container(
-      padding:
-          EdgeInsets.only(left: 60.w, top: 20.h, bottom: 20.h, right: 60.w),
+      padding:  EdgeInsets.only(left: 60.w, top: 20.h, bottom: 20.h, right: 60.w),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         boxShadow: [
