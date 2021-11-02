@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/project.dart';
@@ -5,6 +7,7 @@ import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:portfolio/src/view/parts/my_work/local_widgets/slidable_mobile_phone.dart';
+import 'package:portfolio/src/view/parts/project_info/project_info_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProjectDisplaySection extends StatelessWidget {
@@ -18,19 +21,39 @@ class ProjectDisplaySection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: projectModel.brandColors != null
-                  ? <Color>[
-                      for (Color clr in projectModel.brandColors!)
-                        clr.withOpacity(0.3)
-                    ]
-                  : [Theme.of(context).primaryColor, kblack])),
+        gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: projectModel.brandColors != null
+                ? <Color>[
+                    for (Color clr in projectModel.brandColors!)
+                      clr.withOpacity(0.3)
+                  ]
+                : [Theme.of(context).primaryColor, kblack]),
+      ),
       child: Row(
         children: [
           SizedBox(width: 100.w),
-          _buildProjectInfoSection(context),
+          Column(
+            children: [
+              _buildProjectInfoSection(context),
+              SizedBox(height: 60.h),
+              GestureDetector(
+                onTap: (){
+                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProjectInfo(projectModel: projectModel)));
+                  Navigator.pushNamed(context, '/more_info', arguments: {'projectModel': this.projectModel});
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Txt(txt: 'Learn more', clr: Theme.of(context).primaryColor, size: 20, fontFam: 'boldPoppins'),
+                    const SizedBox(width: 5),
+                    Icon(Icons.arrow_forward_ios_rounded, color: Theme.of(context).primaryColor)
+                  ],
+                ),
+              )
+            ],
+          ),
           const Spacer(),
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 20),
@@ -44,7 +67,7 @@ class ProjectDisplaySection extends StatelessWidget {
 
   Widget _buildProjectInfoSection(BuildContext context) {
     return Container(
-      padding:  EdgeInsets.only(left: 60.w, top: 20.h, bottom: 20.h, right: 60.w),
+      padding: EdgeInsets.only(left: 60.w, top: 20.h, bottom: 20.h, right: 60.w),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         boxShadow: [
@@ -77,14 +100,14 @@ class ProjectDisplaySection extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         style: const TextStyle(
-                          color: Colors.blueAccent,
-                          decoration: TextDecoration.underline
-                        ),
+                            color: Colors.blueAccent,
+                            decoration: TextDecoration.underline),
                         text: 'See on GitHub',
                         recognizer: TapGestureRecognizer()
                           ..onTap = () async {
                             if (projectModel.projecGitHubUrl != null) {
-                              if (await canLaunch(projectModel.projecGitHubUrl!)) {
+                              if (await canLaunch(
+                                  projectModel.projecGitHubUrl!)) {
                                 await launch(projectModel.projecGitHubUrl!);
                               }
                             }

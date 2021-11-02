@@ -40,7 +40,7 @@ class AboutMeSection extends StatelessWidget {
                             part.substring(1).toLowerCase())
                         .join(' ') ??
                     '',
-                size: 30,
+                size: 40,
                 fontFam: 'boldPoppins',
                 isOverflow: true),
             Row(
@@ -57,25 +57,12 @@ class AboutMeSection extends StatelessWidget {
                 Spacer()
               ],
             ),
-            SizedBox(height: 60.h),
-            SectionHeader.onePartOnly(upperText: 'Some more info about me:', upperFontSize: 35.sp),
+            // SizedBox(height: 60.h),
+            // SectionHeader.onePartOnly(upperText: 'Some more info about me:', upperFontSize: 35.sp),
             SizedBox(height: 30.h),
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                _buildPersonalInfoTable(),
-                Align(
-                  alignment: Alignment(0.6, 1),
-                  child: Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [LocationMapButton()],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            _buildPersonalInfoTable(),
             SizedBox(height: 30.h),
+            LocationMapButton()
           ],
         ),
       ),

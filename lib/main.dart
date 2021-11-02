@@ -6,6 +6,7 @@ import 'package:portfolio/src/utils/constants/constansts.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/utils/theme.dart';
+import 'package:portfolio/src/view/parts/project_info/project_info_screen.dart';
 import 'package:portfolio/src/view/portfolio_wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -20,18 +21,24 @@ class App extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         return OrientationBuilder(
           builder: (BuildContext context, Orientation orientation) {
-            SizeConfig(designHeight: kIsWeb ? 1080 : 640, designWidth: kIsWeb ? 1913 : 360)
-              .init(constraints, orientation);
+            SizeConfig(
+                    designHeight: kIsWeb ? 1080 : 640,
+                    designWidth: kIsWeb ? 1913 : 360)
+                .init(constraints, orientation);
             return ChangeNotifierProvider<ProviderClass>(
-                create: (context) => ProviderClass(),
-                child: MaterialApp(
-                  // showPerformanceOverlay: true,
-                  debugShowCheckedModeBanner: false,
-                  title: kProjectTitle,
-                  theme: AppTheme().getAppTheme(),
-                  initialRoute: '/portfolio',
-                  routes: {'/portfolio': (context) => const PortfolioWrapper()},
-                ));
+              create: (context) => ProviderClass(),
+              child: MaterialApp(
+                // showPerformanceOverlay: true,
+                debugShowCheckedModeBanner: false,
+                title: kProjectTitle,
+                theme: AppTheme().getAppTheme(),
+                initialRoute: '/portfolio',
+                routes: {
+                  '/portfolio': (context) => const PortfolioWrapper(),
+                  '/more_info': (context) => const ProjectInfo(),
+                },
+              ),
+            );
           },
         );
       },

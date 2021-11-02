@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/service.dart';
+import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 
@@ -12,36 +13,52 @@ class ServiceCard extends StatefulWidget {
 }
 
 class _ServiceCardState extends State<ServiceCard> {
+  bool _isCardHovered = false;
+
   @override
   Widget build(BuildContext context) {
-    const Duration _serviceCardAnimDur = Duration(milliseconds: 500);
-    return Container(
-      padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 10.h, bottom: 10.h),
-      // duration: _serviceCardAnimDur,
+    return MouseRegion(
+      onEnter: (event) => setState.call(() => _isCardHovered = true),
+      onExit: (event) => setState.call(() => _isCardHovered = false),
+      child: _buildCard(),
+    );
+  }
+
+  Widget _buildCard(){
+    const Duration _serviceCardAnimDur = Duration(milliseconds: 200);
+    const double _height = 210;
+    const double _width = 210;
+    return AnimatedContainer(
+      padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 10.h, bottom: 5.h),
+      duration: _serviceCardAnimDur,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        boxShadow: [
+        color: _isCardHovered ? kwhite : Theme.of(context).primaryColor,
+        boxShadow: _isCardHovered ? [
           BoxShadow(
             offset: Offset(30.w, 30.w),
             blurRadius: 0,
-            color: const Color(0x9900FF00)
+            color: const Color(0x99FFFFFF)
           )
-        ]
+        ] : null
       ),
-      width: 160.h,
-      height: 150.h,
+      width: _isCardHovered ? _width + 50 : _width,
+      height: _height,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
             'assets/images/${widget.serviceModel.illustration}',
-            height: 60.h,
+            height: 60,
+            color: _isCardHovered ? Theme.of(context).primaryColor : kblack,
           ),
-          Txt(txt: widget.serviceModel.name, fontFam: 'boldPoppins', size: 20.sp),
-          Txt(txt: widget.serviceModel.description),
+          const SizedBox(height: 10),
+          Txt(txt: widget.serviceModel.name, fontFam: 'boldPoppins', size: 18, clr: _isCardHovered ? kblack : kwhite, isAnimted: true),
+          const SizedBox(height: 4),
+          Txt(txt: widget.serviceModel.description, size: 14, clr: _isCardHovered ? kblack : kwhite, isAnimted: true, fontFam: 'semiBoldPoppins'),
+          // const SizedBox(height: 4),
         ],
-      ),
+      )
     );
   }
 }

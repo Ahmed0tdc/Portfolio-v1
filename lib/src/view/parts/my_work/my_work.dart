@@ -93,11 +93,19 @@ class _WorksSectionState extends State<WorksSection> {
           SizedBox(height: 30.h),
           Padding(
             padding: EdgeInsets.only(left: 60.w),
-            child: Txt(
-              txt: 'the work you see below is a combination of both personl and clinent products.\nfrom E-Commerce apps all the way to VR worlds.',
-              fontFam: 'semiBoldPoppins',
-              alignment: TextAlign.left,
-              size: 30.sp,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Txt(
+                    txt: 'My work is a various cambination of personal and client mobile/web applications made with love and attention, from TO-DO list apps to Business e-commerce apps',
+                    fontFam: 'semiBoldPoppins',
+                    alignment: TextAlign.left,
+                    size: 30.sp,
+                  ),
+                ),
+                const Spacer()
+              ],
             ),
           ),
           SizedBox(height: 50.h),
@@ -113,7 +121,7 @@ class _WorksSectionState extends State<WorksSection> {
               ),
             ),
           ),
-          SizedBox(height: 60.h),
+          SizedBox(height: 30.h),
         ],
       ),
     );
