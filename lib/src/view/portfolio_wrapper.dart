@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/persona.dart';
 import 'package:portfolio/src/state/provider_class.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
+import 'package:portfolio/src/utils/constants/data.dart';
+import 'package:portfolio/src/utils/constants/palette.dart';
+import 'package:portfolio/src/utils/sizeconfig.dart';
+import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:portfolio/src/view/parts/about_me/about_me.dart';
 import 'package:portfolio/src/view/parts/contact/contact.dart';
 import 'package:portfolio/src/view/parts/hero_section/hero_section.dart';
@@ -28,7 +32,6 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
   @override
   void initState() {
     super.initState();
-    // context.read<ProviderClass>().listenToScrollChanges();
     if (_startLoading) {
       Future.delayed(const Duration(seconds: 1), () {
         setState.call(() => _startLoading = false);
@@ -38,34 +41,22 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
 
   @override
   void dispose() {
-    // context.read<ProviderClass>().disposeOfScrollController();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final _globProvider = Provider.of<ProviderClass>(context);
-    final Persona _myPersona = Persona(
-        fullname: 'ahmed el otmani',
-        age: 18,
-        hobies: ["Reading", "Playing chess", "Jogging"],
-        yearsOfExperience: 2,
-        civilStatus: 'Single',
-        address: "Tangier, Morocco",
-        country: "Morocco",
-        picture: kMeUnderSky,
-        biography: "A Passionate Flutter apps developer and a Pythonista with 2+ years of experience in the field building and creating apps, Good at Coding; Quick at learning.\nadd more more more more more more more more stuff");
     final List<Widget> _sections = <Widget>[
-      HomeIntro(),
-      AboutMeSection(myPersona: _myPersona),
-      SkillsSection(),
-      WorksSection(),
-      ContactSection()
-    ];
+      HomeIntro(), AboutMeSection(myPersona: myPersona),
+      SkillsSection(), WorksSection(), ContactSection()];
     List<bool> scrolled = [false, false, false, false, false];
     final bool isWidgetToBeScrolled = scrolled[_globProvider.getSelectedAppBarIndex];
     return Scaffold(
         extendBodyBehindAppBar: true,
+        drawer: !SizeConfig.isDesktop()
+        ? MobileNavMenu()
+        : null,
         appBar: PreferredSize(preferredSize: Size.fromHeight(kToolbarHeight), child: CustomAppBar()),
         body: HeroSection(
           isScrolled: isWidgetToBeScrolled,
@@ -81,6 +72,87 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
           upKiddo: isWidgetToBeScrolled 
               ? Text("HELLO THERE FOO")
               : null,
+      ),
+    );
+  }
+}
+
+class MobileNavMenu extends StatefulWidget {
+  const MobileNavMenu({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<MobileNavMenu> createState() => _MobileNavMenuState();
+}
+
+class _MobileNavMenuState extends State<MobileNavMenu> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(5, (index) => _buildWebNavItem(index))
+        ),
+      ),
+    );
+  }
+
+  final List<bool> _interactionStates = [false, false, false, false, false];
+
+  Widget _buildWebNavItem(int index) {
+    final _globProvider = Provider.of<ProviderClass>(context);
+    final List<String> tabsLabels = ['Home', 'About me', 'My skills', 'My Work', 'Contact'];
+    final bool _isSelected = index == _globProvider.getSelectedAppBarIndex;
+    final bool _isHovered = _interactionStates[index];
+    return InkWell(
+      highlightColor: ktrans,
+      splashColor: ktrans,
+      focusColor: ktrans,
+      hoverColor: ktrans,
+      splashFactory: NoSplash.splashFactory,
+      onHover: (isHovered) {
+        setState(() {
+          if (isHovered)
+            _interactionStates[index] = true;
+          else
+            _interactionStates[index] = false;
+        });
+      },
+      onTap: () async {
+        _globProvider.setSelectedAppBarIndex = index;
+        await Future.delayed(Duration(milliseconds: 250), (){Navigator.pop(context);});
+      },
+      child: Padding(
+        padding: EdgeInsets.only(right: (tabsLabels.length == index ? 60 : 10).w),
+        child: AnimatedContainer(
+          // padding: EdgeInsets.symmetric(vertical: 10),
+          child: SizedBox(
+            width: 100,
+            child: Center(
+              child: Txt(
+                isAnimted: true,
+                animationDur: const Duration(milliseconds: 250),
+                txt: tabsLabels[index],
+                fontFam: _isHovered && !_isSelected ? 'boldPoppins' : _isSelected ? 'boldPoppins' : 'regPoppins',
+                clr: _isHovered && !_isSelected
+                    ? kwhite
+                    : _isSelected
+                        ? Theme.of(context).primaryColor
+                        : kwhite.withOpacity(0.8),
+                size: _isHovered && !_isSelected ? 18 : 15,
+              ),
+            ),
+          ),
+          duration: const Duration(milliseconds: 300),
+          // decoration: BoxDecoration(color: !_isSelected ? ktrans : Theme.of(context).primaryColor.withOpacity(0.4)),
+        ),
       ),
     );
   }

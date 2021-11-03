@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/src/models/project.dart';
 
 
 class ProviderClass extends ChangeNotifier{
@@ -7,6 +8,15 @@ class ProviderClass extends ChangeNotifier{
   int get getSelectedAppBarIndex => _selectedAppBarIndex;
   set setSelectedAppBarIndex(int val){
     _selectedAppBarIndex = val;
+    notifyListeners();
+  }
+
+  Project? selectedProject;
+
+  Project? get getSelectedProject => selectedProject;
+
+  set setSelectedProject(Project val){
+    selectedProject = val;
     notifyListeners();
   }
 

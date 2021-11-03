@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/project.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
+import 'package:portfolio/src/utils/constants/data.dart';
 import 'package:portfolio/src/utils/constants/enums.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
@@ -19,49 +20,6 @@ class WorksSection extends StatefulWidget {
 }
 
 class _WorksSectionState extends State<WorksSection> {
-  final List<Project> _myProjects = [
-    Project(
-        projectType: ProjectType.mobileApp,
-        projectName: 'Anas Cars',
-        projecGitHubUrl:  kAppOne,
-        brandColors: [Colors.purple, Colors.white],
-        projectImages: [
-          'spark/spark_01.png',
-          'spark/spark_02.png',
-          'spark/spark_03.png',
-          'spark/spark_04.png',
-          'spark/spark_05.png'
-        ],
-        projectDescription: 'Cars app, I guess.',
-        projectIconImage: 'spark/logo.png'),
-    Project(
-        projectType: ProjectType.mobileApp,
-        projectName: 'GooLoads',
-        projecGitHubUrl: kAppOne,
-        brandColors: [Colors.black, Colors.white],
-        projectImages: [
-          '/spark/spark_01.png',
-          '/spark/spark_02.png',
-          '/spark/spark_03.png',
-          '/spark/spark_04.png',
-          '/spark/spark_05.png'
-        ],
-        projectDescription: 'Cars app, I guess.',
-        projectIconImage: 'spark/logo.png'),
-    Project(
-        projectType: ProjectType.mobileApp,
-        brandColors: [Colors.white, Colors.brown],
-        projectName: 'TOGYMDO',
-        projectImages: [
-          '/spark/spark_01.png',
-          '/spark/spark_02.png',
-          '/spark/spark_03.png',
-          '/spark/spark_04.png',
-          '/spark/spark_05.png'
-        ],
-        projectDescription: 'Cars app, I guess.',
-        projectIconImage: 'spark/logo.png'),
-  ];
 
   @override
   void initState() {
@@ -75,14 +33,12 @@ class _WorksSectionState extends State<WorksSection> {
 
   @override
   Widget build(BuildContext context) {
-    final List<SlidableMobilePhone> _myMobileProjects = _myProjects
-        .map((Project pro) => SlidableMobilePhone(project: pro))
-        .toList();
+    final List<SlidableMobilePhone> _myMobileProjects = myProjects.map((Project pro) => SlidableMobilePhone(project: pro)).toList();
     final SectionHeader _sectionHeader = SectionHeader(
       upperText: "MY WORK",
       lowerText: "What have I built?",
-      upperFontSize: 40.sp,
-      lowerFontSize: 35.sp,
+      upperFontSize: 30, //40.sp,
+      lowerFontSize: 24 //35.sp,
     );
     return SingleChildScrollView(
       child: Column(
@@ -90,21 +46,21 @@ class _WorksSectionState extends State<WorksSection> {
         children: [
           SizedBox(height: 20.h),
           Padding(padding: EdgeInsets.only(left: 60.w), child: _sectionHeader),
-          SizedBox(height: 30.h),
+          SizedBox(height: 30),
           Padding(
-            padding: EdgeInsets.only(left: 60.w),
+            padding: EdgeInsets.only(left: 60.w, right: 60.w),
             child: Row(
               children: [
                 Expanded(
-                  flex: 2,
-                  child: Txt(
+                  flex: SizeConfig.isDesktop() ? 2 : 1,
+                  child: const Txt(
                     txt: 'My work is a various cambination of personal and client mobile/web applications made with love and attention, from TO-DO list apps to Business e-commerce apps',
                     fontFam: 'semiBoldPoppins',
                     alignment: TextAlign.left,
-                    size: 30.sp,
+                    size: 19,
                   ),
                 ),
-                const Spacer()
+                SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
               ],
             ),
           ),
@@ -116,7 +72,7 @@ class _WorksSectionState extends State<WorksSection> {
                 _myMobileProjects.length,
                 (index) => ProjectDisplaySection(
                   displayProject: _myMobileProjects[index],
-                  projectModel: _myProjects[index],
+                  projectModel: myProjects[index],
                 ),
               ),
             ),

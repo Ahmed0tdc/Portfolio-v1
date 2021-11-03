@@ -33,8 +33,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
               mainAxisSize: MainAxisSize.min,
               children: List.generate(5, (index) => _buildWebNavItem(index))
             ) : MaterialButton(
-              onPressed: (){},
-              child: Icon(Icons.menu, color: kwhite),
+              onPressed: (){
+                Scaffold.of(context).openDrawer();
+              },
+              child: const Icon(Icons.menu, color: kwhite),
               color: Theme.of(context).primaryColor,
               padding: EdgeInsets.zero,            
             ),
@@ -69,7 +71,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         _globProvider.setSelectedAppBarIndex = index;
       },
       child: Padding(
-        padding: EdgeInsets.only(right: (tabsLabels.length == index ? 60 : 10)),
+        padding: EdgeInsets.only(right: (tabsLabels.length == index ? 60 : 10).w),
         child: AnimatedContainer(
           // padding: EdgeInsets.symmetric(vertical: 10),
           child: SizedBox(

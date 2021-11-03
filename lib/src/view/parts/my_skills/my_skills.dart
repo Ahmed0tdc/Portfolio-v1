@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/src/models/skill.dart';
+import 'package:portfolio/src/utils/constants/data.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/section_header.dart';
@@ -11,36 +11,6 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> _skillData = [
-      {
-        'type': 'Programming languages',
-        'skills': [
-          Skill(
-              name: "Python",
-              icon: 'assets/icons/python.png',
-              masteryLevel: 79),
-          Skill(name: "Dart", icon: 'assets/icons/dart.png', masteryLevel: 88)
-        ]
-      },
-      {
-        'type': 'Frameworks',
-        'skills': [
-          Skill(
-              name: "Flutter",
-              icon: 'assets/icons/flutter.png',
-              masteryLevel: 65)
-        ]
-      },
-      {
-        'type': 'Other technologies',
-        'skills': [
-          Skill(
-              name: "Firebase",
-              icon: 'assets/icons/firebase.png',
-              masteryLevel: 55)
-        ]
-      },
-    ];
     final Widget _sectionHeader = Row(
       children: [
         SectionHeader(
@@ -73,7 +43,7 @@ class SkillsSection extends StatelessWidget {
                 color: kwhite),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: List.generate(_skillData.length, (index) => SkillBar(skillData: _skillData[index])),
+                children: List.generate(skillData.length, (index) => SkillBar(skillData: skillData[index])),
               ),
             ),
           ],

@@ -1,13 +1,13 @@
-import 'dart:html';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/project.dart';
+import 'package:portfolio/src/state/provider_class.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:portfolio/src/view/parts/my_work/local_widgets/slidable_mobile_phone.dart';
 import 'package:portfolio/src/view/parts/project_info/project_info_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProjectDisplaySection extends StatelessWidget {
@@ -20,6 +20,7 @@ class ProjectDisplaySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: !SizeConfig.isDesktop() ? double.infinity : null,
       decoration: BoxDecoration(
         gradient: LinearGradient(
             begin: Alignment.centerLeft,
@@ -31,7 +32,8 @@ class ProjectDisplaySection extends StatelessWidget {
                   ]
                 : [Theme.of(context).primaryColor, kblack]),
       ),
-      child: Row(
+      child: SizeConfig.isDesktop()
+      ? Row(
         children: [
           SizedBox(width: 100.w),
           Column(
@@ -41,12 +43,14 @@ class ProjectDisplaySection extends StatelessWidget {
               GestureDetector(
                 onTap: (){
                   // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProjectInfo(projectModel: projectModel)));
-                  Navigator.pushNamed(context, '/more_info', arguments: {'projectModel': this.projectModel});
+                  // Navigator.pushNamed(context, '/more_info', arguments: {'projectModel': this.projectModel});
+                  context.read<ProviderClass>().setSelectedProject = projectModel;
+                  Navigator.of(context).pushNamed('/more_info');
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Txt(txt: 'Learn more', clr: Theme.of(context).primaryColor, size: 20, fontFam: 'boldPoppins'),
+                    Txt(txt: 'Learn more', clr: Theme.of(context).primaryColor, size: 20),
                     const SizedBox(width: 5),
                     Icon(Icons.arrow_forward_ios_rounded, color: Theme.of(context).primaryColor)
                   ],
@@ -61,7 +65,15 @@ class ProjectDisplaySection extends StatelessWidget {
           ),
           SizedBox(width: 100.w),
         ],
-      ),
+      ) :
+      Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 20),
+            child: displayProject,
+          ),
+        ],
+      ) 
     );
   }
 
@@ -81,10 +93,13 @@ class ProjectDisplaySection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            'assets/images/projects/${projectModel.projectIconImage}',
-            fit: BoxFit.fill,
-            height: 80,
+          Hero(
+            tag: 'tag-${projectModel.projectIconImage}+${projectModel.projectName}',
+            child: Image.asset(
+              'assets/images/projects/${projectModel.projectIconImage}',
+              fit: BoxFit.fill,
+              height: 80,
+            ),
           ),
           SizedBox(height: 10),
           Txt(

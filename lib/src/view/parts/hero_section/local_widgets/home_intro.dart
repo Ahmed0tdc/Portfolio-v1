@@ -100,57 +100,6 @@ class HomeIntro extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // child:
-                      // Stack(
-                      //   clipBehavior: Clip.none,
-                      //   children: [
-                      //     Positioned(
-                      //       top: -75,
-                      //       child: Txt(
-                      //         txt: 'Hi! my name is Ahmed',
-                      //         size: (kIsWeb && SizeConfig.isDesktop()) ? 80.sp : 40,
-                      //         // size: 80.sp
-                      //       ),
-                      //     ),
-                      //     Padding(
-                      //       padding: EdgeInsets.only(right: 60.w, left: 60.w, top: 10.h),
-                      //       child: Row(
-                      //         mainAxisAlignment: MainAxisAlignment.start,
-                      //         mainAxisSize: MainAxisSize.min,
-                      //         children: [
-                      //           Txt(
-                      //             txt: 'I\'m a ',
-                      //             size: (kIsWeb && SizeConfig.isDesktop()) ? 60.sp : 30,
-                      //             // size: 60.sp
-                      //           ),
-                      //           //!TODO: create your own, the widget below is weak
-                      //           AnimatedTextKit(
-                      //             animatedTexts: [
-                      //               "Flutter Developer",
-                      //               "Pythonista",
-                      //               "UI Designer",
-                      //               "YouTuber"
-                      //             ]
-                      //                 .map(
-                      //                   (txt) => TypewriterAnimatedText(
-                      //                     txt,
-                      //                     textStyle: TextStyle(
-                      //                         fontSize: (kIsWeb && SizeConfig.isDesktop())
-                      //                             ? 60.sp
-                      //                             : 30,
-                      //                         color: kblack),
-                      //                     speed: const Duration(milliseconds: 200),
-                      //                   ),
-                      //                 )
-                      //                 .toList(),
-                      //             repeatForever: true,
-                      //             pause: const Duration(milliseconds: 800),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
                     ),
                   ),
                   SizeConfig.isDesktop()
