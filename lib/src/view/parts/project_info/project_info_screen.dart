@@ -15,64 +15,90 @@ class ProjectInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProviderClass _globProvider = Provider.of<ProviderClass>(context);
     return Scaffold(
-        body: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: <Color>[
-          for (Color clr in _globProvider.getSelectedProject!.brandColors ??
-              <Color>[kblack, ktrans])
-            clr.withOpacity(0.2)
-        ], begin: Alignment.bottomLeft, end: Alignment.topCenter),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 60.w, right: 60.w),
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10.h),
-                  const ProjectsNav(),
-                  SizedBox(height: 40.h),
-                  Hero(
-                    tag:
-                        'tag-${_globProvider.getSelectedProject!.projectIconImage}+${_globProvider.getSelectedProject!.projectName}',
-                    child: Image.asset(
-                        'assets/images/projects/${_globProvider.getSelectedProject!.projectIconImage}',
-                        height: 150),
+        body: SizeConfig.isDesktop()
+            ? Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: <Color>[
+                    for (Color clr
+                        in _globProvider.getSelectedProject!.brandColors ??
+                            <Color>[kblack, ktrans])
+                      clr.withOpacity(0.2)
+                  ], begin: Alignment.bottomLeft, end: Alignment.topCenter),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(child: _buildProjectInfoSection(_globProvider)),
+                    Expanded(child: _getProjectGallery(context, _globProvider))
+                  ],
+                ))
+            : SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: <Color>[
+                    for (Color clr
+                        in _globProvider.getSelectedProject!.brandColors ??
+                            <Color>[kblack, ktrans])
+                      clr.withOpacity(0.2)
+                  ], begin: Alignment.bottomLeft, end: Alignment.topCenter),
+                ),
+                  child: Column(
+                    children: [
+                      _buildProjectInfoSection(_globProvider),
+                      const SizedBox(height: 30),
+                      _getProjectGallery(context, _globProvider, isMobile: true)
+                    ],
                   ),
-                  const SizedBox(width: 5),
-                  Txt(
-                      txt: _globProvider.getSelectedProject!.projectName,
-                      size: 80.sp,
-                      fontFam: 'boldPoppins',
-                      isBold: true,
-                      isOverflow: true),
-                  SizedBox(height: 30.h),
-                  Txt(
-                    txt: _globProvider.getSelectedProject!.projectDescription
-                        .replaceAll('\n', ' '),
-                    size: 25.sp,
-                    fontFam: 'semiBoldPoppins',
-                    // isOverflow: true
-                  )
-                ],
-              ),
-            ),
+                ),
+              ));
+  }
+
+  Widget _getProjectGallery(BuildContext context, ProviderClass _globProvider,
+      {bool isMobile = false}) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: StaggeredGridView.countBuilder(
+        physics: isMobile ? NeverScrollableScrollPhysics() : null,
+        crossAxisCount: 2,
+        itemCount: _globProvider.getSelectedProject!.projectImages.length,
+        itemBuilder: (BuildContext context, int index) => Image.asset(
+            'assets/images/projects/${_globProvider.getSelectedProject!.projectImages[index]}'),
+        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
+        mainAxisSpacing: 10.w,
+        crossAxisSpacing: 10.w,
+      ),
+    );
+  }
+
+  Padding _buildProjectInfoSection(ProviderClass _globProvider) {
+    return Padding(
+      padding: EdgeInsets.only(left: 30, right: 30),
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          const ProjectsNav(),
+          const SizedBox(height: 40),
+          Hero(
+            tag: 'tag-${_globProvider.getSelectedProject!.projectIconImage}+${_globProvider.getSelectedProject!.projectName}',
+            child: Image.asset('assets/images/projects/${_globProvider.getSelectedProject!.projectIconImage}', height: 150),
           ),
-          Expanded(
-              child: StaggeredGridView.countBuilder(
-            crossAxisCount: 2,
-            itemCount: _globProvider.getSelectedProject!.projectImages.length,
-            itemBuilder: (BuildContext context, int index) => Image.asset(
-                'assets/images/projects/${_globProvider.getSelectedProject!.projectImages[index]}'),
-            staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
-            mainAxisSpacing: 10.w,
-            crossAxisSpacing: 10.w,
-          ))
+          const SizedBox(width: 5),
+          Txt(
+              txt: _globProvider.getSelectedProject!.projectName,
+              size: 60,
+              fontFam: 'boldPoppins',
+              isBold: true,
+              isOverflow: true),
+          const SizedBox(height: 30),
+          Txt(
+            txt: _globProvider.getSelectedProject!.projectDescription.replaceAll('\n', ' '),
+            size: 18,
+            fontFam: 'semiBoldPoppins',
+            // isOverflow: true
+          )
         ],
       ),
-    ));
+    );
   }
 }
 
@@ -99,22 +125,24 @@ class ProjectsNav extends StatelessWidget {
               splashColor: ktrans,
               highlightColor: ktrans,
               hoverColor: ktrans,
+              padding: EdgeInsets.zero,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.arrow_back_ios_outlined,
-                      size: 60.w,
+                      size: 25,
                       color: myProjects.indexOf(currentProject) == 0
                           ? Colors.grey[600]
                           : Theme.of(context).primaryColor),
                   const SizedBox(width: 5),
                   Txt(
-                      txt: 'View last project',
+                      txt: 'Back',
                       isOverflow: true,
                       clr: myProjects.indexOf(currentProject) == 0
                           ? Colors.grey[600]
                           : Theme.of(context).primaryColor,
-                      size: 30.sp),
+                      size: 19),
                   const SizedBox(width: 5)
                 ],
               ),
@@ -131,21 +159,23 @@ class ProjectsNav extends StatelessWidget {
               splashColor: ktrans,
               highlightColor: ktrans,
               hoverColor: ktrans,
+              padding: EdgeInsets.zero,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(width: 5),
                   Txt(
-                      txt: 'View next project',
+                      txt: 'Next',
                       isOverflow: true,
                       clr: myProjects.indexOf(currentProject) ==
                               myProjects.length - 1
                           ? Colors.grey[600]
                           : Theme.of(context).primaryColor,
-                      size: 30.sp),
+                      size: 19),
                   const SizedBox(width: 5),
                   Icon(Icons.arrow_forward_ios_outlined,
-                      size: 60.w,
+                      size: 25,
                       color: myProjects.indexOf(currentProject) ==
                               myProjects.length - 1
                           ? Colors.grey[600]

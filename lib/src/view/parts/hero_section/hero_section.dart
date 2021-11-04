@@ -3,15 +3,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:portfolio/src/state/provider_class.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
-import 'package:portfolio/src/view/global_widgets/custom_text.dart';
-import 'package:provider/provider.dart';
-
-import 'local_widgets/home_intro.dart';
-import 'local_widgets/web_nav.dart';
 
 class HeroSection extends StatefulWidget {
   final Widget? kiddo;

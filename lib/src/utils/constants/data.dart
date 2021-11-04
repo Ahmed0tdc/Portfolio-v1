@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/persona.dart';
 import 'package:portfolio/src/models/project.dart';
+import 'package:portfolio/src/models/service.dart';
 import 'package:portfolio/src/models/skill.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
 import 'package:portfolio/src/utils/constants/enums.dart';
@@ -86,3 +87,20 @@ final List<Project> myProjects = [
       projectDescription: '''UberStrike is a cross-platform FPS that captured over 30 million users organically. With classic ‘Arena’ style gameplay and highly customisable characters and weapons, UberStrike championed accessibility in an age of bulky downloads and demanding hardware.''',
       projectIconImage: 'spark/logo.png'),
 ];
+
+final List<Service> myServices = <Service>[
+      Service(
+          name: 'Mobile Development',
+          description:
+              'Well honed experience of cross-platform mobile development.',
+          illustration: 'mobile.png'),
+      Service(
+          name: 'Web Development',
+          description: 'Responsive and interactive websites for your idea.',
+          illustration: 'web.png'),
+      Service(
+          name: 'UI Design',
+          description:
+              'Professional designs of user interfaces for your mobile or web application.',
+          illustration: 'design.png'),
+    ];

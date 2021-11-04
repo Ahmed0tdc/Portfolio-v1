@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:portfolio/src/models/persona.dart';
 import 'package:portfolio/src/state/provider_class.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
-import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/utils/theme.dart';
 import 'package:portfolio/src/view/parts/project_info/project_info_screen.dart';

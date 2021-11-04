@@ -18,7 +18,6 @@ import 'package:portfolio/src/view/parts/my_work/my_work.dart';
 import 'package:provider/provider.dart';
 import 'global_widgets/custom_app_bar.dart';
 
-
 class PortfolioWrapper extends StatefulWidget {
   const PortfolioWrapper({Key? key}) : super(key: key);
 
@@ -48,30 +47,32 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
   Widget build(BuildContext context) {
     final _globProvider = Provider.of<ProviderClass>(context);
     final List<Widget> _sections = <Widget>[
-      HomeIntro(), AboutMeSection(myPersona: myPersona),
-      SkillsSection(), WorksSection(), ContactSection()];
+      HomeIntro(),
+      AboutMeSection(myPersona: myPersona),
+      SkillsSection(),
+      WorksSection(),
+      ContactSection()
+    ];
     List<bool> scrolled = [false, false, false, false, false];
     final bool isWidgetToBeScrolled = scrolled[_globProvider.getSelectedAppBarIndex];
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        drawer: !SizeConfig.isDesktop()
-        ? MobileNavMenu()
-        : null,
-        appBar: PreferredSize(preferredSize: Size.fromHeight(kToolbarHeight), child: CustomAppBar()),
-        body: HeroSection(
-          isScrolled: isWidgetToBeScrolled,
-          kiddo: !isWidgetToBeScrolled
-              ? Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
-                  child: _sections[_globProvider.getSelectedAppBarIndex]
-              )
-              : null,
-          downKiddo: isWidgetToBeScrolled
-              ? _sections[_globProvider.getSelectedAppBarIndex]
-              : null,
-          upKiddo: isWidgetToBeScrolled 
-              ? Text("HELLO THERE FOO")
-              : null,
+      extendBodyBehindAppBar: true,
+      drawer: !SizeConfig.isDesktop() ? MobileNavMenu() : null,
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: CustomAppBar()),
+      body: HeroSection(
+        isScrolled: isWidgetToBeScrolled,
+        kiddo: !isWidgetToBeScrolled
+            ? Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top + kToolbarHeight),
+                child: _sections[_globProvider.getSelectedAppBarIndex])
+            : null,
+        downKiddo: isWidgetToBeScrolled
+            ? _sections[_globProvider.getSelectedAppBarIndex]
+            : null,
+        upKiddo: isWidgetToBeScrolled ? Text("HELLO THERE FOO") : null,
       ),
     );
   }
@@ -90,25 +91,41 @@ class _MobileNavMenuState extends State<MobileNavMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor
-      ),
-      child: Center(
+      // height: double.infinity,
+      // width: double.infinity,
+      decoration: BoxDecoration(color: kblack),
+      child: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(5, (index) => _buildWebNavItem(index))
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 60),
+            ...List.generate(5, (index) => _buildMobileNavItem(index)),
+            SizedBox(height: 30),
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Icon(            
+                  Icons.clear,
+                  color: kwhite,
+                  size: 50,
+                ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   final List<bool> _interactionStates = [false, false, false, false, false];
-
-  Widget _buildWebNavItem(int index) {
+  Widget _buildMobileNavItem(int index) {
     final _globProvider = Provider.of<ProviderClass>(context);
-    final List<String> tabsLabels = ['Home', 'About me', 'My skills', 'My Work', 'Contact'];
+    final List<String> tabsLabels = [
+      'Home',
+      'About me',
+      'My skills',
+      'My Work',
+      'Contact'
+    ];
     final bool _isSelected = index == _globProvider.getSelectedAppBarIndex;
     final bool _isHovered = _interactionStates[index];
     return InkWell(
@@ -127,27 +144,26 @@ class _MobileNavMenuState extends State<MobileNavMenu> {
       },
       onTap: () async {
         _globProvider.setSelectedAppBarIndex = index;
-        await Future.delayed(Duration(milliseconds: 250), (){Navigator.pop(context);});
+        await Future.delayed(Duration(milliseconds: 250), () {
+          Navigator.pop(context);
+        });
       },
       child: Padding(
-        padding: EdgeInsets.only(right: (tabsLabels.length == index ? 60 : 10).w),
+        padding: EdgeInsets.only(bottom: 20),
         child: AnimatedContainer(
           // padding: EdgeInsets.symmetric(vertical: 10),
-          child: SizedBox(
-            width: 100,
-            child: Center(
-              child: Txt(
-                isAnimted: true,
-                animationDur: const Duration(milliseconds: 250),
-                txt: tabsLabels[index],
-                fontFam: _isHovered && !_isSelected ? 'boldPoppins' : _isSelected ? 'boldPoppins' : 'regPoppins',
-                clr: _isHovered && !_isSelected
-                    ? kwhite
-                    : _isSelected
-                        ? Theme.of(context).primaryColor
-                        : kwhite.withOpacity(0.8),
-                size: _isHovered && !_isSelected ? 18 : 15,
-              ),
+          child: Center(
+            child: Txt(
+              isAnimted: true,
+              animationDur: const Duration(milliseconds: 250),
+              txt: tabsLabels[index],
+              fontFam: 'semiBoldPoppins',
+              clr: _isHovered && !_isSelected
+                  ? kwhite
+                  : _isSelected
+                      ? Theme.of(context).primaryColor
+                      : kwhite.withOpacity(0.8),
+              size: _isHovered && !_isSelected ? 30 : 25,
             ),
           ),
           duration: const Duration(milliseconds: 300),

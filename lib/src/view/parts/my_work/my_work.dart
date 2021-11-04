@@ -34,51 +34,56 @@ class _WorksSectionState extends State<WorksSection> {
   @override
   Widget build(BuildContext context) {
     final List<SlidableMobilePhone> _myMobileProjects = myProjects.map((Project pro) => SlidableMobilePhone(project: pro)).toList();
-    final SectionHeader _sectionHeader = SectionHeader(
+    const SectionHeader _sectionHeader = SectionHeader(
       upperText: "MY WORK",
       lowerText: "What have I built?",
-      upperFontSize: 30, //40.sp,
-      lowerFontSize: 24 //35.sp,
+      upperFontSize: 30,
+      lowerFontSize: 24
     );
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 20.h),
-          Padding(padding: EdgeInsets.only(left: 60.w), child: _sectionHeader),
-          SizedBox(height: 30),
-          Padding(
-            padding: EdgeInsets.only(left: 60.w, right: 60.w),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: SizeConfig.isDesktop() ? 2 : 1,
-                  child: const Txt(
-                    txt: 'My work is a various cambination of personal and client mobile/web applications made with love and attention, from TO-DO list apps to Business e-commerce apps',
-                    fontFam: 'semiBoldPoppins',
-                    alignment: TextAlign.left,
-                    size: 19,
-                  ),
-                ),
-                SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
-              ],
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 30, right: 30),
+              child: _sectionHeader,
             ),
-          ),
-          SizedBox(height: 50.h),
-          ColoredBox(
-            color: kblack.withOpacity(0.2),
-            child: Column(
-              children: List.generate(
-                _myMobileProjects.length,
-                (index) => ProjectDisplaySection(
-                  displayProject: _myMobileProjects[index],
-                  projectModel: myProjects[index],
+            const SizedBox(height: 50),
+            Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: SizeConfig.isDesktop() ? 2 : 1,
+                    child: const Txt(
+                      txt: 'My work is a various cambination of personal and client mobile/web applications made with love and attention, from TO-DO list apps to Business e-commerce apps',
+                      fontFam: 'semiBoldPoppins',
+                      alignment: TextAlign.left,
+                      size: 19,
+                    ),
+                  ),
+                  SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
+                ],
+              ),
+            ),
+            const SizedBox(height: 50),
+            ColoredBox(
+              color: kblack.withOpacity(0.2),
+              child: Column(
+                children: List.generate(
+                  _myMobileProjects.length,
+                  (index) => ProjectDisplaySection(
+                    displayProject: _myMobileProjects[index],
+                    projectModel: myProjects[index],
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 30.h),
-        ],
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }

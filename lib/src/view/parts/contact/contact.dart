@@ -10,34 +10,36 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SectionHeader _sectionHeader = SectionHeader(
+    const SectionHeader _sectionHeader = SectionHeader(
       upperText: "CONTACT",
       lowerText: "How to get in touch?",
-      upperFontSize: 40.sp,
-      lowerFontSize: 35.sp,
+      upperFontSize: 30,
+      lowerFontSize: 24
     );
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.only(left: 60.w, right: 60.w, top: 20.h),
+        padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             _sectionHeader,
-            SizedBox(height: 30.h),
+            const SizedBox(height: 50),
             Text.rich(
                TextSpan(
                 children: [
-                  TextSpan(text: 'Get in touch via the form below, or by emailing\n', style: TextStyle(color: kwhite, fontSize: 30.sp)),
-                  WidgetSpan(child: SelectableText('ahmedelotmani200@gmail.com', style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 30.sp))),
+                  const TextSpan(text: 'Get in touch via the form below, or by emailing\n', style: TextStyle(color: kwhite, fontSize: 19, fontFamily: 'semiBoldPoppins')),
+                  WidgetSpan(child: SelectableText('ahmedelotmani200@gmail.com', style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 19))),
                 ],
               ),
             ),
             SizedBox(height: 50.h),
-            Row(children: const [
-              Expanded(child: EmailMessageForm()),
-              Spacer()
+            Row(
+              children: [
+              const Expanded(child: EmailMessageForm()),
+              SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
             ]),
+            const SizedBox(height: 30),
           ],
         ),
       ),

@@ -21,11 +21,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SizedBox(
-        height: kToolbarHeight,
+      // top: false,
+      child: Container(
+        // color: kblack,
+        height: kToolbarHeight, //+ MediaQuery.of(context).padding.top + 5,
         child: Row(
           children: [
-            SizedBox(width: 60.w),
+            const SizedBox(width: 30),
             const Txt(txt: kProjectTitle + '.', fontFam: 'boldPoppins', size: 24),
             const Spacer(),
             (kIsWeb && SizeConfig.isDesktopMQ(context) && !SizeConfig.isMobile())
@@ -40,7 +42,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               color: Theme.of(context).primaryColor,
               padding: EdgeInsets.zero,            
             ),
-            SizedBox(width: 60.w),
+            const SizedBox(width: 30),
           ],
         ),
       ),
@@ -92,46 +94,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
           ),
           duration: const Duration(milliseconds: 300),
-          // decoration: BoxDecoration(color: !_isSelected ? ktrans : Theme.of(context).primaryColor.withOpacity(0.4)),
         ),
       ),
     );
   }
 }
-
-// class PortfolioSections extends StatefulWidget {
-//   const PortfolioSections({Key? key}) : super(key: key);
-
-//   @override
-//   _PortfolioSectionsState createState() => _PortfolioSectionsState();
-// }
-
-// class _PortfolioSectionsState extends State<PortfolioSections> {
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-
-//   @override
-//   void dispose() {
-//     context.read<ProviderClass>().disposeOfPageController();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final _globProvider = Provider.of<ProviderClass>(context);
-//     final _portfolioSections = <Widget>[
-//       // AboutMeSection(),
-//       Text('hello'),
-//       Text('hello'),
-//       Text('hello'),
-//     ];
-//     return PageView(
-
-//         // physics: NeverScrollableScrollPhysics(),
-//         scrollDirection: Axis.vertical,
-//         controller: _globProvider.getPageController,
-//         children: _portfolioSections);
-//   }
-// }

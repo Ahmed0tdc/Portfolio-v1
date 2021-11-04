@@ -44,7 +44,7 @@ class SectionHeader extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           child: Padding(
-            padding: EdgeInsets.only(left: 60.w, right: 60.w),
+            padding: const EdgeInsets.only(left: 15, right: 15),
             child: Txt(
               txt: upperText ?? '',
               size: upperFontSize ?? 60.sp,
@@ -59,7 +59,7 @@ class SectionHeader extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
          Container(
-          padding: EdgeInsets.only(left: 60.w, top: 5.w, right: 60.w, bottom: 20.h),
+          padding: const EdgeInsets.only(left: 15, top: 5, right: 15, bottom: 25),
           child: Txt(
             txt: upperText ?? '',
             size: upperFontSize ?? 60.sp,
@@ -67,99 +67,18 @@ class SectionHeader extends StatelessWidget {
           color: upperBgColor ?? Theme.of(context).primaryColor.withOpacity(0.4),
         ),
         Positioned(
-          left: 40,
-          // right: -20,
-          bottom: -15,
+          left: SizeConfig.isDesktop() ? 40 : 0,
+          bottom: -19,
           child: Container(
-          padding: EdgeInsets.only(left: 60.w, top: 5.w, right: 60.w, bottom: 5.h),
+          padding: const EdgeInsets.only(left: 15, top: 5, right: 15, bottom: 5),
           child: Txt(
             txt: lowerText ?? '',
             size: lowerFontSize ?? 60.sp,
+            alignment: TextAlign.start
           ),
           color: lowerBgColor ?? Theme.of(context).primaryColor,
         ),)
       ],
     );
-    // Container(
-    //   // color: Colors.grey.withOpacity(0.5),
-    //   height: 500.w,
-    //   width: 300.h,
-    //   child: Stack(
-    //     children: [
-    //       Column(
-    //         children: [
-    //           Expanded(
-    //             flex: 2,            
-    //             child: Row(
-    //               children: [
-    //                 Container(
-    //                   alignment: Alignment.topLeft,
-    //                   height: double.infinity,
-    //                   child: Padding(
-    //                     padding: EdgeInsets.only(left: 60.w, top: 5.w, right: 60.w, bottom: 5.h),
-    //                     child: 
-                        
-    //                     // AnimatedTextKit(
-    //                     //   animatedTexts: [
-    //                     //     ColorizeAnimatedText(
-    //                     //       'Larry Page',
-    //                     //       textStyle: TextStyle(fontSize: 60.sp),
-    //                     //       colors: [Colors.yellow, Colors.black],
-    //                     //     ),
-    //                     //   ],
-    //                     //   pause: Duration.zero,
-    //                     //   isRepeatingAnimation: true,
-    //                     //   )
-                        
-    //                     Txt(
-    //                       txt: upperText ?? '',
-    //                       size: upperFontSize ?? 60.sp,
-    //                     ),
-    //                   ),
-    //                   color: upperBgColor ?? Theme.of(context).primaryColor.withOpacity(0.4),
-    //                 ),
-    //                 const Spacer()
-    //               ],
-    //             ),
-    //           ),
-    //           const Spacer(flex: 2)
-    //         ],
-    //       ),
-    //       Align(
-    //         alignment: Alignment.bottomCenter,
-    //         child: Column(
-    //           children: [
-    //             const Spacer(flex: 2,),
-    //             Expanded(
-    //               flex: 3,
-    //               child: Container(
-    //                 // color: Colors.red,
-    //                 child: Row(
-    //                   children: [
-    //                     const Spacer(),
-    //                     Container(
-    //                       alignment: Alignment.center,
-    //                       height: double.infinity,
-    //                       child: Padding(
-    //                         padding: EdgeInsets.only(left: 60.w,   right: 60.w,  ),
-    //                         child: Txt(
-    //                           txt: lowerText ?? '',
-    //                           size: lowerFontSize ?? 60.sp,
-    //                         ),
-    //                       ),
-    //                       color: lowerBgColor ?? Theme.of(context).primaryColor,
-    //                     ),
-    //                     const Spacer(flex: 3),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //             const Spacer(flex: 2),
-    //           ],
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }

@@ -41,7 +41,7 @@ class _LocationMapButtonState extends State<LocationMapButton> {
             blurRadius: 0,
             spreadRadius: 0,
             color:  _isButtonHovered ? const Color(0x99FFFFFF) : const Color(0x9900FF00),
-            offset: Offset(30.w, 30.w)
+            offset: Offset(15, 15)
           )],
         color: Theme.of(context).primaryColor,
         ),

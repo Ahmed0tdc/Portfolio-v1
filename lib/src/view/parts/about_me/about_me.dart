@@ -18,26 +18,24 @@ class AboutMeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SectionHeader _headerWidget = SectionHeader(
-      upperText: 'ABOUT ME',
-      lowerText: 'Allow me to introduce myself', //'Who I am?',
-      upperFontSize: 40.sp,
-      lowerFontSize: 35.sp,
-    );
+        upperText: 'ABOUT ME',
+        lowerText:  'Who is Ahmed?', //'Allow me to introduce myself', //'Who I am?',
+        upperFontSize: 30,
+        lowerFontSize: 24);
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.only(left: 60.w, top: 20.h, right: 60.w),
+        padding: const EdgeInsets.only(left: 30, top: 20, right: 30),
         child: Column(
-          // mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _headerWidget,
-            SizedBox(height: 40.h),
+            const SizedBox(height: 50),
             Txt(
                 txt: myPersona.fullname
                         ?.split(' ')
-                        .map((String part) =>
-                            part.substring(0, 1).toUpperCase() +
-                            part.substring(1).toLowerCase())
+                        .map((String part) => part.toLowerCase().trim() == 'ahmed' 
+                        ? part.substring(0, 1).toUpperCase() + part.substring(1).toLowerCase() + '\n'
+                        : part.substring(0, 1).toUpperCase() + part.substring(1).toLowerCase())
                         .join(' ') ??
                     '',
                 size: 40,
@@ -46,7 +44,7 @@ class AboutMeSection extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  flex: 2,
+                  flex: SizeConfig.isDesktop() ? 2 : 1,
                   child: Txt(
                     txt: myPersona.biography ?? '',
                     fontFam: 'regPoppins',
@@ -54,15 +52,16 @@ class AboutMeSection extends StatelessWidget {
                     size: 18,
                   ),
                 ),
-                Spacer()
+                SizeConfig.isDesktop()
+                    ? const Spacer()
+                    : const SizedBox.shrink()
               ],
             ),
-            // SizedBox(height: 60.h),
-            // SectionHeader.onePartOnly(upperText: 'Some more info about me:', upperFontSize: 35.sp),
-            SizedBox(height: 30.h),
+            const SizedBox(height: 30),
             _buildPersonalInfoTable(),
-            SizedBox(height: 30.h),
-            LocationMapButton()
+            const SizedBox(height: 40),
+            const LocationMapButton(),
+            const SizedBox(height: 30),
           ],
         ),
       ),
@@ -84,23 +83,26 @@ class AboutMeSection extends StatelessWidget {
     };
     return Table(
         columnWidths: {
-          0: FlexColumnWidth(0.2),
-          1: FlexColumnWidth(1),
+          0 : FlexColumnWidth(SizeConfig.isDesktop() ? 0.2 : 0.5),
+          1 : FlexColumnWidth(1),
         },
         children: _myPersonalInfo.keys
             .map(
-              (String info) => TableRow(children: [
-                Txt(
-                    txt: info,
-                    clr: kgreen.withOpacity(0.8),
-                    size: 15,
-                    fontFam: 'boldPoppins'),
-                // Txt(txt: ":", clr: kwhite, size: 15),
-                Txt(
-                    txt: _myPersonalInfo[info]?.toString() ?? '',
-                    clr: kwhite,
-                    size: 15),
-              ]),
+              (String info) => TableRow(
+                children: [
+                  Txt(
+                      txt: info,
+                      clr: kgreen.withOpacity(0.8),
+                      size: 15,
+                      fontFam: 'boldPoppins',
+                  ),
+                  Txt(
+                      txt: _myPersonalInfo[info]?.toString() ?? '',
+                      clr: kwhite,
+                      size: 15,
+                  ),
+                ],
+              ),
             )
             .toList());
   }

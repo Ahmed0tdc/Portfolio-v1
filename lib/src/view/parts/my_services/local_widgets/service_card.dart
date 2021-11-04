@@ -20,22 +20,25 @@ class _ServiceCardState extends State<ServiceCard> {
     return MouseRegion(
       onEnter: (event) => setState.call(() => _isCardHovered = true),
       onExit: (event) => setState.call(() => _isCardHovered = false),
-      child: _buildCard(),
+      child: GestureDetector(
+        onLongPress: () => setState.call(() => _isCardHovered = true),
+        onLongPressEnd: (l) => setState.call(() => _isCardHovered = false),
+        child: _buildCard()),
     );
   }
 
   Widget _buildCard(){
     const Duration _serviceCardAnimDur = Duration(milliseconds: 200);
-    const double _height = 210;
-    const double _width = 210;
+    const double _height = 230;
+    double _width = SizeConfig.isDesktop() ? 250 : 210;
     return AnimatedContainer(
-      padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 10.h, bottom: 5.h),
+      padding: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 5),
       duration: _serviceCardAnimDur,
       decoration: BoxDecoration(
         color: _isCardHovered ? kwhite : Theme.of(context).primaryColor,
         boxShadow: _isCardHovered ? [
           BoxShadow(
-            offset: Offset(30.w, 30.w),
+            offset: Offset(15, 15),
             blurRadius: 0,
             color: const Color(0x99FFFFFF)
           )

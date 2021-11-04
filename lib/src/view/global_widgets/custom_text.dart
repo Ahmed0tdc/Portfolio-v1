@@ -7,6 +7,7 @@ class Txt extends StatelessWidget {
   final Color? clr;
   final int? maxLines;
   final double? size;
+  final double? height;
   final bool isOverflow;
   final bool isBold;
   final bool underlined;
@@ -20,6 +21,7 @@ class Txt extends StatelessWidget {
       required this.txt,
       this.clr,
       this.size,
+      this.height,
       this.fontFam,
       this.maxLines,
       this.boldness,
@@ -54,6 +56,7 @@ class Txt extends StatelessWidget {
         txt,
         maxLines: maxLines,
         style: TextStyle(
+          height: height,
           color: clr,
           decoration: underlined ? TextDecoration.underline : null,
           fontSize: size ?? 18.sp,

@@ -6,7 +6,6 @@ import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:portfolio/src/view/parts/my_work/local_widgets/slidable_mobile_phone.dart';
-import 'package:portfolio/src/view/parts/project_info/project_info_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,81 +19,180 @@ class ProjectDisplaySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: !SizeConfig.isDesktop() ? double.infinity : null,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: projectModel.brandColors != null
-                ? <Color>[
-                    for (Color clr in projectModel.brandColors!)
-                      clr.withOpacity(0.3)
-                  ]
-                : [Theme.of(context).primaryColor, kblack]),
-      ),
-      child: SizeConfig.isDesktop()
-      ? Row(
-        children: [
-          SizedBox(width: 100.w),
-          Column(
-            children: [
-              _buildProjectInfoSection(context),
-              SizedBox(height: 60.h),
-              GestureDetector(
-                onTap: (){
-                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProjectInfo(projectModel: projectModel)));
-                  // Navigator.pushNamed(context, '/more_info', arguments: {'projectModel': this.projectModel});
-                  context.read<ProviderClass>().setSelectedProject = projectModel;
-                  Navigator.of(context).pushNamed('/more_info');
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Txt(txt: 'Learn more', clr: Theme.of(context).primaryColor, size: 20),
-                    const SizedBox(width: 5),
-                    Icon(Icons.arrow_forward_ios_rounded, color: Theme.of(context).primaryColor)
-                  ],
-                ),
+        width: !SizeConfig.isDesktop() ? double.infinity : null,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: projectModel.brandColors != null
+                  ? <Color>[
+                      for (Color clr in projectModel.brandColors!)
+                        clr.withOpacity(0.3)
+                    ]
+                  : [Theme.of(context).primaryColor, kblack]),
+        ),
+        child: SizeConfig.isDesktop()
+            ? Row(
+                children: [
+                  SizedBox(width: 100.w),
+                  Column(
+                    children: [
+                      _buildProjectInfoSection(context),
+                      SizedBox(height: 60.h),
+                      GestureDetector(
+                        onTap: () {
+                          context.read<ProviderClass>().setSelectedProject =
+                              projectModel;
+                          Navigator.of(context).pushNamed('/more_info');
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Txt(
+                                txt: 'Learn more',
+                                clr: Theme.of(context).primaryColor,
+                                size: 20),
+                            const SizedBox(width: 5),
+                            Icon(Icons.arrow_forward_ios_rounded,
+                                color: Theme.of(context).primaryColor)
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 20),
+                    child: displayProject,
+                  ),
+                  SizedBox(width: 100.w),
+                ],
               )
-            ],
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 20),
-            child: displayProject,
-          ),
-          SizedBox(width: 100.w),
-        ],
-      ) :
-      Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 20),
-            child: displayProject,
-          ),
-        ],
-      ) 
-    );
+            : Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        Container(
+                          padding: EdgeInsets.only(left: 30),
+                          child: Row(
+
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Hero(
+                                tag:
+                                    'tag-${projectModel.projectIconImage}+${projectModel.projectName}',
+                                child: Image.asset(
+                                  'assets/images/projects/${projectModel.projectIconImage}',
+                                  fit: BoxFit.fill,
+                                  height: 80,
+                                ),
+                              ),
+                              const SizedBox(width: 15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Txt(
+                                    txt: projectModel.projectName,
+                                    size: 30,
+                                    fontFam: 'boldPoppins',
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .read<ProviderClass>()
+                                          .setSelectedProject = projectModel;
+                                      Navigator.of(context)
+                                          .pushNamed('/more_info');
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Txt(
+                                            txt: 'Learn more',
+                                            clr: Theme.of(context).primaryColor,
+                                            size: 20),
+                                        const SizedBox(width: 5),
+                                        Icon(Icons.arrow_forward_ios_rounded, size: 16,
+                                            color: Theme.of(context).primaryColor)
+                                      ],
+                                    ),
+                                  )
+                                ,
+                                  (projectModel.projecGitHubUrl != null)
+                                      ? Text.rich(
+                                          TextSpan(
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                style: const TextStyle(
+                                                    color: Colors.blueAccent,
+                                                    decoration: TextDecoration
+                                                        .underline),
+                                                text: 'See on GitHub',
+                                                recognizer:
+                                                    TapGestureRecognizer()
+                                                      ..onTap = () async {
+                                                        if (projectModel
+                                                                .projecGitHubUrl !=
+                                                            null) {
+                                                          if (await canLaunch(
+                                                              projectModel
+                                                                  .projecGitHubUrl!)) {
+                                                            await launch(
+                                                                projectModel
+                                                                    .projecGitHubUrl!);
+                                                          }
+                                                        }
+                                                      },
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : const SizedBox.shrink(),
+                                  
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [displayProject],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ));
   }
 
-  Widget _buildProjectInfoSection(BuildContext context) {
+  Widget _buildProjectInfoSection(BuildContext context, {bool noBg = false}) {
     return Container(
-      padding: EdgeInsets.only(left: 60.w, top: 20.h, bottom: 20.h, right: 60.w),
+      padding:
+          EdgeInsets.only(left: 60.w, top: 20.h, bottom: 20.h, right: 60.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        boxShadow: [
-          BoxShadow(
-              blurRadius: 0,
-              spreadRadius: 0,
-              color: const Color(0x9900FF00),
-              offset: Offset(30.w, 30.w))
-        ],
+        color: !noBg ? Theme.of(context).primaryColor : null,
+        boxShadow: !noBg
+            ? [
+                BoxShadow(
+                    blurRadius: 0,
+                    spreadRadius: 0,
+                    color: const Color(0x9900FF00),
+                    offset: Offset(30.w, 30.w))
+              ]
+            : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Hero(
-            tag: 'tag-${projectModel.projectIconImage}+${projectModel.projectName}',
+            tag:
+                'tag-${projectModel.projectIconImage}+${projectModel.projectName}',
             child: Image.asset(
               'assets/images/projects/${projectModel.projectIconImage}',
               fit: BoxFit.fill,

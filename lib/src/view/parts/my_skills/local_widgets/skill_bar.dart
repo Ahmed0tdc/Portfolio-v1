@@ -22,33 +22,35 @@ class _SkillBarState extends State<SkillBar> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Txt(
-          txt: widget.skillData['type'],
+          txt: widget.skillData['type'], // if type is wrong do the other
           clr: kblack,
-          size: 40.sp,
+          size: 20,
           fontFam: 'semiBoldPoppins',
         ),
-        SizedBox(height: 5.h),
+        const SizedBox(height: 5),
         Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[...(widget.skillData['skills'] as List<Skill>)
-              .map((Skill skill) => ListTile(
+              .map((Skill skill) =>  
+              ListTile(
                 onTap: (){},
                   contentPadding: EdgeInsets.zero,
                   leading: Stack(
                     alignment: const Alignment(-0.9, 0.9),
                     children: [
-                      Image.asset(skill.icon, height: 100.w),
+                      Image.asset(skill.icon, height: 100),
                       Container(
                         transform: Matrix4.rotationZ(math.pi / 5),
-                        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 10.w),
+                        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
                         decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.check, color: kwhite, size: 13),
-                            SizedBox(width: 5.w),
-                            Txt(txt: skill.masteryLevel.round().toString()+'%', size: 15.sp),
+                            const Icon(Icons.check, color: kwhite, size: 16),
+                            const SizedBox(width: 5),
+                            Txt(txt: skill.masteryLevel.round().toString()+'%', size: 13),
                           ],
                         ),
                       )
@@ -57,7 +59,7 @@ class _SkillBarState extends State<SkillBar> {
                   title: Txt(
                     txt: skill.name,
                     fontFam: 'boldPoppins',
-                    size: 20.sp,
+                    size: 20,
                     clr: kblack,
                   ),
                   subtitle: LayoutBuilder(
@@ -67,21 +69,21 @@ class _SkillBarState extends State<SkillBar> {
                         alignment: Alignment.centerLeft,
                         children: [
                           Container(
-                            height: 6.h,
+                            height: 10,
                             width: maxWidth,
                             decoration: BoxDecoration(
                               color: ktrans,
-                              border: Border.all(color: kblack, width: 3.w),
+                              border: Border.all(color: kblack, width: 2),
                             ),
                           ),
                           Container(                        
-                            height: 6.h,
+                            height: 10,
                             width:  ((skill.masteryLevel / 100) * maxWidth),
                             decoration: BoxDecoration(
-                              border: Border(
-                                top: BorderSide(color: kblack, width: 3.w),
-                                left: BorderSide(color: kblack, width: 3.w),
-                                bottom: BorderSide(color: kblack, width: 3.w),
+                              border: const Border(
+                                top: BorderSide(color: kblack, width: 2),
+                                left: BorderSide(color: kblack, width: 2),
+                                bottom: BorderSide(color: kblack, width: 2),
                               ),
                               color: Theme.of(context).primaryColor,
                             ),
@@ -92,7 +94,7 @@ class _SkillBarState extends State<SkillBar> {
                   )
                 ),
               ).toList(),
-              SizedBox(height: 10.h)
+              const SizedBox(height: 10)
           ]
         )
       ],
