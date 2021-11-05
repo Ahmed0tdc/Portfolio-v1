@@ -14,3 +14,9 @@ const String kLGPhoneImg = 'assets/images/lg.png';
 
 // my github projects links
 const String kAppOne = 'https://github.com/Ahmed0tdc/corocurer';
+
+//my links
+const String kTwitterLink = 'https://twitter.com/ahmed0tdc';
+const String kInstaLink = 'https://instagram.com/ahmed0tdc';
+const String kGithubLink = 'https://github.com/ahmed0tdc';
+const String kLinkedenLink = 'https://www.linkedin.com/in/ahmed-el-otmani-0072b51b4/';

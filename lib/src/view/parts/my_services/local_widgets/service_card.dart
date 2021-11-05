@@ -30,19 +30,23 @@ class _ServiceCardState extends State<ServiceCard> {
   Widget _buildCard(){
     const Duration _serviceCardAnimDur = Duration(milliseconds: 200);
     const double _height = 230;
-    double _width = SizeConfig.isDesktop() ? 250 : 210;
+    double _width = SizeConfig.isDesktop() ? 230 : MediaQuery.of(context).size.width * 0.7;
     return AnimatedContainer(
-      padding: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 5),
+      padding: const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 5),
       duration: _serviceCardAnimDur,
       decoration: BoxDecoration(
         color: _isCardHovered ? kwhite : Theme.of(context).primaryColor,
         boxShadow: _isCardHovered ? [
-          BoxShadow(
+          const BoxShadow(
             offset: Offset(15, 15),
             blurRadius: 0,
-            color: const Color(0x99FFFFFF)
+            color: Color(0x99FFFFFF)
           )
-        ] : null
+        ] : [const BoxShadow(
+            offset: Offset(8, 8),
+            blurRadius: 0,
+            color: Color(0x2200FF00)
+          )]
       ),
       width: _isCardHovered ? _width + 50 : _width,
       height: _height,

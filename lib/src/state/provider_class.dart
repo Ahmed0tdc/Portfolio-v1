@@ -12,27 +12,38 @@ class ProviderClass extends ChangeNotifier{
   }
 
   Project? selectedProject;
-
   Project? get getSelectedProject => selectedProject;
-
   set setSelectedProject(Project val){
     selectedProject = val;
     notifyListeners();
   }
 
 
-  // final ScrollController _scrollController = ScrollController();
-  // ScrollController get getScrollController => _scrollController;
-  // void listenToScrollChanges(){
-  //   _scrollController.addListener(() {
-  //     notifyListeners();
-  //   });
-  // }
-  // void disposeOfScrollController(){
-  //   _scrollController.dispose();
-  //   notifyListeners();
-  // }
+  final ScrollController _scrollController = ScrollController();
+  bool pageScrolled = false;
+  ScrollController get getScrollController => _scrollController;
+  bool get isPageScrolled => pageScrolled;
 
+  void listenToScrollChanges(){
+    _scrollController.addListener(() {
+      if(_scrollController.offset >= kToolbarHeight / 2){
+        setPageScrollingState = true;
+      }else{
+        setPageScrollingState = false;
+      }
+      notifyListeners();
+    });
+  }
+
+  void disposeOfScrollController(){
+    _scrollController.dispose();
+    notifyListeners();
+  }
+
+  set setPageScrollingState(bool val){
+    pageScrolled = val;
+    notifyListeners();
+  }
 
   // final PageController _pageController = PageController();
   // PageController get getPageController => _pageController;
@@ -44,14 +55,12 @@ class ProviderClass extends ChangeNotifier{
 
 
 
-
-
-
   bool _disposed = false;
   
   @override
   void dispose() {
     _disposed = true;
+    disposeOfScrollController();
     super.dispose();
   }
 

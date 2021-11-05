@@ -8,6 +8,7 @@ import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:provider/provider.dart';
 
+
 class ProjectInfo extends StatelessWidget {
   const ProjectInfo({Key? key}) : super(key: key);
 
@@ -15,65 +16,52 @@ class ProjectInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProviderClass _globProvider = Provider.of<ProviderClass>(context);
     return Scaffold(
-        body: SizeConfig.isDesktop()
-            ? Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: <Color>[
-                    for (Color clr
-                        in _globProvider.getSelectedProject!.brandColors ??
-                            <Color>[kblack, ktrans])
-                      clr.withOpacity(0.2)
-                  ], begin: Alignment.bottomLeft, end: Alignment.topCenter),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(child: _buildProjectInfoSection(_globProvider)),
-                    Expanded(child: _getProjectGallery(context, _globProvider))
-                  ],
-                ))
-            : SingleChildScrollView(
-                child: Container(
-                  decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: <Color>[
-                    for (Color clr
-                        in _globProvider.getSelectedProject!.brandColors ??
-                            <Color>[kblack, ktrans])
-                      clr.withOpacity(0.2)
-                  ], begin: Alignment.bottomLeft, end: Alignment.topCenter),
-                ),
-                  child: Column(
-                    children: [
-                      _buildProjectInfoSection(_globProvider),
-                      const SizedBox(height: 30),
-                      _getProjectGallery(context, _globProvider, isMobile: true)
-                    ],
-                  ),
-                ),
-              ));
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: <Color>[
+            for (Color clr
+                in _globProvider.getSelectedProject!.brandColors ??
+                    <Color>[kblack, ktrans])
+              clr.withOpacity(0.2)
+          ], begin: Alignment.bottomLeft, end: Alignment.topCenter),
+        ),
+        child: SizeConfig.isDesktopMQ(context)
+        ? Row(
+          children: [
+            Expanded(child: _buildProjectInfoSection(_globProvider)),
+            Expanded(child: _getProjectGallery(context, _globProvider))
+          ],
+        )
+        : SingleChildScrollView(
+          child: Column(
+          children: [
+            _buildProjectInfoSection(_globProvider),
+            const SizedBox(height: 30),
+            _getProjectGallery(context, _globProvider, isMobile: true)
+          ],
+      ),
+        ),
+      ),
+    );
   }
 
-  Widget _getProjectGallery(BuildContext context, ProviderClass _globProvider,
-      {bool isMobile = false}) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: StaggeredGridView.countBuilder(
-        physics: isMobile ? NeverScrollableScrollPhysics() : null,
-        crossAxisCount: 2,
-        itemCount: _globProvider.getSelectedProject!.projectImages.length,
-        itemBuilder: (BuildContext context, int index) => Image.asset(
-            'assets/images/projects/${_globProvider.getSelectedProject!.projectImages[index]}'),
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
-        mainAxisSpacing: 10.w,
-        crossAxisSpacing: 10.w,
-      ),
+  Widget _getProjectGallery(BuildContext context, ProviderClass _globProvider, {bool isMobile = false}) {
+    return StaggeredGridView.countBuilder(
+      shrinkWrap: true,
+      physics: isMobile ? const NeverScrollableScrollPhysics() : null,
+      crossAxisCount: 2,
+      itemCount: _globProvider.getSelectedProject!.projectImages.length,
+      itemBuilder: (BuildContext context, int index) => Image.asset('assets/images/projects/${_globProvider.getSelectedProject!.projectImages[index]}'),
+      staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
     );
   }
 
   Padding _buildProjectInfoSection(ProviderClass _globProvider) {
     return Padding(
-      padding: EdgeInsets.only(left: 30, right: 30),
+      padding: const EdgeInsets.only(left: 30, right: 30),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 20),
           const ProjectsNav(),

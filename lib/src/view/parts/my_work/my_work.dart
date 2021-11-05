@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/models/project.dart';
+import 'package:portfolio/src/state/provider_class.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
 import 'package:portfolio/src/utils/constants/data.dart';
 import 'package:portfolio/src/utils/constants/enums.dart';
@@ -8,6 +9,7 @@ import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:portfolio/src/view/global_widgets/section_header.dart';
 import 'package:animate_do/animate_do.dart' as animatedo;
+import 'package:provider/src/provider.dart';
 
 import 'local_widgets/project_display_section.dart';
 import 'local_widgets/slidable_mobile_phone.dart';
@@ -41,6 +43,7 @@ class _WorksSectionState extends State<WorksSection> {
       lowerFontSize: 24
     );
     return SingleChildScrollView(
+      controller: context.read<ProviderClass>().getScrollController,
       child: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Column(

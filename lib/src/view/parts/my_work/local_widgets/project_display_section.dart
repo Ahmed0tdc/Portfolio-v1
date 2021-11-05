@@ -68,106 +68,102 @@ class ProjectDisplaySection extends StatelessWidget {
                   SizedBox(width: 100.w),
                 ],
               )
-            : Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 20),
-                        Container(
-                          padding: EdgeInsets.only(left: 30),
-                          child: Row(
-
-                            crossAxisAlignment: CrossAxisAlignment.center,
+            : Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Hero(
                                 tag:
                                     'tag-${projectModel.projectIconImage}+${projectModel.projectName}',
                                 child: Image.asset(
-                                  'assets/images/projects/${projectModel.projectIconImage}',
-                                  fit: BoxFit.fill,
-                                  height: 80,
-                                ),
+                                    'assets/images/projects/${projectModel.projectIconImage}',
+                                    fit: BoxFit.fill,
+                                    height: 100),
                               ),
-                              const SizedBox(width: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Txt(
-                                    txt: projectModel.projectName,
-                                    size: 30,
-                                    fontFam: 'boldPoppins',
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      context
-                                          .read<ProviderClass>()
-                                          .setSelectedProject = projectModel;
-                                      Navigator.of(context)
-                                          .pushNamed('/more_info');
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Txt(
-                                            txt: 'Learn more',
-                                            clr: Theme.of(context).primaryColor,
-                                            size: 20),
-                                        const SizedBox(width: 5),
-                                        Icon(Icons.arrow_forward_ios_rounded, size: 16,
-                                            color: Theme.of(context).primaryColor)
-                                      ],
-                                    ),
-                                  )
-                                ,
-                                  (projectModel.projecGitHubUrl != null)
-                                      ? Text.rich(
-                                          TextSpan(
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                style: const TextStyle(
-                                                    color: Colors.blueAccent,
-                                                    decoration: TextDecoration
-                                                        .underline),
-                                                text: 'See on GitHub',
-                                                recognizer:
-                                                    TapGestureRecognizer()
-                                                      ..onTap = () async {
-                                                        if (projectModel
-                                                                .projecGitHubUrl !=
-                                                            null) {
-                                                          if (await canLaunch(
-                                                              projectModel
-                                                                  .projecGitHubUrl!)) {
-                                                            await launch(
-                                                                projectModel
-                                                                    .projecGitHubUrl!);
-                                                          }
-                                                        }
-                                                      },
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      : const SizedBox.shrink(),
-                                  
-                                ],
+                              const SizedBox(height: 1),
+                              GestureDetector(
+                                onTap: () {
+                                  context
+                                      .read<ProviderClass>()
+                                      .setSelectedProject = projectModel;
+                                  Navigator.of(context).pushNamed('/more_info');
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Txt(
+                                        txt: 'Learn more',
+                                        clr: Theme.of(context).primaryColor,
+                                        size: 16),
+                                    const SizedBox(width: 5),
+                                    Icon(Icons.arrow_forward_ios_rounded,
+                                        size: 15,
+                                        color: Theme.of(context).primaryColor)
+                                  ],
+                                ),
                               )
                             ],
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [displayProject],
-                        ),
-                      ],
+                          const SizedBox(width: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Txt(
+                                txt: projectModel.projectName,
+                                size: 40,
+                                fontFam: 'boldPoppins',
+                              ),
+                              (projectModel.projecGitHubUrl != null)
+                                  ? Text.rich(
+                                      TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            style: const TextStyle(
+                                                color: Colors.blueAccent,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                            text: 'See on GitHub',
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () async {
+                                                if (projectModel
+                                                        .projecGitHubUrl !=
+                                                    null) {
+                                                  if (await canLaunch(
+                                                      projectModel
+                                                          .projecGitHubUrl!)) {
+                                                    await launch(projectModel
+                                                        .projecGitHubUrl!);
+                                                  }
+                                                }
+                                              },
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [displayProject],
+                    ),
+                  ],
+                ),
               ));
   }
 

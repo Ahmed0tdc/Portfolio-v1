@@ -20,10 +20,11 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
+    bool _pageIsScrolled = context.read<ProviderClass>().pageScrolled; 
     return SafeArea(
-      // top: false,
-      child: Container(
-        // color: kblack,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 250),
+        color: _pageIsScrolled ? kblack.withOpacity(0.6) : ktrans,
         height: kToolbarHeight, //+ MediaQuery.of(context).padding.top + 5,
         child: Row(
           children: [
@@ -40,7 +41,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               },
               child: const Icon(Icons.menu, color: kwhite),
               color: Theme.of(context).primaryColor,
-              padding: EdgeInsets.zero,            
+              padding: EdgeInsets.zero,           
             ),
             const SizedBox(width: 30),
           ],
@@ -70,6 +71,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         });
       },
       onTap: () {
+        // _globProvider.disposeOfScrollController();
         _globProvider.setSelectedAppBarIndex = index;
       },
       child: Padding(

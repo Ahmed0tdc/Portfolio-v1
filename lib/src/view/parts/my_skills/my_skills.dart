@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:portfolio/src/state/provider_class.dart';
 import 'package:portfolio/src/utils/constants/data.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/section_header.dart';
+import 'package:provider/src/provider.dart';
 import 'local_widgets/skill_bar.dart';
 
 
@@ -20,6 +22,7 @@ class SkillsSection extends StatelessWidget {
       lowerFontSize: 24
     );
     return SingleChildScrollView(
+      controller: context.read<ProviderClass>().getScrollController,
       child: Padding(
         padding: const EdgeInsets.only(left: 30, right: 30, top: 20,),
         child: Column(
@@ -40,7 +43,7 @@ class SkillsSection extends StatelessWidget {
                 color: kwhite),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: List.generate(skillData.length, (index) => SkillBar(skillData: skillData[index])),
+                children: List.generate(skillData.length, (index) => SkillBar(index: index, skillData: skillData[index])),
               ),
             ),
             const SizedBox(height: 30),

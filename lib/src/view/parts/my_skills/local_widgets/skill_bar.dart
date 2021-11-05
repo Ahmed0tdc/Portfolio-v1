@@ -8,7 +8,8 @@ import 'dart:math' as math;
 
 class SkillBar extends StatefulWidget {
   final Map<String, dynamic> skillData;
-  const SkillBar({ Key? key, required this.skillData }) : super(key: key);
+  final int index;
+  const SkillBar({ Key? key, required this.skillData, required this.index}) : super(key: key);
 
   @override
   _SkillBarState createState() => _SkillBarState();
@@ -76,17 +77,24 @@ class _SkillBarState extends State<SkillBar> {
                               border: Border.all(color: kblack, width: 2),
                             ),
                           ),
-                          Container(                        
-                            height: 10,
-                            width:  ((skill.masteryLevel / 100) * maxWidth),
-                            decoration: BoxDecoration(
-                              border: const Border(
-                                top: BorderSide(color: kblack, width: 2),
-                                left: BorderSide(color: kblack, width: 2),
-                                bottom: BorderSide(color: kblack, width: 2),
-                              ),
-                              color: Theme.of(context).primaryColor,
-                            ),
+                          TweenAnimationBuilder<double>(               
+                            curve: Curves.easeOut,             
+                            duration: Duration(milliseconds: 300 + (200 * (widget.index + 1))),
+                            tween: Tween<double>(begin: 0, end: 1),
+                            builder: (context, double val, _) {
+                              return Container(                        
+                                height: 10,
+                                width:  ((skill.masteryLevel / 100) * maxWidth) * val,
+                                decoration: BoxDecoration(
+                                  border: const Border(
+                                    top: BorderSide(color: kblack, width: 2),
+                                    left: BorderSide(color: kblack, width: 2),
+                                    bottom: BorderSide(color: kblack, width: 2),
+                                  ),
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              );
+                            }
                           ),
                         ],
                       );

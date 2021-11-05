@@ -7,21 +7,27 @@ import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 
 class SectionHeader extends StatelessWidget {
   final String? upperText;
+  final Widget? kid;
   final String? lowerText;
   final double? upperFontSize;
   final double? lowerFontSize;
   final Color? upperBgColor;
   final Color? lowerBgColor;
   final bool isOnePartOnly;
+  final bool makeFlat;
+  final double? bottomSpacing;
 
   const SectionHeader(
       {Key? key,
       this.isOnePartOnly = false,
       this.upperText,
+      this.kid,
       this.lowerText,
       this.upperFontSize,
       this.lowerFontSize,
       this.upperBgColor,
+      this.makeFlat = true,
+      this.bottomSpacing,
       this.lowerBgColor})
       : super(key: key);
 
@@ -29,11 +35,14 @@ class SectionHeader extends StatelessWidget {
     Key? key,
     this.isOnePartOnly = true,
     this.upperText,
+    this.kid,
     this.lowerText,
     this.upperFontSize,
     this.lowerFontSize,
+    this.makeFlat = true,
     this.upperBgColor,
     this.lowerBgColor,
+    this.bottomSpacing,
   }): super(key: key);
 
   @override
@@ -45,7 +54,7 @@ class SectionHeader extends StatelessWidget {
           alignment: Alignment.center,
           child: Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Txt(
+            child: kid ?? Txt(
               txt: upperText ?? '',
               size: upperFontSize ?? 60.sp,
             ),
@@ -67,8 +76,8 @@ class SectionHeader extends StatelessWidget {
           color: upperBgColor ?? Theme.of(context).primaryColor.withOpacity(0.4),
         ),
         Positioned(
-          left: SizeConfig.isDesktop() ? 40 : 0,
-          bottom: -19,
+          left: SizeConfig.isDesktop() ? 40 : makeFlat ? 0 : 30,
+          bottom: bottomSpacing ?? -19,
           child: Container(
           padding: const EdgeInsets.only(left: 15, top: 5, right: 15, bottom: 5),
           child: Txt(

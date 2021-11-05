@@ -3,6 +3,8 @@ import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:animate_do/animate_do.dart' as animatedo;
+
+
 class LocationMapButton extends StatefulWidget {
   const LocationMapButton({
     Key? key,
@@ -41,7 +43,7 @@ class _LocationMapButtonState extends State<LocationMapButton> {
             blurRadius: 0,
             spreadRadius: 0,
             color:  _isButtonHovered ? const Color(0x99FFFFFF) : const Color(0x9900FF00),
-            offset: Offset(15, 15)
+            offset: const Offset(10, 10)
           )],
         color: Theme.of(context).primaryColor,
         ),
@@ -51,12 +53,12 @@ class _LocationMapButtonState extends State<LocationMapButton> {
               mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(width: 10.w),
-                  Icon(
+                  const Icon(
                     Icons.location_pin,
                     color: kwhite,
                   ),
                   SizedBox(width: 30.w),
-                  Txt(clr: kwhite, size: 16, txt: 'Find me'),
+                  const Txt(clr: kwhite, size: 16, txt: 'Find me'),
                   SizedBox(width: 30.w),
                 ],
               )
