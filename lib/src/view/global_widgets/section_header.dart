@@ -1,7 +1,4 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:portfolio/src/utils/constants/palette.dart';
-import 'package:portfolio/src/utils/reused_widgets.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 
