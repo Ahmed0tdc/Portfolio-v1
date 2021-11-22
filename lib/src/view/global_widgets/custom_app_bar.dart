@@ -23,8 +23,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
     bool _pageIsScrolled = context.read<ProviderClass>().pageScrolled; 
     return SafeArea(
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 250),
-        color: _pageIsScrolled ? kblack.withOpacity(0.6) : ktrans,
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color: _pageIsScrolled ? kblack : ktrans,
+          border: _pageIsScrolled ? Border(bottom: BorderSide(color: Colors.grey[400]!)) : null
+        ),
         height: kToolbarHeight, //+ MediaQuery.of(context).padding.top + 5,
         child: Row(
           children: [
@@ -39,9 +42,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
               onPressed: (){
                 Scaffold.of(context).openDrawer();
               },
-              child: const Icon(Icons.menu, color: kwhite),
+            
+              child: const Icon(Icons.menu, color: kwhite, size: 30,),
               color: Theme.of(context).primaryColor,
-              padding: EdgeInsets.zero,           
+              hoverColor: kwhite.withOpacity(0.4),
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 18),
+              minWidth: 30,
+              height: 30,
+
             ),
             const SizedBox(width: 30),
           ],
@@ -71,8 +79,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
         });
       },
       onTap: () {
-        // _globProvider.disposeOfScrollController();
         _globProvider.setSelectedAppBarIndex = index;
+        _globProvider.setPageScrollingState = false;
       },
       child: Padding(
         padding: EdgeInsets.only(right: (tabsLabels.length == index ? 60 : 10).w),

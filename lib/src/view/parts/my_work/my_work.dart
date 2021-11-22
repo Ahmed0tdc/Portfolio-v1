@@ -42,52 +42,55 @@ class _WorksSectionState extends State<WorksSection> {
       upperFontSize: 30,
       lowerFontSize: 24
     );
-    return SingleChildScrollView(
+    return ListView(
+      physics: const BouncingScrollPhysics(),
       controller: context.read<ProviderClass>().getScrollController,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 30, right: 30),
-              child: _sectionHeader,
-            ),
-            const SizedBox(height: 50),
-            Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: SizeConfig.isDesktop() ? 2 : 1,
-                    child: const Txt(
-                      txt: 'My work is a various cambination of personal and client mobile/web applications made with love and attention, from TO-DO list apps to Business e-commerce apps',
-                      fontFam: 'semiBoldPoppins',
-                      alignment: TextAlign.left,
-                      size: 19,
-                    ),
-                  ),
-                  SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
-                ],
-              ),
-            ),
-            const SizedBox(height: 50),
-            ColoredBox(
-              color: kblack.withOpacity(0.2),
-              child: Column(
-                children: List.generate(
-                  _myMobileProjects.length,
-                  (index) => ProjectDisplaySection(
-                    displayProject: _myMobileProjects[index],
-                    projectModel: myProjects[index],
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        const Padding(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: _sectionHeader,
+        ),
+        const SizedBox(height: 50),
+        Padding(
+          padding: const EdgeInsets.only(left: 30, right: 30),
+          child: Row(
+            children: [
+              Expanded(
+                flex: SizeConfig.isDesktop() ? 2 : 1,
+                child: animatedo.FadeInUp(
+                  duration: const Duration(milliseconds: 300),
+                  child: const Txt(
+                    txt: 'My work is a various cambination of personal and client mobile/web applications made with love and attention, from TO-DO list apps to Business e-commerce apps',
+                    fontFam: 'semiBoldPoppins',
+                    alignment: TextAlign.left,
+                    size: 19,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 30),
-          ],
+              SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
+            ],
+          ),
         ),
-      ),
+        const SizedBox(height: 50),
+        ColoredBox(
+          color: kblack.withOpacity(0.2),
+          child: Column(
+            children: List.generate(
+              _myMobileProjects.length,
+              (index) => animatedo.FadeInUp(
+                duration: Duration(milliseconds: 400 * (index+1)),
+                child: ProjectDisplaySection(
+                  displayProject: _myMobileProjects[index],
+                  projectModel: myProjects[index],
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 30),
+      ],
     );
   }
 }

@@ -19,16 +19,13 @@ class App extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         return OrientationBuilder(
           builder: (BuildContext context, Orientation orientation) {
-            SizeConfig(
-                    designHeight: kIsWeb ? 1080 : 640,
-                    designWidth: kIsWeb ? 1913 : 360)
-                .init(constraints, orientation);
+            SizeConfig(designHeight: kIsWeb ? 1080 : 640, designWidth: kIsWeb ? 1913 : 360).init(constraints, orientation);
             return ChangeNotifierProvider<ProviderClass>(
               create: (context) => ProviderClass(),
               child: MaterialApp(
                 // showPerformanceOverlay: true,
                 debugShowCheckedModeBanner: false,
-                title: kProjectTitle,
+                title: 'Portfolio of Ahmed',
                 theme: AppTheme().getAppTheme(),
                 initialRoute: '/portfolio',
                 routes: {

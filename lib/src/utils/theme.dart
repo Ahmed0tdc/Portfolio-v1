@@ -28,10 +28,14 @@ class AppTheme{
     return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
       primaryColor: kgreen,
-      accentColor: kwhite,
+      accentColor: kblack,
       fontFamily: 'regPoppins',
       scaffoldBackgroundColor: kblack,
       textTheme: getTextTheme(true),
+      highlightColor: kwhite,
+       scrollbarTheme: ScrollbarThemeData().copyWith(
+          thumbColor: MaterialStateProperty.all(kwhite.withOpacity(0.6)),
+        ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kgreen))
       ),

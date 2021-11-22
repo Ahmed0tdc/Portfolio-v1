@@ -33,6 +33,7 @@ class _MobileNavMenuState extends State<MobileNavMenu> {
                 size: 50,
               ),
           ),
+          const SizedBox(height: 30),
         ],
       ),
     );
@@ -64,6 +65,7 @@ class _MobileNavMenuState extends State<MobileNavMenu> {
       },
       onTap: () async {
         _globProvider.setSelectedAppBarIndex = index;
+        _globProvider.setPageScrollingState = false;
         await Future.delayed(const Duration(milliseconds: 250), () {
           Navigator.pop(context);
         });

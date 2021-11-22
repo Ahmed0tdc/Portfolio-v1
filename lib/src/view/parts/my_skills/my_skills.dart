@@ -21,35 +21,46 @@ class SkillsSection extends StatelessWidget {
       upperFontSize: 30,
       lowerFontSize: 24
     );
-    return SingleChildScrollView(
+    return ListView(
+      physics: const BouncingScrollPhysics(),
       controller: context.read<ProviderClass>().getScrollController,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 30, right: 30, top: 20,),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _sectionHeader,
-            const SizedBox(height: 50),
-            Container(
-              padding: EdgeInsets.only(top: 20, left: 30, right: 30, bottom: 20),
-              width: SizeConfig.isDesktop() ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                boxShadow: [BoxShadow(
-                  blurRadius: 0,
-                  spreadRadius: 0,
-                  color: const Color(0xAAFFFFFF),
-                  offset: Offset(15, 15)
-                )],
-                color: kwhite),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(skillData.length, (index) => SkillBar(index: index, skillData: skillData[index])),
-              ),
-            ),
-            const SizedBox(height: 30),
-          ],
+      children: [
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: _sectionHeader,
         ),
-      ),
+        const SizedBox(height: 50),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(top: 20, left: 30, right: 30, bottom: 20),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 0,
+                        spreadRadius: 0,
+                        color: const Color(0xAAFFFFFF),
+                        offset: Offset(15, 15)
+                      )
+                    ],
+                    color: kwhite
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(skillData.length, (index) => Padding(padding: EdgeInsets.only(bottom: 20), child: SkillBar(index: index, skillData: skillData[index]))),
+                  ),
+                ),
+              ),
+              SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
+            ],
+          ),
+        ),
+        const SizedBox(height: 30),
+      ],
     );
   }
 }

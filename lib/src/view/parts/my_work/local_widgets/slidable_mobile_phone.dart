@@ -54,7 +54,7 @@ class _SlidableMobilePhoneState extends State<SlidableMobilePhone> {
                     BoxShadow(
                         blurRadius: 0,
                         spreadRadius: 0,
-                        color: const Color(0x9900FF00),
+                        color: const Color(0x3300FF00),
                         offset: Offset(30.w, 30.w))
                   ]
                 : null),
@@ -75,6 +75,14 @@ class _SlidableMobilePhoneState extends State<SlidableMobilePhone> {
                         alignment: Alignment.center,
                         children: [
                           Positioned.fill(child: Image.asset(kLGPhoneImg)),
+                          Positioned.fill(
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(8, 45, 5, 45),
+                              color: kwhite, 
+                              child: Center(child: CircularProgressIndicator(backgroundColor: kblack.withOpacity(0.1)),
+                              ),
+                            ),
+                          ),
                           PageView(
                             key: const Key('slidable_mobile_phone'),
                             controller: _pageController,

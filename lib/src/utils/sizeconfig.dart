@@ -23,9 +23,6 @@ class SizeConfig{
 
 
   void init(BoxConstraints constraints, Orientation orientation){
-    print("max w is: ${constraints.maxWidth}");
-    print("max h is: ${constraints.maxHeight}");
-    print('orientation is: $orientation');
     if(orientation == Orientation.portrait){
       screenWidth = constraints.maxWidth;
       screenHeight = constraints.maxHeight;

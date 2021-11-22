@@ -23,30 +23,27 @@ class _ServiceCardState extends State<ServiceCard> {
       child: GestureDetector(
         onLongPress: () => setState.call(() => _isCardHovered = true),
         onLongPressEnd: (l) => setState.call(() => _isCardHovered = false),
-        child: _buildCard()),
+        child: _buildCard()
+      ),
     );
   }
 
   Widget _buildCard(){
     const Duration _serviceCardAnimDur = Duration(milliseconds: 200);
     const double _height = 230;
-    double _width = SizeConfig.isDesktop() ? 230 : MediaQuery.of(context).size.width * 0.7;
+    double _width = SizeConfig.isDesktop() ? 240 : MediaQuery.of(context).size.width * 0.7;
     return AnimatedContainer(
-      padding: const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 5),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
       duration: _serviceCardAnimDur,
       decoration: BoxDecoration(
         color: _isCardHovered ? kwhite : Theme.of(context).primaryColor,
-        boxShadow: _isCardHovered ? [
-          const BoxShadow(
-            offset: Offset(15, 15),
+        boxShadow: [
+          BoxShadow(
             blurRadius: 0,
-            color: Color(0x99FFFFFF)
+            offset: Offset(_isCardHovered ? 15 : 8, _isCardHovered ? 15 : 8),
+            color: _isCardHovered ? const Color(0x99FFFFFF) : const Color(0x2200FF00)
           )
-        ] : [const BoxShadow(
-            offset: Offset(8, 8),
-            blurRadius: 0,
-            color: Color(0x2200FF00)
-          )]
+        ]
       ),
       width: _isCardHovered ? _width + 50 : _width,
       height: _height,
@@ -63,7 +60,6 @@ class _ServiceCardState extends State<ServiceCard> {
           Txt(txt: widget.serviceModel.name, fontFam: 'boldPoppins', size: 18, clr: _isCardHovered ? kblack : kwhite, isAnimted: true),
           const SizedBox(height: 4),
           Txt(txt: widget.serviceModel.description, size: 14, clr: _isCardHovered ? kblack : kwhite, isAnimted: true, fontFam: 'semiBoldPoppins'),
-          // const SizedBox(height: 4),
         ],
       )
     );

@@ -12,8 +12,8 @@ import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:portfolio/src/view/global_widgets/section_header.dart';
 import 'package:portfolio/src/view/parts/my_services/local_widgets/service_card.dart';
-import 'package:portfolio/src/view/parts/my_skills/my_skills.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeIntro extends StatelessWidget {
   const HomeIntro({Key? key}) : super(key: key);
@@ -25,30 +25,36 @@ class HomeIntro extends StatelessWidget {
         lowerText: "What do I provide?",
         upperFontSize: 30,
         lowerFontSize: 24);
-    return SingleChildScrollView(
+    return ListView(
+      physics: const BouncingScrollPhysics(),
       controller: context.read<ProviderClass>().getScrollController,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 30, right: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: SizeConfig.isDesktop() ? 150 : 70),
-            _buildIntroHeader(context),
-            const SizedBox(height: 180),
-            _sectionHeader,
-            const SizedBox(height: 50),
-            buildServicesSection(context),
-            const SizedBox(height: 60),
-          ],
+      children: [
+        SizedBox(height: SizeConfig.isDesktop() ? 150 : 70),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: _buildIntroHeader(context),
         ),
-      ),
+        SizedBox(height: SizeConfig.isDesktop() ? 180 : 80),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: _sectionHeader,
+        ),
+        const SizedBox(height: 50),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: buildServicesSection(context),
+        ),
+        const SizedBox(height: 60),
+      ],
     );
   }
 
   Widget _buildIntroHeader(BuildContext context) {
     return SizeConfig.isDesktop()
         ? SizedBox(
-            height: 200,
+            height: MediaQuery.of(context).size.height >= 410
+                ? MediaQuery.of(context).size.height * 0.25
+                : 120,
             child: Row(
               children: [
                 SizedBox(width: SizeConfig.isDesktop() ? 100 : 0),
@@ -75,54 +81,56 @@ class HomeIntro extends StatelessWidget {
                           child: Txt(
                             txt: 'Hi, my name is Ahmed!',
                             size:
-                                (kIsWeb && SizeConfig.isDesktop()) ? 80.sp : 25,
+                                (kIsWeb && SizeConfig.isDesktop()) ? 75.sp : 25,
                           ),
                         ),
                         Positioned(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 30, left: 30),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Txt(
-                                        txt: 'I\'m a ',
-                                        size: (kIsWeb && SizeConfig.isDesktop())
-                                            ? 60.sp
-                                            : 30),
-                                    //!TODO: create your own, the widget below is weak
-                                    Flexible(child: _buildAnimatedText()),
-                                  ],
-                                ),
-                                Txt(
-                                    txt: 'and I create software experiences.',
-                                    // alignment: TextAlign.start,
-                                    size: (kIsWeb && SizeConfig.isDesktop())
-                                        ? 60.sp
-                                        : 30),
-                              ],
-                            ),
+                          left: 30,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Txt(
+                                      txt: 'I\'m a ',
+                                      size: (kIsWeb && SizeConfig.isDesktop())
+                                          ? 60.sp
+                                          : 30),
+                                  //!TODO: create your own, the widget below is weak
+                                  Flexible(child: _buildAnimatedText()),
+                                ],
+                              ),
+                              Txt(
+                                  txt: 'and I create software experiences.',
+                                  // alignment: TextAlign.start,
+                                  size: (kIsWeb && SizeConfig.isDesktop())
+                                      ? 60.sp
+                                      : 30),
+                            ],
                           ),
                         ),
                         SizeConfig.isDesktop()
                             ? Positioned(
                                 top: -(outerHeight * 0.2),
                                 right: -(outerHeight * 0.2),
-                                child: getSpaceFiller(
-                                    clr: kwhite.withOpacity(0.4)),
-                              )
+                                child: Shimmer.fromColors(
+                                    child: getSpaceFiller(
+                                        clr: kwhite.withOpacity(0.4)),
+                                    baseColor: kwhite.withOpacity(0.4),
+                                    highlightColor: kwhite))
                             : const SizedBox.shrink(),
                         SizeConfig.isDesktop()
                             ? Positioned(
                                 bottom: -(outerHeight * 0.2),
                                 left: -(outerHeight * 0.2),
-                                child: getSpaceFiller(
-                                    clr: kwhite.withOpacity(0.4)),
-                              )
+                                child: Shimmer.fromColors(
+                                    child: getSpaceFiller(
+                                        clr: kwhite.withOpacity(0.4)),
+                                    baseColor: kwhite.withOpacity(0.4),
+                                    highlightColor: kwhite))
                             : const SizedBox.shrink(),
                       ],
                     ),
@@ -135,74 +143,80 @@ class HomeIntro extends StatelessWidget {
             ),
           )
         : Container(
-            color: kblack.withOpacity(0.4),
+            decoration: BoxDecoration(
+              border: Border.all(color: Theme.of(context).primaryColor),
+              color: kblack.withOpacity(0.4),
+            ),
             child: Stack(
               children: [
+                Positioned.fill(
+                  right: 0,
+                  bottom: 0,
+                  child: Shimmer.fromColors(
+                    period: const Duration(seconds: 2),
+                    child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                            blurRadius: 0,
+                            offset: Offset(10, 10),
+                            color: Color(0x2200FF00))
+                      ],
+                      gradient: LinearGradient(
+                        stops: [0.1, 0.90, 1.0],
+                        colors: [kblack, Theme.of(context).primaryColor, kblack],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                    ),
+                    height: 1000,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ), baseColor: ktrans, highlightColor: Theme.of(context).primaryColor.withOpacity(0.2)
+                  )
+                ),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SectionHeader(
-                        makeFlat: false,
-                        bottomSpacing: -40,
-                        upperFontSize: 35,
-                        lowerFontSize: 30,
+                        // makeFlat: false,
+                        bottomSpacing: -30,
+                        upperFontSize: 30,
+                        lowerFontSize: 25,
                         upperText: 'Hello There!',
                         lowerText: 'My name is Ahmed',
                       ),
                       const SizedBox(height: 50),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Txt(txt: 'I\'m a ', size: 30),
-                                //!TODO: create your own, the widget below is weak
-                                Flexible(
-                                    child: _buildAnimatedText(clr: kwhite)),
-                              ],
-                            ),
-                            const SectionHeader.onePartOnly(
-                              upperFontSize: 30,
-                              upperText: 'and I create software\nexperiences',
-                            ),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Txt(txt: 'I\'m a ', size: 25),
+                          //!TODO: create your own, the widget below is weak
+                          Flexible(
+                              child: _buildAnimatedText(clr: kwhite, size: 25)),
+                        ],
+                      ),
+                      const SectionHeader.onePartOnly(
+                        upperFontSize: 25,
+                        upperText: 'and I create software\nexperiences',
                       )
                     ],
                   ),
                 ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [Theme.of(context).primaryColor, ktrans],
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft)),
-                    height: 1000,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                  ),
-                )
               ],
             ),
           );
   }
 
-  AnimatedTextKit _buildAnimatedText({Color? clr}) {
+  AnimatedTextKit _buildAnimatedText({Color? clr, double? size}) {
     Duration _textAnimDur({int times = 1}) =>
         Duration(milliseconds: 200 * times);
     final List<String> _titlesList = [
       "Developer",
       "Pythonista",
       "UI Designer",
-      "YouTuber"
     ];
     return AnimatedTextKit(
       repeatForever: true,
@@ -214,7 +228,8 @@ class HomeIntro extends StatelessWidget {
               speed: _textAnimDur(),
               textStyle: TextStyle(
                   overflow: TextOverflow.ellipsis,
-                  fontSize: (kIsWeb && SizeConfig.isDesktop()) ? 60.sp : 30,
+                  fontSize:
+                      size ?? ((kIsWeb && SizeConfig.isDesktop()) ? 60.sp : 30),
                   color: clr ?? kblack),
             ),
           )
@@ -225,35 +240,24 @@ class HomeIntro extends StatelessWidget {
   Widget buildServicesSection(BuildContext context) {
     return SizeConfig.isDesktop()
         ? Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: myServices
-                .map(
-                  (Service service) => Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal:
-                            (service.illustration == 'web.png' ? 60 : 0).w),
-                    child: ServiceCard(serviceModel: service),
-                  ),
-                )
-                .toList())
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: myServices
+            .map((Service service) => Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal:
+                        (service.illustration == 'web.png' ? 60 : 0).w),
+                child: ServiceCard(serviceModel: service)))
+            .toList()
+          )
         : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: myServices
-                      .map(
-                        (Service service) => Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  (service.illustration == 'web.png' ? 60 : 0)),
-                          child: ServiceCard(serviceModel: service),
-                        ),
-                      )
-                      .toList()),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: myServices
+                  .map((Service service) => Padding(padding: EdgeInsets.symmetric(vertical: (service.illustration == 'web.png' ? 80 : 0).w),
+                    child: ServiceCard(serviceModel: service))).toList())
             ],
           );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 
 class Txt extends StatelessWidget {
@@ -10,6 +11,7 @@ class Txt extends StatelessWidget {
   final double? height;
   final bool isOverflow;
   final bool isBold;
+  final bool withShadow;
   final bool underlined;
   final bool isAnimted;
   final FontWeight? boldness;
@@ -30,6 +32,7 @@ class Txt extends StatelessWidget {
       this.isOverflow = false,
       this.underlined = false,
       this.isAnimted = false,
+      this.withShadow = false,
       this.alignment})
       : super(key: key);
 
@@ -56,6 +59,7 @@ class Txt extends StatelessWidget {
         txt,
         maxLines: maxLines,
         style: TextStyle(
+          shadows: withShadow ? [BoxShadow(offset: Offset(0, 0.1), color: kblack, blurRadius: 0.1 )] : null,
           height: height,
           color: clr,
           decoration: underlined ? TextDecoration.underline : null,

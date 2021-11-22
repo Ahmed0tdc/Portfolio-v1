@@ -105,6 +105,7 @@ class _SkillBarState extends State<SkillBar> {
               const SizedBox(height: 10)
           ]
         )
+      
       ],
     );
   }

@@ -1,3 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:animate_do/animate_do.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:portfolio/src/models/project.dart';
@@ -8,7 +12,6 @@ import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:provider/provider.dart';
 
-
 class ProjectInfo extends StatelessWidget {
   const ProjectInfo({Key? key}) : super(key: key);
 
@@ -16,73 +19,159 @@ class ProjectInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProviderClass _globProvider = Provider.of<ProviderClass>(context);
     return Scaffold(
-      body: Container(
+      body: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: <Color>[
-            for (Color clr
-                in _globProvider.getSelectedProject!.brandColors ??
-                    <Color>[kblack, ktrans])
+            for (Color clr in _globProvider.getSelectedProject!.brandColors ??
+                <Color>[kblack, ktrans])
               clr.withOpacity(0.2)
           ], begin: Alignment.bottomLeft, end: Alignment.topCenter),
         ),
         child: SizeConfig.isDesktopMQ(context)
-        ? Row(
-          children: [
-            Expanded(child: _buildProjectInfoSection(_globProvider)),
-            Expanded(child: _getProjectGallery(context, _globProvider))
-          ],
-        )
-        : SingleChildScrollView(
-          child: Column(
-          children: [
-            _buildProjectInfoSection(_globProvider),
-            const SizedBox(height: 30),
-            _getProjectGallery(context, _globProvider, isMobile: true)
-          ],
+            ? Row(
+                children: [
+                  Expanded(child: _buildProjectInfoSection(context, _globProvider)),
+                  Expanded(
+                    child: ListView(
+                    children: [
+                      _getProjectGallery(context, _globProvider),
+                      const SizedBox(height: 30),
+                      const ProjectsNav(),
+                      const SizedBox(height: 30),
+                      _getMarketingText(context),
+                    ],
+                  ))
+                ],
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildProjectInfoSection(context, _globProvider),
+                    const SizedBox(height: 30),
+                    _getProjectGallery(context, _globProvider, isMobile: true),
+                    const SizedBox(height: 30),
+                    const ProjectsNav(),
+                    const SizedBox(height: 30),
+                    _getMarketingText(context),
+                    const SizedBox(height: 30),
+                  ],
+                ),
+              ),
       ),
+    );
+  }
+
+  Padding _getMarketingText(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Text.rich(
+        TextSpan(
+          style: TextStyle(fontSize: 20),
+          children: <InlineSpan>[
+            TextSpan(text: 'Have an interesting Flutter project idea? '),
+            TextSpan(
+              text: 'Let\'s talk.',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  context.read<ProviderClass>().setSelectedAppBarIndex = 4;
+                  context.read<ProviderClass>().setPageScrollingState = false;                  
+                  Navigator.pop(context);
+                },
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _getProjectGallery(BuildContext context, ProviderClass _globProvider, {bool isMobile = false}) {
-    return StaggeredGridView.countBuilder(
+    return 
+    // GridView.builder(
+    //   shrinkWrap: true,
+    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+    //   itemCount: _globProvider.getSelectedProject!.projectImages.length,
+    //   itemBuilder: (BuildContext context, int index) => Image.asset('assets/images/projects/${_globProvider.getSelectedProject!.projectImages[index]}')
+    // );
+    StaggeredGridView.countBuilder(
       shrinkWrap: true,
       physics: isMobile ? const NeverScrollableScrollPhysics() : null,
       crossAxisCount: 2,
       itemCount: _globProvider.getSelectedProject!.projectImages.length,
-      itemBuilder: (BuildContext context, int index) => Image.asset('assets/images/projects/${_globProvider.getSelectedProject!.projectImages[index]}'),
+      itemBuilder: (BuildContext context, int index) => FadeIn(child: Image.asset('assets/images/projects/${_globProvider.getSelectedProject!.projectImages[index]}')) ,
       staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
+      mainAxisSpacing: 8,
+      crossAxisSpacing: 8,
     );
   }
 
-  Padding _buildProjectInfoSection(ProviderClass _globProvider) {
+  Padding _buildProjectInfoSection(BuildContext context, ProviderClass _globProvider) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Column(
         children: [
           const SizedBox(height: 20),
-          const ProjectsNav(),
+          Row(
+            children: [
+              Text.rich(
+                TextSpan(
+                  style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 19),
+                  children: [
+                    WidgetSpan(child: Padding(
+                      padding:  EdgeInsets.only(right: 5),
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                          color: Theme.of(context).primaryColor,
+                      ),
+                    )
+                  ),
+                  TextSpan(text: "View all projects",  recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.pop(context);
+                },)
+                  ],
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 40),
           Hero(
             tag: 'tag-${_globProvider.getSelectedProject!.projectIconImage}+${_globProvider.getSelectedProject!.projectName}',
             child: Image.asset('assets/images/projects/${_globProvider.getSelectedProject!.projectIconImage}', height: 150),
           ),
           const SizedBox(width: 5),
-          Txt(
+          FadeInUp(
+            duration: Duration(milliseconds: 300),
+            child: Txt(
               txt: _globProvider.getSelectedProject!.projectName,
               size: 60,
               fontFam: 'boldPoppins',
               isBold: true,
-              isOverflow: true),
+              isOverflow: true
+            ),
+          ),
           const SizedBox(height: 30),
-          Txt(
-            txt: _globProvider.getSelectedProject!.projectDescription.replaceAll('\n', ' '),
-            size: 18,
-            fontFam: 'semiBoldPoppins',
-            // isOverflow: true
+          SizeConfig.isDesktop()
+          ?
+          Flexible(
+            child: FadeInUp(
+              duration: Duration(milliseconds: 400),
+              child: Txt(
+                txt: _globProvider.getSelectedProject!.projectDescription.replaceAll('\n', ' '),
+                size: 18,
+                fontFam: 'semiBoldPoppins',
+                // isOverflow: true
+              ),
+            ),
+          )
+          : FadeInUp(
+            duration: Duration(milliseconds: 400),
+            child: Txt(
+              txt: _globProvider.getSelectedProject!.projectDescription.replaceAll('\n', ' '),
+              size: 18,
+              fontFam: 'semiBoldPoppins',
+              // isOverflow: true
+            ),
           )
         ],
       ),
@@ -125,7 +214,7 @@ class ProjectsNav extends StatelessWidget {
                           : Theme.of(context).primaryColor),
                   const SizedBox(width: 5),
                   Txt(
-                      txt: 'Back',
+                      txt: 'Previous project',
                       isOverflow: true,
                       clr: myProjects.indexOf(currentProject) == 0
                           ? Colors.grey[600]
@@ -136,8 +225,10 @@ class ProjectsNav extends StatelessWidget {
               ),
               onPressed: () {
                 int newIndex = myProjects.indexOf(currentProject) - 1;
-                if (newIndex >= 0)
+                if (newIndex >= 0){
                   _globProvider.setSelectedProject = myProjects[newIndex];
+                  Navigator.of(context).pushReplacementNamed('/more_info');
+                  }
               }),
         ),
         const Spacer(),
@@ -154,7 +245,7 @@ class ProjectsNav extends StatelessWidget {
                 children: [
                   const SizedBox(width: 5),
                   Txt(
-                      txt: 'Next',
+                      txt: 'Next project',
                       isOverflow: true,
                       clr: myProjects.indexOf(currentProject) ==
                               myProjects.length - 1
@@ -172,8 +263,11 @@ class ProjectsNav extends StatelessWidget {
               ),
               onPressed: () {
                 int newIndex = myProjects.indexOf(currentProject) + 1;
-                if (newIndex < myProjects.length)
+                if (newIndex < myProjects.length){
                   _globProvider.setSelectedProject = myProjects[newIndex];
+                  Navigator.of(context).pushReplacementNamed('/more_info');
+                  
+                  }
               }),
         ),
       ],

@@ -31,7 +31,6 @@ class ProviderClass extends ChangeNotifier{
       }else{
         setPageScrollingState = false;
       }
-      notifyListeners();
     });
   }
 
@@ -45,14 +44,13 @@ class ProviderClass extends ChangeNotifier{
     notifyListeners();
   }
 
-  // final PageController _pageController = PageController();
-  // PageController get getPageController => _pageController;
-  // void disposeOfPageController(){
-  //   _pageController.dispose();
-  //   notifyListeners();
-  // }
 
-
+  bool emailIsSentWithSuccess = false;
+  bool get getEmailSendingStatus => emailIsSentWithSuccess;
+  set setEmailSendingStatus(bool val){
+    emailIsSentWithSuccess = val;
+    notifyListeners();
+  }
 
 
   bool _disposed = false;

@@ -2,16 +2,18 @@
 
 import 'package:animate_do/animate_do.dart' as animatedo;
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/src/models/persona.dart';
+import 'package:portfolio/src/models/skill.dart';
 import 'package:portfolio/src/state/provider_class.dart';
 import 'package:portfolio/src/utils/constants/constansts.dart';
 import 'package:portfolio/src/utils/constants/palette.dart';
 import 'package:portfolio/src/utils/sizeconfig.dart';
 import 'package:portfolio/src/view/global_widgets/custom_text.dart';
 import 'package:portfolio/src/view/global_widgets/section_header.dart';
+import 'package:portfolio/src/view/parts/my_skills/local_widgets/skill_bar.dart';
 import 'package:provider/src/provider.dart';
-
-import 'local_widgets/location_button.dart';
+import 'dart:math' as math;
 
 class AboutMeSection extends StatelessWidget {
   final Persona myPersona;
@@ -21,72 +23,148 @@ class AboutMeSection extends StatelessWidget {
   Widget build(BuildContext context) {
     const SectionHeader _headerWidget = SectionHeader(
         upperText: 'ABOUT ME',
-        lowerText:  'Who is Ahmed?', //'Allow me to introduce myself', //'Who I am?',
+        lowerText:
+            'Who is Ahmed?', //'Allow me to introduce myself', //'Who I am?',
         upperFontSize: 30,
         lowerFontSize: 24);
-    return SingleChildScrollView(
+    return ListView(
+      physics: const BouncingScrollPhysics(),
       controller: context.read<ProviderClass>().getScrollController,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 30, top: 20, right: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _headerWidget,
-            const SizedBox(height: 50),
-            SizeConfig.isDesktop()
+      children: [
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: _headerWidget,
+        ),
+        const SizedBox(height: 50),
+        SizeConfig.isDesktop()
             ? const SizedBox.shrink()
             : animatedo.FadeInUp(
-              duration: const Duration(milliseconds: 300),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
-                    decoration: BoxDecoration(
-                      color: kwhite,
-                      boxShadow: [
-                        const BoxShadow(
-                          offset: Offset(10, 10),
-                          blurRadius: 0,
-                          color: Color(0x55FFFFFF)
-                        )
-                      ]
-                    ),
-                    child: Image.asset(kMeWithGlasses, height: 300),
+                duration: const Duration(milliseconds: 300),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
+                        decoration: BoxDecoration(color: kwhite, boxShadow: [
+                          const BoxShadow(
+                              offset: Offset(10, 10),
+                              blurRadius: 0,
+                              color: Color(0x55FFFFFF))
+                        ]),
+                        child: Image.asset(kMeWithGlasses, height: 300),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              ),
+        const SizedBox(height: 30),
+        animatedo.FadeInUp(
+          duration: const Duration(milliseconds: 400),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Txt(
+                txt: myPersona.fullname
+                        ?.split(' ')
+                        .map((String part) =>
+                            part.substring(0, 1).toUpperCase().trim() +
+                            part.substring(1).toLowerCase().trim())
+                        .join(' ') ??
+                    '',
+                size: SizeConfig.isDesktop() ? 40 : 35,
+                height: 1.1,
+                fontFam: 'boldPoppins',
+                isOverflow: true),
+          ),
+        ),
+        const SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Row(
+            children: [
+              Expanded(
+                flex: SizeConfig.isDesktop() ? 2 : 1,
+                child: animatedo.FadeInUp(
+                  duration: const Duration(milliseconds: 500),
+                  child: Txt(
+                    txt: myPersona.biography ?? '',
+                    fontFam: 'regPoppins',
+                    alignment: TextAlign.left,
+                    size: 18,
+                  ),
+                ),
+              ),
+              SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        animatedo.FadeInUp(
+            duration: const Duration(milliseconds: 600),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: _buildPersonalInfoTable(),
+            )),
+        // const SizedBox(height: 40),
+        // const LocationMapButton(),
+        const SizedBox(height: 50),
+        animatedo.FadeInUp(
+          duration: const Duration(milliseconds: 800),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: SectionHeader(
+              isOnePartOnly: true,
+              kid: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    // FaIcon(
+                    //   FontAwesomeIcons.language,
+                    //   size: 30,
+                    // ),
+                    Image.asset(
+                      'assets/icons/language.png',
+                      height: 40,
+                    ),
+                    SizedBox(width: 10),
+                    Txt(txt: "Languages I speak", size: 24),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 30),
-            animatedo.FadeInUp(
-              duration: const Duration(milliseconds: 400),
-              child: Txt(
-                  txt: myPersona.fullname
-                  ?.split(' ')
-                  .map((String part) => 
-                  // part.toLowerCase().trim() == 'ahmed' 
-                  // ? part.substring(0, 1).toUpperCase().trim() + part.substring(1).toLowerCase().trim() + '\n'
-                  // : 
-                  part.substring(0, 1).toUpperCase().trim() + part.substring(1).toLowerCase().trim())
-                  .join(' ') ??
-              '',
-                  size: SizeConfig.isDesktop() ? 40 : 35,
-                  height: 1.1,
-                  fontFam: 'boldPoppins',
-                  isOverflow: true),
-            ),
-            const SizedBox(height: 5),
-            Row(
+          ),
+        ),
+        const SizedBox(height: 20),
+        animatedo.FadeInUp(
+          duration: const Duration(milliseconds: 1000),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
               children: [
                 Expanded(
                   flex: SizeConfig.isDesktop() ? 2 : 1,
-                  child: animatedo.FadeInUp(
-                    duration: const Duration(milliseconds: 500),
-                    child: Txt(
-                      txt: myPersona.biography ?? '',
-                      fontFam: 'regPoppins',
-                      alignment: TextAlign.left,
-                      size: 18,
+                  child: Column(
+                    children: List.generate(
+                      3,
+                      (index) => LangBar(
+                        index: index,
+                        langSkill: [
+                          Skill(
+                              name: "English (Fluent)",
+                              icon: '',
+                              masteryLevel: 89),
+                          Skill(
+                              name: "Arabic (Native)",
+                              icon: '',
+                              masteryLevel: 100),
+                          Skill(
+                              name: "French (Conversational)",
+                              icon: '',
+                              masteryLevel: 54)
+                        ][index],
+                      ),
                     ),
                   ),
                 ),
@@ -95,16 +173,10 @@ class AboutMeSection extends StatelessWidget {
                     : const SizedBox.shrink()
               ],
             ),
-            const SizedBox(height: 20),
-            animatedo.FadeInUp(
-              duration: const Duration(milliseconds: 600),
-              child: _buildPersonalInfoTable()),
-            // const SizedBox(height: 40),
-            // const LocationMapButton(),
-            const SizedBox(height: 30),
-          ],
+          ),
         ),
-      ),
+        const SizedBox(height: 30),
+      ],
     );
   }
 
@@ -123,27 +195,146 @@ class AboutMeSection extends StatelessWidget {
     };
     return Table(
         columnWidths: {
-          0 : FlexColumnWidth(SizeConfig.isDesktop() ? 0.2 : 0.5),
-          1 : FlexColumnWidth(1),
+          0: FlexColumnWidth(SizeConfig.isDesktop() ? 0.2 : 0.5),
+          1: FlexColumnWidth(1),
         },
         children: _myPersonalInfo.keys
             .map(
               (String info) => TableRow(
                 children: [
                   Txt(
-                      txt: info,
-                      clr: kgreen.withOpacity(0.8),
-                      size: 15,
-                      fontFam: 'boldPoppins',
+                    txt: info,
+                    clr: kgreen.withOpacity(0.8),
+                    size: 15,
+                    fontFam: 'boldPoppins',
                   ),
                   Txt(
-                      txt: _myPersonalInfo[info]?.toString() ?? '',
-                      clr: kwhite,
-                      size: 15,
+                    txt: _myPersonalInfo[info]?.toString() ?? '',
+                    clr: kwhite,
+                    size: 15,
                   ),
                 ],
               ),
             )
             .toList());
+  }
+}
+
+class LangBar extends StatefulWidget {
+  final Skill langSkill;
+  final int index;
+  const LangBar({Key? key, required this.langSkill, required this.index})
+      : super(key: key);
+
+  @override
+  _LangBarState createState() => _LangBarState();
+}
+
+class _LangBarState extends State<LangBar> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {},
+      contentPadding: EdgeInsets.zero,
+      leading: Stack(
+        alignment: const Alignment(-0.3, 0.2),
+        children: [
+          widget.langSkill.icon.isNotEmpty
+              ? Image.asset(widget.langSkill.icon, height: 100)
+              : Container(
+                  height: 100,
+                  width: 100,
+                  // padding: EdgeInsets.all(5),
+                  decoration:
+                      BoxDecoration(shape: BoxShape.circle, color: kwhite),
+                  alignment: Alignment.center,
+                  child: Txt(
+                      clr: kblack,
+                      fontFam: 'boldPoppins',
+                      isBold: true,
+                      txt: widget.langSkill.name.substring(0, 1).toUpperCase() +
+                          widget.langSkill.name.substring(1, 2).toLowerCase(),
+                      size: 30),
+                ),
+          Container(
+            transform: Matrix4.rotationZ(math.pi / 5),
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.check, color: kwhite, size: 16),
+                const SizedBox(width: 5),
+                Txt(
+                    txt: widget.langSkill.masteryLevel.round().toString() + '%',
+                    size: 13),
+              ],
+            ),
+          )
+        ],
+      ),
+      title: Row(
+        children: [
+          Txt(
+            txt: widget.langSkill.name.split(" ").first,
+            fontFam: 'boldPoppins',
+            size: 20,
+            clr: kwhite,
+          ),
+          Txt(
+            txt: widget.langSkill.name.split(" ").last,
+            fontFam: 'medPoppins',
+            size: 20,
+            clr: kwhite,
+          ),
+        ],
+      ),
+      subtitle: LayoutBuilder(
+        builder: (context, constraints) {
+          final maxWidth = constraints.maxWidth;
+          return Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              Container(
+                height: 15,
+                width: maxWidth,
+                decoration: BoxDecoration(
+                  color: kwhite,
+                  border: Border.all(color: Colors.grey[400]!, width: 2),
+                ),
+              ),
+              TweenAnimationBuilder<double>(
+                  curve: Curves.easeOut,
+                  duration:
+                      Duration(milliseconds: 300 + (200 * (widget.index + 1))),
+                  tween: Tween<double>(begin: 0, end: 1),
+                  builder: (context, double val, _) {
+                    return Container(
+                      height: 15,
+                      width:
+                          ((widget.langSkill.masteryLevel / 100) * maxWidth) *
+                              val,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(color: Colors.grey[400]!, width: 2),
+                          left: BorderSide(color: Colors.grey[400]!, width: 2),
+                          right: BorderSide(
+                              color: Colors.grey[400]!,
+                              width:
+                                  (widget.langSkill.masteryLevel * val == 100.0)
+                                      ? 2
+                                      : 0),
+                          bottom:
+                              BorderSide(color: Colors.grey[400]!, width: 2),
+                        ),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    );
+                  }),
+            ],
+          );
+        },
+      ),
+    );
   }
 }
