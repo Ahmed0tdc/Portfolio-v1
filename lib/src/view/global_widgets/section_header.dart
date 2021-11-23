@@ -11,6 +11,7 @@ class SectionHeader extends StatelessWidget {
   final Color? upperBgColor;
   final Color? lowerBgColor;
   final bool isOnePartOnly;
+  final bool isCentered;
   final bool makeFlat;
   final double? bottomSpacing;
 
@@ -24,6 +25,7 @@ class SectionHeader extends StatelessWidget {
       this.lowerFontSize,
       this.upperBgColor,
       this.makeFlat = true,
+      this.isCentered = false,
       this.bottomSpacing,
       this.lowerBgColor})
       : super(key: key);
@@ -37,6 +39,7 @@ class SectionHeader extends StatelessWidget {
     this.upperFontSize,
     this.lowerFontSize,
     this.makeFlat = true,
+    this.isCentered = false,
     this.upperBgColor,
     this.lowerBgColor,
     this.bottomSpacing,
@@ -44,6 +47,15 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _downWidget = Container(
+      padding: const EdgeInsets.only(left: 15, top: 5, right: 15, bottom: 5),
+      child: Txt(
+        txt: lowerText ?? '',
+        size: lowerFontSize ?? 60.sp,
+        alignment: TextAlign.start
+      ),
+      color: lowerBgColor ?? Theme.of(context).primaryColor,
+    );
     return isOnePartOnly ?
     Row(
       children: [
@@ -62,6 +74,7 @@ class SectionHeader extends StatelessWidget {
       ],
     )
     : Stack(
+      alignment: isCentered ? Alignment.topCenter : AlignmentDirectional.topStart,
       clipBehavior: Clip.none,
       children: [
          Container(
@@ -72,18 +85,14 @@ class SectionHeader extends StatelessWidget {
           ),
           color: upperBgColor ?? Theme.of(context).primaryColor.withOpacity(0.4),
         ),
-        Positioned(
+        isCentered
+        ? Positioned(
+          bottom: bottomSpacing ?? -19,
+          child: _downWidget,)
+        : Positioned(
           left: SizeConfig.isDesktop() ? 40 : makeFlat ? 0 : 30,
           bottom: bottomSpacing ?? -19,
-          child: Container(
-          padding: const EdgeInsets.only(left: 15, top: 5, right: 15, bottom: 5),
-          child: Txt(
-            txt: lowerText ?? '',
-            size: lowerFontSize ?? 60.sp,
-            alignment: TextAlign.start
-          ),
-          color: lowerBgColor ?? Theme.of(context).primaryColor,
-        ),)
+          child: _downWidget,)
       ],
     );
   }

@@ -21,12 +21,16 @@ class AboutMeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const SectionHeader _headerWidget = SectionHeader(
+    final SectionHeader _headerWidget = SectionHeader(
         upperText: 'ABOUT ME',
-        lowerText:
-            'Who is Ahmed?', //'Allow me to introduce myself', //'Who I am?',
-        upperFontSize: 30,
-        lowerFontSize: 24);
+        lowerText: 'Who is Ahmed?', //'Allow me to introduce myself', //'Who I am?',
+        upperFontSize: SizeConfig.isDesktop() ? 30 : 60,
+        lowerFontSize: SizeConfig.isDesktop() ? 24 : 50,
+        bottomSpacing: SizeConfig.isDesktop() ? null : -45,
+        isCentered: SizeConfig.isDesktop() ? false : true,
+        );
+    final String _name =  myPersona.fullname ?.split(' ').map((String part) => part.substring(0, 1).toUpperCase().trim() +
+      part.substring(1).toLowerCase().trim()).join(' ') ?? '';
     return ListView(
       physics: const BouncingScrollPhysics(),
       controller: context.read<ProviderClass>().getScrollController,
@@ -36,7 +40,7 @@ class AboutMeSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: _headerWidget,
         ),
-        const SizedBox(height: 50),
+        SizedBox(height: SizeConfig.isDesktop() ? 50 : 120),
         SizeConfig.isDesktop()
             ? const SizedBox.shrink()
             : animatedo.FadeInUp(
@@ -44,7 +48,7 @@ class AboutMeSection extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
@@ -60,23 +64,27 @@ class AboutMeSection extends StatelessWidget {
                   ),
                 ),
               ),
-        const SizedBox(height: 30),
+        SizedBox(height: SizeConfig.isDesktop() ? 30 : 50),
         animatedo.FadeInUp(
           duration: const Duration(milliseconds: 400),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Txt(
-                txt: myPersona.fullname
-                        ?.split(' ')
-                        .map((String part) =>
-                            part.substring(0, 1).toUpperCase().trim() +
-                            part.substring(1).toLowerCase().trim())
-                        .join(' ') ??
-                    '',
-                size: SizeConfig.isDesktop() ? 40 : 35,
-                height: 1.1,
-                fontFam: 'boldPoppins',
-                isOverflow: true),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: SizeConfig.isDesktop() ? MainAxisAlignment.start : MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Txt(
+                    txt: _name,
+                    size: SizeConfig.isDesktop() ? 40 : 50,
+                    height: 1.1,
+                    fontFam: 'boldPoppins',
+                    maxLines: 1,
+                    isOverflow: true
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 5),
@@ -91,7 +99,7 @@ class AboutMeSection extends StatelessWidget {
                   child: Txt(
                     txt: myPersona.biography ?? '',
                     fontFam: 'regPoppins',
-                    alignment: TextAlign.left,
+                    alignment: SizeConfig.isDesktop() ? TextAlign.left : TextAlign.center,
                     size: 18,
                   ),
                 ),
@@ -120,10 +128,6 @@ class AboutMeSection extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    // FaIcon(
-                    //   FontAwesomeIcons.language,
-                    //   size: 30,
-                    // ),
                     Image.asset(
                       'assets/icons/language.png',
                       height: 40,

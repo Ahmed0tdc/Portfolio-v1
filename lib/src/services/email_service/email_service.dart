@@ -4,6 +4,7 @@ import 'package:portfolio/src/utils/secrets.dart';
 
 class EmailService {
   final String _sendUrl = 'https://api.emailjs.com/api/v1.0/email/send';
+  // get your own Email API keys ;)
 
   Future<bool> sendEmail(
       {required String name,

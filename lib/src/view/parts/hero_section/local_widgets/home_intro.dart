@@ -20,23 +20,25 @@ class HomeIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const SectionHeader _sectionHeader = SectionHeader(
-        upperText: "MY SERVICES",
-        lowerText: "What do I provide?",
-        upperFontSize: 30,
-        lowerFontSize: 24);
+    final SectionHeader _sectionHeader = SectionHeader(
+      upperText: "MY SERVICES",
+      lowerText: "What do I provide?",
+      upperFontSize: 30,
+      lowerFontSize: SizeConfig.isDesktop() ? 24 : 26,
+      isCentered: SizeConfig.isDesktop() ? false : true,
+    );
     return ListView(
       physics: const BouncingScrollPhysics(),
       controller: context.read<ProviderClass>().getScrollController,
       children: [
-        SizedBox(height: SizeConfig.isDesktop() ? 150 : 70),
+        SizedBox(height: SizeConfig.isDesktop() ? 150 : 40),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: _buildIntroHeader(context),
         ),
         SizedBox(height: SizeConfig.isDesktop() ? 180 : 80),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: _sectionHeader,
         ),
         const SizedBox(height: 50),
