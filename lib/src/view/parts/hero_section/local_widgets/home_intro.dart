@@ -21,11 +21,12 @@ class HomeIntro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SectionHeader _sectionHeader = SectionHeader(
+      makeFlat: false,
       upperText: "MY SERVICES",
       lowerText: "What do I provide?",
       upperFontSize: 30,
-      lowerFontSize: SizeConfig.isDesktop() ? 24 : 26,
-      isCentered: SizeConfig.isDesktop() ? false : true,
+      lowerFontSize: 24//SizeConfig.isDesktop() ? 24 : 26,
+      // isCentered: SizeConfig.isDesktop() ? false : true,
     );
     return ListView(
       physics: const BouncingScrollPhysics(),

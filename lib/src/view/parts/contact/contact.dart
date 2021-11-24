@@ -16,6 +16,7 @@ class ContactSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const SectionHeader _sectionHeader = SectionHeader(
+      makeFlat: false,
         upperText: "CONTACT",
         lowerText: "How to get in touch?",
         upperFontSize: 30,

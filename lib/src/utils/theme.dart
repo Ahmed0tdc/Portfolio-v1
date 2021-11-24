@@ -27,7 +27,7 @@ class AppTheme{
   ThemeData getAppTheme(){
     return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      primaryColor: kgreen,
+      primaryColor: Color(0xFF116530),//Color(0xFF1E5128),//kwhite, //kgreen,
       accentColor: kblack,
       fontFamily: 'regPoppins',
       scaffoldBackgroundColor: kblack,

@@ -40,27 +40,36 @@ class _ServiceCardState extends State<ServiceCard> {
         boxShadow: [
           BoxShadow(
             blurRadius: 0,
-            offset: Offset(_isCardHovered ? 15 : 8, _isCardHovered ? 15 : 8),
+            offset: const Offset( 8, 8),
             color: _isCardHovered ? const Color(0x99FFFFFF) : const Color(0x2200FF00)
           )
         ]
       ),
-      width: _isCardHovered ? _width + 50 : _width,
+      width:  _width,
       height: _height,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(
-            'assets/images/${widget.serviceModel.illustration}',
-            height: 60,
-            color: _isCardHovered ? Theme.of(context).primaryColor : kblack,
-          ),
-          const SizedBox(height: 10),
-          Txt(txt: widget.serviceModel.name, fontFam: 'boldPoppins', size: 18, clr: _isCardHovered ? kblack : kwhite, isAnimted: true),
-          const SizedBox(height: 4),
-          Txt(txt: widget.serviceModel.description, size: 14, clr: _isCardHovered ? kblack : kwhite, isAnimted: true, fontFam: 'semiBoldPoppins'),
-        ],
+      child: TweenAnimationBuilder(
+        tween: Tween<double>(begin: _isCardHovered ? 1 : 1, end: _isCardHovered ? 1.05 : 1),
+        duration: _serviceCardAnimDur,
+        builder: (context, double val, _){
+          return Transform.scale(
+            scale: val,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset(
+                  'assets/images/${widget.serviceModel.illustration}',
+                  height: 60,
+                  color: _isCardHovered ? Theme.of(context).primaryColor : kblack,
+                ),
+                const SizedBox(height: 10),
+                Txt(txt: widget.serviceModel.name, fontFam: 'boldPoppins', size: 18, clr: _isCardHovered ? kblack : kwhite, isAnimted: true),
+                const SizedBox(height: 4),
+                Txt(txt: widget.serviceModel.description, size: 14, clr: _isCardHovered ? kblack : kwhite, isAnimted: true, fontFam: 'semiBoldPoppins'),
+              ],
+            ),
+          );
+        },
       )
     );
   }

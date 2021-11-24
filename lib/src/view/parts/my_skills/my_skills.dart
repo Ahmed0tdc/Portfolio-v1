@@ -16,6 +16,7 @@ class SkillsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const SectionHeader _sectionHeader = SectionHeader(
+      makeFlat: false,
       upperText: "MY SKILLS",
       lowerText: "What do I know?",
       upperFontSize: 30,

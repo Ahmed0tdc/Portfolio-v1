@@ -60,64 +60,94 @@ class _HeroSectionState extends State<HeroSection> {
 
   Widget _getBgDecoration() {
     return Stack(
-      fit: StackFit.expand,
       children: [
-        Container(
-          foregroundDecoration: SizeConfig.isDesktop()
-              ? BoxDecoration(
+        SizeConfig.isDesktopMQ(context)
+        ? SafeArea(
+            bottom: false,
+            minimum: EdgeInsets.only(top: 40),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                foregroundDecoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.centerRight,
-                    end: Alignment.centerLeft,
-                    stops: const [0.1, 1.0],
-                    colors: [kblack, kblack.withOpacity(0.01)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: const [0.0, 0.2, 1],
+                    colors: const [kblack, kblack, ktrans],
                   ),
-                )
-              : null,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage('assets/images/hero_bg.jpg'),
+                ),
+                child: Image.asset(
+                  kMeWithGlasses,
+                  fit: BoxFit.cover,
+                  height: 650,
+                ),
+              ),
             ),
-          ),
-        ),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: const [kblack, Color(0x88000000)],
-                begin: Alignment.centerRight,
-                end: Alignment.centerLeft,
-                stops: const [0.3, 1.0]),
-          ),
-        ),
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-          child: SizeConfig.isDesktopMQ(context)
-              ? SafeArea(
-                  bottom: false,
-                  minimum: EdgeInsets.only(top: 40),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      foregroundDecoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          stops: const [0.0, 0.2, 1],
-                          colors: const [kblack, kblack, ktrans],
-                        ),
-                      ),
-                      child: Image.asset(
-                        kMeWithGlasses,
-                        fit: BoxFit.cover,
-                        height: 650,
-                      ),
-                    ),
-                  ),
-                )
-              : const SizedBox.shrink(),
-        ),
+          )
+        : const SizedBox.shrink(),
         widget.isScrolled ? widget.upKiddo! : widget.kiddo!,
       ],
     );
+    
+    // Stack(
+    //   fit: StackFit.expand,
+    //   children: [
+    //     Container(
+    //       foregroundDecoration: SizeConfig.isDesktop()
+    //           ? BoxDecoration(
+    //               gradient: LinearGradient(
+    //                 begin: Alignment.centerRight,
+    //                 end: Alignment.centerLeft,
+    //                 stops: const [0.1, 1.0],
+    //                 colors: [kblack, kblack.withOpacity(0.01)],
+    //               ),
+    //             )
+    //           : null,
+    //       decoration: BoxDecoration(
+    //         image: DecorationImage(
+    //           fit: BoxFit.cover,
+    //           image: AssetImage('assets/images/hero_bg.jpg'),
+    //         ),
+    //       ),
+    //     ),
+    //     DecoratedBox(
+    //       decoration: BoxDecoration(
+    //         gradient: LinearGradient(
+    //             colors: const [kblack, Color(0x88000000)],
+    //             begin: Alignment.centerRight,
+    //             end: Alignment.centerLeft,
+    //             stops: const [0.3, 1.0]),
+    //       ),
+    //     ),
+    //     BackdropFilter(
+    //       filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+    //       child: SizeConfig.isDesktopMQ(context)
+    //           ? SafeArea(
+    //               bottom: false,
+    //               minimum: EdgeInsets.only(top: 40),
+    //               child: Align(
+    //                 alignment: Alignment.bottomRight,
+    //                 child: Container(
+    //                   foregroundDecoration: BoxDecoration(
+    //                     gradient: LinearGradient(
+    //                       begin: Alignment.centerLeft,
+    //                       end: Alignment.centerRight,
+    //                       stops: const [0.0, 0.2, 1],
+    //                       colors: const [kblack, kblack, ktrans],
+    //                     ),
+    //                   ),
+    //                   child: Image.asset(
+    //                     kMeWithGlasses,
+    //                     fit: BoxFit.cover,
+    //                     height: 650,
+    //                   ),
+    //                 ),
+    //               ),
+    //             )
+    //           : const SizedBox.shrink(),
+    //     ),
+    //     widget.isScrolled ? widget.upKiddo! : widget.kiddo!,
+    //   ],
+    // );
   }
 }

@@ -37,6 +37,7 @@ class _WorksSectionState extends State<WorksSection> {
   Widget build(BuildContext context) {
     final List<SlidableMobilePhone> _myMobileProjects = myProjects.map((Project pro) => SlidableMobilePhone(project: pro)).toList();
     const SectionHeader _sectionHeader = SectionHeader(
+      makeFlat: false,
       upperText: "MY WORK",
       lowerText: "What have I built?",
       upperFontSize: 30,

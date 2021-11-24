@@ -2,7 +2,6 @@
 
 import 'package:animate_do/animate_do.dart' as animatedo;
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/src/models/persona.dart';
 import 'package:portfolio/src/models/skill.dart';
 import 'package:portfolio/src/state/provider_class.dart';
@@ -22,13 +21,14 @@ class AboutMeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SectionHeader _headerWidget = SectionHeader(
+      makeFlat: false,
         upperText: 'ABOUT ME',
         lowerText: 'Who is Ahmed?', //'Allow me to introduce myself', //'Who I am?',
-        upperFontSize: SizeConfig.isDesktop() ? 30 : 60,
-        lowerFontSize: SizeConfig.isDesktop() ? 24 : 50,
-        bottomSpacing: SizeConfig.isDesktop() ? null : -45,
-        isCentered: SizeConfig.isDesktop() ? false : true,
-        );
+        upperFontSize: 30,
+        lowerFontSize: 24,
+        // bottomSpacing: SizeConfig.isDesktop() ? null : -45,
+        // isCentered: SizeConfig.isDesktop() ? false : true,
+      );
     final String _name =  myPersona.fullname ?.split(' ').map((String part) => part.substring(0, 1).toUpperCase().trim() +
       part.substring(1).toLowerCase().trim()).join(' ') ?? '';
     return ListView(
@@ -40,7 +40,7 @@ class AboutMeSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: _headerWidget,
         ),
-        SizedBox(height: SizeConfig.isDesktop() ? 50 : 120),
+        SizedBox(height: SizeConfig.isDesktop() ? 50 : 60),
         SizeConfig.isDesktop()
             ? const SizedBox.shrink()
             : animatedo.FadeInUp(
@@ -48,7 +48,7 @@ class AboutMeSection extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
@@ -71,12 +71,12 @@ class AboutMeSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: SizeConfig.isDesktop() ? MainAxisAlignment.start : MainAxisAlignment.center,
+              mainAxisAlignment:  MainAxisAlignment.start,
               children: [
                 Flexible(
                   child: Txt(
                     txt: _name,
-                    size: SizeConfig.isDesktop() ? 40 : 50,
+                    size: SizeConfig.isDesktop() ? 40 : 45,
                     height: 1.1,
                     fontFam: 'boldPoppins',
                     maxLines: 1,
@@ -99,7 +99,7 @@ class AboutMeSection extends StatelessWidget {
                   child: Txt(
                     txt: myPersona.biography ?? '',
                     fontFam: 'regPoppins',
-                    alignment: SizeConfig.isDesktop() ? TextAlign.left : TextAlign.center,
+                    alignment: TextAlign.left,
                     size: 18,
                   ),
                 ),
