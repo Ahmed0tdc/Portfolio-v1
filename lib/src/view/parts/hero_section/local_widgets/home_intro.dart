@@ -20,14 +20,14 @@ class HomeIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SectionHeader _sectionHeader = SectionHeader(
-      makeFlat: false,
-      upperText: "MY SERVICES",
-      lowerText: "What do I provide?",
-      upperFontSize: 30,
-      lowerFontSize: 24//SizeConfig.isDesktop() ? 24 : 26,
-      // isCentered: SizeConfig.isDesktop() ? false : true,
-    );
+    const SectionHeader _sectionHeader = SectionHeader(
+        makeFlat: false,
+        upperText: "MY SERVICES",
+        lowerText: "What do I provide?",
+        upperFontSize: 30,
+        lowerFontSize: 24 //SizeConfig.isDesktop() ? 24 : 26,
+        // isCentered: SizeConfig.isDesktop() ? false : true,
+        );
     return ListView(
       physics: const BouncingScrollPhysics(),
       controller: context.read<ProviderClass>().getScrollController,
@@ -38,8 +38,8 @@ class HomeIntro extends StatelessWidget {
           child: _buildIntroHeader(context),
         ),
         SizedBox(height: SizeConfig.isDesktop() ? 180 : 80),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30),
           child: _sectionHeader,
         ),
         const SizedBox(height: 50),
@@ -153,30 +153,35 @@ class HomeIntro extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  right: 0,
-                  bottom: 0,
-                  child: Shimmer.fromColors(
-                    period: const Duration(seconds: 2),
-                    child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                            blurRadius: 0,
-                            offset: Offset(10, 10),
-                            color: Color(0x2200FF00))
-                      ],
-                      gradient: LinearGradient(
-                        stops: [0.1, 0.90, 1.0],
-                        colors: [kblack, Theme.of(context).primaryColor, kblack],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                    ),
-                    height: 1000,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                  ), baseColor: ktrans, highlightColor: Theme.of(context).primaryColor.withOpacity(0.2)
-                  )
-                ),
+                    right: 0,
+                    bottom: 0,
+                    child: Shimmer.fromColors(
+                        period: const Duration(seconds: 2),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: const [
+                              BoxShadow(
+                                  blurRadius: 0,
+                                  offset: Offset(10, 10),
+                                  color: Color(0x2200FF00))
+                            ],
+                            gradient: LinearGradient(
+                              stops: [0.1, 0.90, 1.0],
+                              colors: [
+                                kblack,
+                                Theme.of(context).primaryColor,
+                                kblack
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                          ),
+                          height: 1000,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                        ),
+                        baseColor: ktrans,
+                        highlightColor:
+                            Theme.of(context).primaryColor.withOpacity(0.2))),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Column(
@@ -242,25 +247,42 @@ class HomeIntro extends StatelessWidget {
 
   Widget buildServicesSection(BuildContext context) {
     return SizeConfig.isDesktop()
-        ? Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: myServices
-            .map((Service service) => Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal:
-                        (service.illustration == 'web.png' ? 60 : 0).w),
-                child: ServiceCard(serviceModel: service)))
-            .toList()
+        ? Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                    blurRadius: 0,
+                    offset: Offset(8, 8),
+                    color: Color(0x2200FF00))
+              ],
+              color: Theme.of(context).primaryColor,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+           
+                ...myServices
+                    .map(
+                        (Service service) => ServiceCard(serviceModel: service))
+                    .toList(),
+               
+              ],
+            ),
           )
         : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: myServices
-                  .map((Service service) => Padding(padding: EdgeInsets.symmetric(vertical: (service.illustration == 'web.png' ? 80 : 0).w),
-                    child: ServiceCard(serviceModel: service))).toList())
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: myServices
+                      .map((Service service) => Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical:
+                                  (service.illustration == 'web.png' ? 20 : 0)),
+                          child: ServiceCard(serviceModel: service)))
+                      .toList())
             ],
           );
   }

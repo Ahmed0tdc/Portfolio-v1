@@ -36,7 +36,6 @@ class _SkillBarState extends State<SkillBar> {
           children: <Widget>[...(widget.skillData['skills'] as List<Skill>)
               .map((Skill skill) =>  
               ListTile(
-                onTap: (){},
                   contentPadding: EdgeInsets.zero,
                   leading: Stack(
                     alignment: const Alignment(-0.9, 0.9),

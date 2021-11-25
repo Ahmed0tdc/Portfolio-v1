@@ -44,8 +44,8 @@ class SkillsSection extends StatelessWidget {
                       BoxShadow(
                         blurRadius: 0,
                         spreadRadius: 0,
-                        color: const Color(0xAAFFFFFF),
-                        offset: Offset(15, 15)
+                        offset: Offset(8, 8),
+                          color: Color(0x33FFFFFF)
                       )
                     ],
                     color: kwhite

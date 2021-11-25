@@ -22,15 +22,21 @@ class AboutMeSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final SectionHeader _headerWidget = SectionHeader(
       makeFlat: false,
-        upperText: 'ABOUT ME',
-        lowerText: 'Who is Ahmed?', //'Allow me to introduce myself', //'Who I am?',
-        upperFontSize: 30,
-        lowerFontSize: 24,
-        // bottomSpacing: SizeConfig.isDesktop() ? null : -45,
-        // isCentered: SizeConfig.isDesktop() ? false : true,
-      );
-    final String _name =  myPersona.fullname ?.split(' ').map((String part) => part.substring(0, 1).toUpperCase().trim() +
-      part.substring(1).toLowerCase().trim()).join(' ') ?? '';
+      upperText: 'ABOUT ME',
+      lowerText:
+          'Who is Ahmed?', //'Allow me to introduce myself', //'Who I am?',
+      upperFontSize: 30,
+      lowerFontSize: 24,
+      // bottomSpacing: SizeConfig.isDesktop() ? null : -45,
+      // isCentered: SizeConfig.isDesktop() ? false : true,
+    );
+    final String _name = myPersona.fullname
+            ?.split(' ')
+            .map((String part) =>
+                part.substring(0, 1).toUpperCase().trim() +
+                part.substring(1).toLowerCase().trim())
+            .join(' ') ??
+        '';
     return ListView(
       physics: const BouncingScrollPhysics(),
       controller: context.read<ProviderClass>().getScrollController,
@@ -70,52 +76,62 @@ class AboutMeSection extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment:  MainAxisAlignment.start,
               children: [
-                Flexible(
-                  child: Txt(
-                    txt: _name,
-                    size: SizeConfig.isDesktop() ? 40 : 45,
-                    height: 1.1,
-                    fontFam: 'boldPoppins',
-                    maxLines: 1,
-                    isOverflow: true
+                Expanded(
+                  flex: SizeConfig.isDesktop() ? 2 : 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(30.0),
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                            blurRadius: 0,
+                            offset: Offset(8, 8),
+                            color: Color(0x33FFFFFF) //Color(0x2200FF00)
+                            )
+                      ],
+                      color: kwhite,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Txt(
+                            txt: _name.toUpperCase(),
+                            clr: kblack,
+                            size: SizeConfig.isDesktop() ? 45 : 40,
+                            height: 1.1,
+                            fontFam: 'boldPoppins',
+                            maxLines: 1,
+                            isOverflow: true),
+                        const SizedBox(height: 5),
+                        Txt(
+                          txt: myPersona.biography ?? '',
+                          fontFam: 'regPoppins',
+                          alignment: TextAlign.left,
+                          clr: Colors.black87,
+                          size: 18,
+                        ),
+                        const SizedBox(height: 20),
+                        _buildPersonalInfoTable(),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            MaterialButton(onPressed: (){}, child: Text("My Skills")),
+                            const SizedBox(width: 20),                            
+                            MaterialButton(onPressed: (){}, child: Text("Hire me")),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
+                SizeConfig.isDesktop()
+                    ? const Spacer()
+                    : const SizedBox.shrink()
               ],
             ),
           ),
         ),
-        const SizedBox(height: 5),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Row(
-            children: [
-              Expanded(
-                flex: SizeConfig.isDesktop() ? 2 : 1,
-                child: animatedo.FadeInUp(
-                  duration: const Duration(milliseconds: 500),
-                  child: Txt(
-                    txt: myPersona.biography ?? '',
-                    fontFam: 'regPoppins',
-                    alignment: TextAlign.left,
-                    size: 18,
-                  ),
-                ),
-              ),
-              SizeConfig.isDesktop() ? const Spacer() : const SizedBox.shrink()
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-        animatedo.FadeInUp(
-            duration: const Duration(milliseconds: 600),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: _buildPersonalInfoTable(),
-            )),
-        // const SizedBox(height: 40),
         // const LocationMapButton(),
         const SizedBox(height: 50),
         animatedo.FadeInUp(
@@ -142,7 +158,7 @@ class AboutMeSection extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         animatedo.FadeInUp(
-          duration: const Duration(milliseconds: 1000),
+          duration: const Duration(milliseconds: 500),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
@@ -214,7 +230,7 @@ class AboutMeSection extends StatelessWidget {
                   ),
                   Txt(
                     txt: _myPersonalInfo[info]?.toString() ?? '',
-                    clr: kwhite,
+                    clr: kblack,
                     size: 15,
                   ),
                 ],
@@ -238,7 +254,6 @@ class _LangBarState extends State<LangBar> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
       contentPadding: EdgeInsets.zero,
       leading: Stack(
         alignment: const Alignment(-0.3, 0.2),

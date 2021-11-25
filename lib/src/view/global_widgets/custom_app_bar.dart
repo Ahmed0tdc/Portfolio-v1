@@ -25,7 +25,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: _pageIsScrolled ? const Color(0xFF010203) : ktrans,
+          color: _pageIsScrolled ? Theme.of(context).primaryColor.withOpacity(0.3) // const Color(0xFF010203)
+           : ktrans,
           border: _pageIsScrolled ? Border(bottom: BorderSide(color: Colors.grey[400]!)) : null
         ),
         height: kToolbarHeight, //+ MediaQuery.of(context).padding.top + 5,
@@ -97,7 +98,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 clr: _isHovered && !_isSelected
                     ? kwhite
                     : _isSelected
-                        ? Theme.of(context).primaryColor
+                        ? Colors.lightGreen //Theme.of(context).primaryColor
                         : kwhite.withOpacity(0.8),
                 size: _isHovered && !_isSelected ? 18 : 15,
               ),

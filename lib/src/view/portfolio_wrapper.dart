@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, curly_braces_in_flow_control_structures
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/state/provider_class.dart';
@@ -47,7 +48,6 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
   @override
   Widget build(BuildContext context) {
     final _globProvider = Provider.of<ProviderClass>(context);
-    List<bool> scrolled = [false, false, false, false, false];
     final List<Widget> _sections = <Widget>[
       HomeIntro(),
       AboutMeSection(myPersona: myPersona),
@@ -55,7 +55,6 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
       WorksSection(),
       ContactSection()
     ];
-    final bool isWidgetToBeScrolled = scrolled[_globProvider.getSelectedAppBarIndex];
     return Stack(
       children: [
         Scaffold(
@@ -65,16 +64,9 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
               preferredSize: Size.fromHeight(kToolbarHeight),
               child: CustomAppBar()),
           body: HeroSection(
-            isScrolled: isWidgetToBeScrolled,
-            kiddo: !isWidgetToBeScrolled
-                ? Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
-                    child: _sections[_globProvider.getSelectedAppBarIndex])
-                : null,
-            downKiddo: isWidgetToBeScrolled
-                ? _sections[_globProvider.getSelectedAppBarIndex]
-                : null,
-            // upKiddo: isWidgetToBeScrolled ? Text("HELLO THERE") : null,
+            kiddo: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
+              child: _sections[_globProvider.getSelectedAppBarIndex]),
           ),
         ),
         _startLoading
@@ -92,8 +84,10 @@ class _ScrollBodyState extends State<PortfolioWrapper> {
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-        child: const Txt(
-            txt: 'Welcome.', fontFam: 'boldPoppins', size: 50),
+        child: FadeIn(
+          child: const Txt(
+              txt: 'Welcome.', fontFam: 'boldPoppins', size: 50),
+        ),
       ),
     ));
   }

@@ -36,14 +36,11 @@ class _ServiceCardState extends State<ServiceCard> {
       padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
       duration: _serviceCardAnimDur,
       decoration: BoxDecoration(
+        // borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: kwhite
+        ),
         color: _isCardHovered ? kwhite : Theme.of(context).primaryColor,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 0,
-            offset: const Offset( 8, 8),
-            color: _isCardHovered ? const Color(0x99FFFFFF) : const Color(0x2200FF00)
-          )
-        ]
       ),
       width:  _width,
       height: _height,
@@ -54,18 +51,19 @@ class _ServiceCardState extends State<ServiceCard> {
           return Transform.scale(
             scale: val,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 10),
                 Image.asset(
                   'assets/images/${widget.serviceModel.illustration}',
                   height: 60,
                   color: _isCardHovered ? Theme.of(context).primaryColor : kblack,
                 ),
-                const SizedBox(height: 10),
+                const Spacer(),
                 Txt(txt: widget.serviceModel.name, fontFam: 'boldPoppins', size: 18, clr: _isCardHovered ? kblack : kwhite, isAnimted: true),
                 const SizedBox(height: 4),
-                Txt(txt: widget.serviceModel.description, size: 14, clr: _isCardHovered ? kblack : kwhite, isAnimted: true, fontFam: 'semiBoldPoppins'),
+                Txt(txt: widget.serviceModel.description, size: 14, clr: _isCardHovered ? kblack : kwhite, isAnimted: true, fontFam: 'semiBoldPoppins', alignment: TextAlign.center),
+                const Spacer()
               ],
             ),
           );

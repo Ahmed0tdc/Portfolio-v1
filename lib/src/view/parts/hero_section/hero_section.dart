@@ -11,15 +11,9 @@ import 'package:portfolio/src/utils/sizeconfig.dart';
 
 class HeroSection extends StatefulWidget {
   final Widget? kiddo;
-  final Widget? upKiddo;
-  final Widget? downKiddo;
-  final bool isScrolled;
   const HeroSection(
       {Key? key,
-      this.kiddo,
-      this.isScrolled = true,
-      this.downKiddo,
-      this.upKiddo})
+      this.kiddo})
       : super(key: key);
 
   @override
@@ -85,7 +79,7 @@ class _HeroSectionState extends State<HeroSection> {
             ),
           )
         : const SizedBox.shrink(),
-        widget.isScrolled ? widget.upKiddo! : widget.kiddo!,
+         widget.kiddo!,
       ],
     );
     
