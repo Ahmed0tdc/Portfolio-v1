@@ -84,7 +84,7 @@ class HomeIntro extends StatelessWidget {
                           child: Txt(
                             txt: 'Hi, my name is Ahmed!',
                             size:
-                                (kIsWeb && SizeConfig.isDesktop()) ? 75.sp : 25,
+                                (kIsWeb && SizeConfig.isDesktop()) ? 75 : 25,
                           ),
                         ),
                         Positioned(
